@@ -15,7 +15,7 @@ hits
 
 def run(solr_url,
         fl="title,author,recid,bibcode", 
-        min=0, max=4000000, increment=9,
+        min=0, max=1000000, increment=9,
         max_hits=10, max_qtime=60000):
     
     
@@ -25,7 +25,7 @@ def run(solr_url,
     i = 0
     j = None
     empty = 0
-    while False:
+    while True:
         i = i + 1
         j = i + increment
         
@@ -47,11 +47,14 @@ def run(solr_url,
     
     start_id = max
     end_id = start_id
-    incr = 100
+    incr = 10000
     while True:
         end_id = end_id + incr
-        q = "recid:[%s TO %s]" % (start_id, end_id)
+        q = "id:[%s TO %s]" % (start_id, end_id)
         log.info("%s" % q)
+        # first issue the query without citations
+        rsp = req(solr_url, q=q, fl=fl, rows=1)
+        
         rsp = req(solr_url, q=("citations(%s)" % q), fl=fl, rows=1)
         if (not rsp['responseHeader'].has_key('status') or rsp['responseHeader']['status'] != 0):
             log.error("Error searching: %s" % str(rsp))
@@ -84,6 +87,7 @@ def run(solr_url,
         if previous < stop_day:
             break
     
+    print "query\tnumFound\tQTime"
     print "\n".join(map(lambda x: "%s\t%s\t%s" % x, results))       
 
 

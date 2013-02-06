@@ -1,335 +1,335 @@
-                                             Query       QTime	numFound	  minQTime	  maxQTime	#invocations	return consistent
-            citations(bibcode:1964ApPhL...4...89W)	7	883	7	8	2	      True
-            citations(bibcode:2002JHEP...07..012P)	7	1087	7	8	2	      True
-            citations(bibcode:2012PhRvL.109r1301A)	7	 11	7	8	2	      True
-            citations(bibcode:1951PhRv...82..403Z)	7	2307	7	8	2	      True
-            citations(bibcode:1933RSPSA.141..282H)	7	 50	7	7	2	      True
-            citations(bibcode:2005MNRAS.362..799M)	7	570	7	8	2	      True
-            citations(bibcode:2005ApJ...633..560E)	7	1231	7	8	2	      True
-            citations(bibcode:1991PhRvB..44..943A)	7	954	7	7	2	      True
-            citations(bibcode:1989agna.book.....O)	7	2912	7	7	2	      True
-            citations(bibcode:1975ITM....11.1018M)	7	307	7	8	2	      True
-            citations(bibcode:1988PhRvD..37.3406R)	7	1667	7	7	2	      True
-            citations(bibcode:1975JOSA...65..979F)	7	 39	7	8	2	      True
-            citations(bibcode:1977PhLB...67..421M)	7	834	7	7	2	      True
-            citations(bibcode:1957ApJ...125...66S)	7	221	7	8	2	      True
-            citations(bibcode:1983AnPhy.149..374C)	7	1879	7	8	2	      True
-            citations(bibcode:1972ApJ...178..623T)	7	1690	7	7	2	      True
-            citations(bibcode:1996PhRvB..54.9353B)	7	987	7	7	2	      True
-            citations(bibcode:1985RvMP...57..287L)	7	2690	7	7	2	      True
-            citations(bibcode:2003ApJ...594....1T)	7	929	7	7	2	      True
-            citations(bibcode:1987SSCom..63..973B)	7	330	7	7	2	      True
-            citations(bibcode:1998ApJ...498..541K)	7	1432	7	7	2	      True
-            citations(bibcode:1993PhyB..192...55R)	7	996	7	7	2	      True
-            citations(bibcode:1936RSPSA.157..490H)	7	 70	7	8	2	      True
-            citations(bibcode:2006Sci...312.1780P)	7	515	7	8	2	      True
-            citations(bibcode:1997PhRvL..78.4494P)	7	563	7	8	2	      True
-            citations(bibcode:1947PhRv...71..809B)	7	530	7	8	2	      True
-            citations(bibcode:1982ApJ...263..835S)	7	1936	7	8	2	      True
-            citations(bibcode:1984JFM...143....1A)	7	485	7	8	2	      True
-            citations(bibcode:1963JAtS...20..130L)	7	1947	7	8	2	      True
-            citations(bibcode:1991Natur.353..737O)	7	815	7	7	2	      True
-            citations(bibcode:1961JAP....32.1679P)	7	345	7	8	2	      True
-            citations(bibcode:1959NucPh..13..104M)	7	110	7	7	2	      True
-            citations(bibcode:1984JChPh..81.3684B)	7	1667	7	8	2	      True
-            citations(bibcode:1999RvMP...71..463D)	7	2007	7	8	2	      True
-            citations(bibcode:1957PhRv..108.1070B)	7	139	7	7	2	      True
-            citations(bibcode:1989CPL...157..479R)	7	1492	7	8	2	      True
-            citations(bibcode:1985ApJ...288..618R)	7	1914	7	8	2	      True
-            citations(bibcode:1996PhRvB..5417954N)	7	479	7	8	2	      True
-            citations(bibcode:2005PhR...421....1F)	7	178	7	7	2	      True
-            citations(bibcode:1996PhLB..379...99S)	7	988	7	8	2	      True
-            citations(bibcode:2003JHEP...05..013M)	7	373	7	8	2	      True
-            citations(bibcode:1983bhwd.book.....S)	7	1718	7	8	2	      True
-            citations(bibcode:1986PhLB..174...45F)	7	1278	7	7	2	      True
-            citations(bibcode:1990ARA&A..28..215D)	7	2866	7	8	2	      True
-            citations(bibcode:2007PhRvL..98t6805H)	7	354	7	8	2	      True
-            citations(bibcode:1930PhRv...35..925C)	7	 40	7	7	2	      True
-            citations(bibcode:1998PhRvL..81.1562F)	7	2017	7	8	2	      True
-            citations(bibcode:1961PhRv..124...41A)	7	2142	7	8	2	      True
-            citations(bibcode:1949QJRMS..75...41S)	7	116	7	7	2	      True
-            citations(bibcode:1997quop.book.....S)	7	665	7	8	2	      True
-            citations(bibcode:1985PhR...117...75H)	7	2405	7	8	2	      True
-            citations(bibcode:2004PhRvD..70j6007O)	7	187	7	8	2	      True
-            citations(bibcode:2001RvMP...73..977D)	7	632	7	8	2	      True
-            citations(bibcode:2005PalOc..20.1003L)	7	174	7	7	2	      True
-            citations(bibcode:1973PThPh..49..652K)	7	2419	7	7	2	      True
-            citations(bibcode:1996JMMM..159L...1S)	7	1138	7	7	2	      True
-            citations(bibcode:1977PhRvL..38.1440P)	7	1167	7	7	2	      True
-            citations(bibcode:1982PhRvL..48.1559T)	7	1357	7	7	2	      True
-            citations(bibcode:2006PhR...424..175B)	7	663	7	8	2	      True
-            citations(bibcode:1972JLTP....7..351P)	7	663	7	8	2	      True
-            citations(bibcode:1988PhRvL..61.2472B)	7	2568	7	8	2	      True
-            citations(bibcode:2001RvMP...73..565R)	7	704	7	7	2	      True
-            citations(bibcode:2005RvMP...77..977S)	7	258	7	7	2	      True
-            citations(bibcode:1970ssr..book.....K)	7	187	7	8	2	      True
-            citations(bibcode:1972PMag...25....1A)	7	829	7	7	2	      True
-            citations(bibcode:1968SvPhU..10..509V)	7	1403	7	8	2	      True
-            citations(bibcode:1932PhRv...40..749W)	7	2432	7	7	2	      True
-            citations(bibcode:1991PhLB..264..440D)	7	270	7	7	2	      True
-            citations(bibcode:1998BAMS...79...61T)	7	789	7	7	2	      True
-            citations(bibcode:2002Natur.415...39G)	7	1858	7	8	2	      True
-            citations(bibcode:1994PhRvB..4916223B)	7	791	7	7	2	      True
-            citations(bibcode:1980MaMol..13.1602L)	7	386	7	7	2	      True
-            citations(bibcode:1997PhRvB..5612685T)	7	548	7	8	2	      True
-            citations(bibcode:2009ApJS..182..543A)	7	795	7	7	2	      True
-            citations(bibcode:2002JPCM...14.2745S)	7	1190	7	7	2	      True
-            citations(bibcode:2011PhRvD..83k5013B)	7		6	7	7	2	      True
-            citations(bibcode:1996PhRvA..53.2046B)	7	771	7	8	2	      True
-            citations(bibcode:1983ApJ...270..119M)	7	1757	7	8	2	      True
-            citations(bibcode:1987ApPhL..51..913T)	7	1826	7	7	2	      True
-            citations(bibcode:1974PhRvD...9.3471C)	7	1249	7	7	2	      True
-            citations(bibcode:1994Sci...265..195P)	7	390	7	8	2	      True
-            citations(bibcode:1986PhRvL..56..889K)	7	1945	7	8	2	      True
-            citations(bibcode:2008RvMP...80..517A)	7	216	7	7	2	      True
-            citations(bibcode:1969drea.book.....B)	7	1925	7	8	2	      True
-            citations(bibcode:2004CMaPh.252..189W)	7	281	7	7	2	      True
-            citations(bibcode:2008PhRvL.101j7006R)	7	494	7	8	2	      True
-            citations(bibcode:1986PhRvL..57.1761B)	7	1203	7	8	2	      True
-            citations(bibcode:1998PhRvL..80.1582C)	7	1612	7	8	2	      True
-            citations(bibcode:1982JChPh..76..637S)	7	438	7	8	2	      True
-            citations(bibcode:1998Natur.391..667E)	7	1145	7	7	2	      True
-            citations(bibcode:2002Natur.419..594S)	7	361	7	8	2	      True
-            citations(bibcode:1974ITAC...19..716A)	7	620	7	7	2	      True
-            citations(bibcode:1986JGR....91.4673M)	7	784	7	8	2	      True
-            citations(bibcode:2005Natur.438..201Z)	7	1394	7	7	2	      True
-            citations(bibcode:1981ApOpt..20..211K)	7	296	7	8	2	      True
-            citations(bibcode:2005NuPhA.757..184P)	7	610	7	7	2	      True
-            citations(bibcode:1929PhRv...33..730M)	7	 20	7	8	2	      True
-            citations(bibcode:2000Sci...287.1019D)	7	2122	7	8	2	      True
-            citations(bibcode:1997ESASP1200.....P)	7	1600	7	8	2	      True
-            citations(bibcode:2012EPJC...72.1971A)	7	 48	7	7	2	      True
-            citations(bibcode:2006Sci...314.1757B)	7	156	7	8	2	      True
-            citations(bibcode:2003Natur.424..824B)	7	947	7	8	2	      True
-            citations(bibcode:2000PhRvL..85.3966P)	7	1662	7	8	2	      True
-            citations(bibcode:1995Sci...269..676H)	7	1198	7	8	2	      True
-            citations(bibcode:1998Natur.393..440W)	7	1892	7	8	2	      True
-            citations(bibcode:2001Natur.410...63N)	7	1903	7	8	2	      True
-            citations(bibcode:1993gr.qc....10026T)	7		0	7	7	2	      True
-            citations(bibcode:1984PhRvL..53.1951S)	7	1982	7	8	2	      True
-            citations(bibcode:1998ARA&A..36..189K)	7	2167	7	8	2	      True
-            citations(bibcode:1992A&AS...96..269S)	7	2130	7	7	2	      True
-            citations(bibcode:1972PhRvD...6.3368B)	7	195	7	7	2	      True
-            citations(bibcode:2003JHyMe...4.1147A)	7	326	7	8	2	      True
-            citations(bibcode:1916ZPhy...17..557S)	7	174	7	7	2	      True
-            citations(bibcode:1999IJTP...38.1113M)	7	680	7	7	2	      True
-            citations(bibcode:2000PhRvL..84.4184S)	7	1094	7	7	2	      True
-            citations(bibcode:2004Natur.430..431E)	7	430	7	7	2	      True
-            citations(bibcode:1957qmot.book.....B)	7	1966	7	8	2	      True
-            citations(bibcode:1981SSCom..39..625R)	7	450	7	7	2	      True
-            citations(bibcode:1980stph.book.....L)	7	1753	7	8	2	      True
-            citations(bibcode:1992PhRvL..69.2881B)	7	1206	7	7	2	      True
-            citations(bibcode:1975JPhF....5..965E)	7	1698	7	7	2	      True
-            citations(bibcode:1959RSPSA.253..358R)	7	316	7	8	2	      True
-            citations(bibcode:2005PhRvL..95n6802K)	7	205	7	8	2	      True
-            citations(bibcode:1980PhRvL..45..494K)	7	1292	7	8	2	      True
-            citations(bibcode:1984NuPhB.241..333B)	7	2147	7	8	2	      True
-            citations(bibcode:1999ITMTT..47.2075P)	7	757	7	7	2	      True
-            citations(bibcode:1953mtp..book.....M)	7	2405	7	7	2	      True
-            citations(bibcode:2005RvMP...77..259S)	7	427	7	8	2	      True
-            citations(bibcode:1982PhRvB..25.4515B)	7	1397	7	8	2	      True
-            citations(bibcode:2003AnPhy.303....2K)	7	492	7	7	2	      True
-            citations(bibcode:1985Natur.318..162K)	7	2458	7	8	2	      True
-            citations(bibcode:1974PhRvD..10..275P)	7	1370	7	7	2	      True
-            citations(bibcode:1984SJNA...21..995S)	7	197	7	8	2	      True
-            citations(bibcode:2009RvMP...81..865H)	7	 84	7	7	2	      True
-            citations(bibcode:2001Sci...292...77S)	7	1299	7	8	2	      True
-            citations(bibcode:2004JHEP...10..025L)	7	133	7	8	2	      True
-            citations(bibcode:2006NatPh...2..177N)	7	263	7	7	2	      True
-            citations(bibcode:2011PhRvL.107m1302A)	7	180	7	7	2	      True
-            citations(bibcode:1997PhRvD..55.5112B)	7	1091	7	7	2	      True
-            citations(bibcode:1980PhRvL..44..912M)	7	1409	7	7	2	      True
-            citations(bibcode:1988JSP....52..479T)	7	1209	7	7	2	      True
-            citations(bibcode:1990PhRvL..64..821P)	7	1522	7	8	2	      True
-            citations(bibcode:1965PhRv..139..796H)	7	1090	7	8	2	      True
-            citations(bibcode:1983PhRvL..50.1395L)	7	2054	7	8	2	      True
-            citations(bibcode:1997PhRvL..78.1667K)	7	488	7	7	2	      True
-            citations(bibcode:1995NuPhB.435..129S)	7	623	7	7	2	      True
-            citations(bibcode:1998PhRvL..80.2245W)	7	1862	7	8	2	      True
-            citations(bibcode:2006MNRAS.365...11C)	7	1026	7	8	2	      True
-            citations(bibcode:2005RvMP...77..935B)	7	365	7	7	2	      True
-            citations(bibcode:1941ApJ....93..133K)	7	170	7	7	2	      True
-            citations(bibcode:1999Natur.401..130A)	7	488	7	8	2	      True
-            citations(bibcode:2004ApJ...607..665R)	7	1841	7	8	2	      True
-            citations(bibcode:1998AdTMP...2..253W)	7	 75	7	8	2	      True
-            citations(bibcode:1992PhRvL..68.2512M)	7	919	7	8	2	      True
-            citations(bibcode:1986nras.book.....P)	7	2929	7	7	2	      True
-            citations(bibcode:1993PhRvL..71.1994C)	7	1458	7	8	2	      True
-            citations(bibcode:1975RvMP...47..773W)	7	1361	7	7	2	      True
-            citations(bibcode:2005PThPh.114.1083S)	7	172	7	8	2	      True
-            citations(bibcode:1929PGro...43....1V)	7	 30	7	8	2	      True
-            citations(bibcode:2005JAP....98d1301O)	7	753	7	7	2	      True
-            citations(bibcode:1984ucp..book.....W)	7	2295	7	8	2	      True
-            citations(bibcode:1993JChPh..98.1358W)	7	1373	7	8	2	      True
-            citations(bibcode:1926AnP...384..734S)	7	 47	7	7	2	      True
-            citations(bibcode:2003RvMP...75..473D)	7	904	7	7	2	      True
-            citations(bibcode:1985PhRvL..55.2471C)	7	2756	7	8	2	      True
-            citations(bibcode:1998AJ....115.1693C)	7	2050	7	8	2	      True
-            citations(bibcode:1956PhRv..102.1413M)	7	911	7	7	2	      True
-            citations(bibcode:1995PhRvL..75.1260J)	7	274	7	8	2	      True
-            citations(bibcode:2004RvMP...76..323Z)	7	1849	7	7	2	      True
-            citations(bibcode:1989MWRv..117.1779T)	7	575	7	8	2	      True
-            citations(bibcode:2005PhRvL..95v6801K)	7	322	7	8	2	      True
-            citations(bibcode:1972hmfw.book.....A)	7	2365	7	7	2	      True
-            citations(bibcode:2001JAP....89.5815V)	7	1001	7	7	2	      True
-            citations(bibcode:1976PhRvB..14.3110B)	7	314	7	8	2	      True
-            citations(bibcode:1987PhRvL..58..908W)	7	2836	7	8	2	      True
-            citations(bibcode:1958PhRv..112.1546K)	7	200	7	8	2	      True
-            citations(bibcode:1976CMaPh..48..119L)	7	1058	7	7	2	      True
-            citations(bibcode:2005PhRvL..95n2001A)	7	199	7	7	2	      True
-            citations(bibcode:2001Natur.409...46K)	7	1100	7	7	2	      True
-            citations(bibcode:1996Sci...271..933A)	7	1059	7	8	2	      True
-            citations(bibcode:1999JHEP...09..032S)	7	1106	7	8	2	      True
-            citations(bibcode:2005MNRAS.364.1105S)	7	1100	7	8	2	      True
-            citations(bibcode:1989Natur.342..637F)	7	564	7	7	2	      True
-            citations(bibcode:1983Sci...220..671K)	7	1852	7	7	2	      True
-            citations(bibcode:2006NatPh...2..620K)	7	363	7	7	2	      True
-            citations(bibcode:2003NIMPA.506..250G)	7	1244	7	8	2	      True
-            citations(bibcode:2005JPhD...38R.123F)	7	567	7	7	2	      True
-            citations(bibcode:1996ASPC..101...17A)	7	1696	7	8	2	      True
-            citations(bibcode:1976PhRvD..13..974W)	7	364	7	7	2	      True
-            citations(bibcode:1991rc3..book.....D)	7	567	7	8	2	      True
-            citations(bibcode:1982RvGSP..20..851M)	7	727	7	7	2	      True
-            citations(bibcode:2003PhRvL..90v7902V)	7	586	7	7	2	      True
-            citations(bibcode:1935RSPSA.151..585F)	7	210	7	8	2	      True
-            citations(bibcode:1956JPCS....1...82K)	7	222	7	8	2	      True
-            citations(bibcode:2009ApJS..180..225H)	7	381	7	8	2	      True
-            citations(bibcode:2000PhRvL..84.2722D)	7	576	7	8	2	      True
-            citations(bibcode:1941JChPh...9..341C)	7	891	7	8	2	      True
-            citations(bibcode:1981MWRv..109..784W)	7	717	7	8	2	      True
-            citations(bibcode:2001JGR...10619999N)	7	 89	7	7	2	      True
-            citations(bibcode:1957JPCS....1..249K)	7	1218	7	7	2	      True
-            citations(bibcode:1999JMMM..192..203N)	7	1200	7	7	2	      True
-            citations(bibcode:1984JETPL..39...78B)	7	456	7	8	2	      True
-            citations(bibcode:2005QJRMS.131.2961U)	7	937	7	8	2	      True
-            citations(bibcode:1963PhRv..131.2766G)	7	2067	7	8	2	      True
-            citations(bibcode:1932RSPSA.137..696Z)	7	1329	7	7	2	      True
-            citations(bibcode:1998PhRvA..57..120L)	7	2076	7	7	2	      True
-            citations(bibcode:2006AJ....131.1163S)	7	2053	7	8	2	      True
-            citations(bibcode:1950PhRv...78..182R)	7		5	7	7	2	      True
-            citations(bibcode:1979NuPhB.159..213V)	7	390	7	7	2	      True
-            citations(bibcode:2003JChPh.118.8207H)	7	194	7	7	2	      True
-            citations(bibcode:1972Natur.238...37F)	7	523	7	7	2	      True
-            citations(bibcode:1950PhRv...79..615R)	7	201	7	8	2	      True
-            citations(bibcode:1999JChPh.110.6158A)	7	315	7	8	2	      True
-            citations(bibcode:1996PhRvA..54.3824B)	7	1491	7	8	2	      True
-            citations(bibcode:1931MNRAS..91..870P)	7	 10	7	8	2	      True
-            citations(bibcode:2008RvMP...80..885B)	7	391	7	7	2	      True
-            citations(bibcode:1997PhT....50g..36H)	7	787	7	7	2	      True
-            citations(bibcode:1959ApJ...130...26B)	7	120	7	7	2	      True
-            citations(bibcode:2003PhRvD..68d6005K)	7	1080	7	7	2	      True
-            citations(bibcode:1961PhRv..122..345N)	7	1851	7	7	2	      True
-            citations(bibcode:1995JCoPh.117....1P)	7	298	7	7	2	      True
-            citations(bibcode:1998AJ....115.2285M)	7	1688	7	8	2	      True
-            citations(bibcode:1991PhRvL..67..661E)	7	1848	7	8	2	      True
-            citations(bibcode:1957JPSJ...12..570K)	7	2320	7	8	2	      True
-            citations(bibcode:1968PhRv..170..379T)	7	292	7	8	2	      True
-            citations(bibcode:1996PhRvL..77.1413P)	7	1263	7	7	2	      True
-            citations(bibcode:2007PhRvB..75l1306M)	7	102	7	7	2	      True
-            citations(bibcode:1972PhRvB...6.4370J)	7	1591	7	8	2	      True
-            citations(bibcode:1990ApPhL..57.1046C)	7	2421	7	8	2	      True
-            citations(bibcode:1988cels.book.....H)	7	113	7	8	2	      True
-            citations(bibcode:1927RSPSA.115..700K)	8	 54	8	8	2	      True
-            citations(bibcode:2006IJMPD..15.1753C)	8	946	8	8	2	      True
-            citations(bibcode:2004PhRvD..69j3501T)	8	1445	8	8	2	      True
-            citations(bibcode:2002JHEP...04..013B)	8	393	7	9	2	      True
-            citations(bibcode:2006PhRvL..97r7401F)	8	299	7	9	2	      True
-            citations(bibcode:1986PhRvB..33.8822P)	8	1738	8	8	2	      True
-            citations(bibcode:2000NuPhB.586..141G)	8	424	8	8	2	      True
-            citations(bibcode:1987PhRvL..59..381B)	8	2233	8	8	2	      True
-            citations(bibcode:1992RvMP...64.1045P)	8	2150	8	8	2	      True
-            citations(bibcode:1956PhRv..102.1464M)	8	227	8	8	2	      True
-            citations(bibcode:1991ApJ...376..214B)	8	1770	8	8	2	      True
-            citations(bibcode:1985NuPhB.250..465G)	8	1798	8	8	2	      True
-            citations(bibcode:2003NuPhA.729..337A)	8	813	7	9	2	      True
-            citations(bibcode:1947PhRv...71..622W)	8	653	7	        10	2	      True
-            citations(bibcode:2000Sci...290.2282M)	8	627	8	8	2	      True
-            citations(bibcode:1944PNAS...30..244M)	8	1279	8	8	2	      True
-            citations(bibcode:1988aitb.book.....S)	8	416	7	        10	2	      True
-            citations(bibcode:1961hhs..book.....C)	8	2358	8	8	2	      True
-            citations(bibcode:1950msms.book.....H)	8	2314	8	8	2	      True
-            citations(bibcode:1997PhRvL..78.1396P)	8	533	8	8	2	      True
-            citations(bibcode:1996JPSJ...65.1920F)	8	399	8	8	2	      True
-            citations(bibcode:1982PhLB..108..389L)	8	2105	8	8	2	      True
-            citations(bibcode:1995CASSS...5.....H)	8		0	7	9	2	      True
-            citations(bibcode:2000ApJ...539L..13G)	8	1665	8	8	2	      True
-            citations(bibcode:1966PhRvL..17.1133M)	8	1983	8	8	2	      True
-            citations(bibcode:2005Sci...309.2180P)	8	639	8	8	2	      True
-            citations(bibcode:1998PhLB..436..257A)	8	2244	8	9	2	      True
-            citations(bibcode:1986PhRvL..56..930B)	8	1858	8	8	2	      True
-            citations(bibcode:2001PhRvL..86.5227B)	8	216	8	8	2	      True
-            citations(bibcode:1996RvMP...68...13G)	8	1873	8	8	2	      True
-            citations(bibcode:1980IJQE...16..347L)	8	415	8	8	2	      True
-            citations(bibcode:1998RvMP...70.1039I)	8	1577	7	        10	2	      True
-            citations(bibcode:1989RvMP...61....1W)	8	1852	7	9	2	      True
-            citations(bibcode:1999PhR...323..183A)	8	973	8	8	2	      True
-            citations(bibcode:2008PhRvL.101h7004K)	8	242	7	        10	2	      True
-            citations(bibcode:1968PUSNO..21....1B)	8	 84	8	8	2	      True
-            citations(bibcode:2001Sci...293.1289C)	8	553	8	8	2	      True
-            citations(bibcode:2001ApJ...553...47F)	8	1868	8	8	2	      True
-            citations(bibcode:2007NatMa...6..183G)	8	1052	7	        10	2	      True
-            citations(bibcode:1969PhRvL..23..880C)	8	1183	8	8	2	      True
-            citations(bibcode:1951PhRv...82..664S)	8	2146	8	8	2	      True
-            citations(bibcode:2005Natur.437..681O)	8	149	8	8	2	      True
-            citations(bibcode:2005RvMP...77..513B)	8	410	8	8	2	      True
-            citations(bibcode:1993ARA&A..31..473A)	8	1817	8	8	2	      True
-            citations(bibcode:1994JCoPh.114..185B)	9	976	8	        10	2	      True
-            citations(bibcode:2004Natur.431..162W)	9	546	8	        10	2	      True
-            citations(bibcode:1992JChPh..96.6796K)	9	1973	8	        11	2	      True
-            citations(bibcode:2005RvMP...77..633F)	9	458	8	        10	2	      True
-            citations(bibcode:1952RSPSA.211..564L)	9	362	7	        11	2	      True
-            citations(bibcode:2008PhRvL.101e7003M)	9	427	7	        11	2	      True
-            citations(bibcode:1977SurSc..62..267T)	        28	212	7	        49	2	      True
-                citations(id:[1000000 TO 1010000])	        30	56251	        30	        30	2	      True
-            citations(bibcode:1972JPhC....5.1629V)	        31	2309	7	        55	2	      True
-                citations(id:[1000000 TO 1020000])	        59	108923	        58	        60	2	      True
-                citations(id:[1000000 TO 1030000])	        96	149610	        93	        99	2	      True
-                citations(id:[1000000 TO 1040000])	       129	180407	       129	       130	2	      True
-                citations(id:[1000000 TO 1050000])	       181	210415	       153	       210	2	      True
-                citations(id:[1000000 TO 1060000])	       202	252007	       198	       207	2	      True
-                citations(id:[1000000 TO 1070000])	       225	280112	       219	       231	2	      True
-                citations(id:[1000000 TO 1080000])	       266	304347	       254	       279	2	      True
-                citations(id:[1000000 TO 1090000])	       304	322710	       298	       311	2	      True
-                citations(id:[1000000 TO 1100000])	       367	344093	       366	       368	2	      True
-                citations(id:[1000000 TO 1110000])	       404	370871	       399	       409	2	      True
-                citations(id:[1000000 TO 1120000])	       444	398377	       441	       447	2	      True
-                citations(id:[1000000 TO 1130000])	       497	418199	       489	       505	2	      True
-                citations(id:[1000000 TO 1140000])	       552	445655	       551	       553	2	      True
-                citations(id:[1000000 TO 1150000])	       626	470702	       609	       643	2	      True
-                citations(id:[1000000 TO 1160000])	       672	498708	       671	       674	2	      True
-                citations(id:[1000000 TO 1170000])	       743	512769	       743	       743	2	      True
-                citations(id:[1000000 TO 1180000])	       758	533801	       748	       769	2	      True
-                citations(id:[1000000 TO 1190000])	       819	555594	       797	       842	2	      True
-                citations(id:[1000000 TO 1200000])	       890	572723	       867	       913	2	      True
-                citations(id:[1000000 TO 1210000])	       906	587859	       904	       908	2	      True
-                citations(id:[1000000 TO 1220000])	       924	598007	       913	       936	2	      True
-                citations(id:[1000000 TO 1230000])	      1008	615406	       984	      1033	2	      True
-                citations(id:[1000000 TO 1240000])	      1085	634888	      1070	      1101	2	      True
-                citations(id:[1000000 TO 1250000])	      1141	655822	      1119	      1164	2	      True
-                citations(id:[1000000 TO 1260000])	      1225	672381	      1222	      1229	2	      True
-                citations(id:[1000000 TO 1270000])	      1262	689592	      1251	      1273	2	      True
-                citations(id:[1000000 TO 1280000])	      1288	701068	      1256	      1321	2	      True
-                citations(id:[1000000 TO 1290000])	      1322	711518	      1305	      1340	2	      True
-                citations(id:[1000000 TO 1310000])	      1383	738836	      1358	      1408	2	      True
-                citations(id:[1000000 TO 1300000])	      1384	726674	      1348	      1421	2	      True
-                citations(id:[1000000 TO 1320000])	      1442	754548	      1417	      1467	2	      True
-                citations(id:[1000000 TO 1340000])	      1647	789926	      1616	      1678	2	      True
-                citations(id:[1000000 TO 1350000])	      1667	801917	      1660	      1675	2	      True
-                citations(id:[1000000 TO 1330000])	      1682	772476	      1608	      1756	2	      True
-                citations(id:[1000000 TO 1360000])	      1733	814385	      1725	      1742	2	      True
-                citations(id:[1000000 TO 1390000])	      1788	848131	      1708	      1869	2	      True
-                citations(id:[1000000 TO 1370000])	      1801	825420	      1777	      1825	2	      True
-                citations(id:[1000000 TO 1380000])	      1818	835388	      1816	      1821	2	      True
-                citations(id:[1000000 TO 1400000])	      1920	866155	      1794	      2047	2	      True
-                citations(id:[1000000 TO 1410000])	      2061	878341	      2051	      2072	2	      True
-                citations(id:[1000000 TO 1420000])	      2110	889613	      2081	      2139	2	      True
-                citations(id:[1000000 TO 1430000])	      2150	898838	      2114	      2187	2	      True
-                citations(id:[1000000 TO 1440000])	      2159	912184	      2146	      2173	2	      True
-                citations(id:[1000000 TO 1450000])	      2236	919032	      2235	      2237	2	      True
-                citations(id:[1000000 TO 1460000])	      2294	934536	      2285	      2303	2	      True
-                citations(id:[1000000 TO 1470000])	      2342	941103	      2328	      2357	2	      True
-                citations(id:[1000000 TO 1490000])	      2422	964439	      2376	      2468	2	      True
-                citations(id:[1000000 TO 1480000])	      2443	952308	      2424	      2463	2	      True
-                citations(id:[1000000 TO 1510000])	      2485	986089	      2440	      2531	2	      True
-                citations(id:[1000000 TO 1500000])	      2649	975052	      2521	      2778	2	      True
-                citations(id:[1000000 TO 1520000])	      2793	1000683	      2755	      2831	2	      True
+Query	QTime	numFound	minQTime	maxQTime	#invocations	return consistent
+citations(bibcode:1964ApPhL...4...89W)	7	883	7	7	1	True
+citations(bibcode:2002JHEP...07..012P)	7	1087	7	7	1	True
+citations(bibcode:1927RSPSA.115..700K)	7	54	7	7	1	True
+citations(bibcode:2012PhRvL.109r1301A)	7	11	7	7	1	True
+citations(bibcode:1933RSPSA.141..282H)	7	50	7	7	1	True
+citations(bibcode:2005ApJ...633..560E)	7	1231	7	7	1	True
+citations(bibcode:1991PhRvB..44..943A)	7	954	7	7	1	True
+citations(bibcode:1989agna.book.....O)	7	2912	7	7	1	True
+citations(bibcode:1975ITM....11.1018M)	7	307	7	7	1	True
+citations(bibcode:1988PhRvD..37.3406R)	7	1667	7	7	1	True
+citations(bibcode:1975JOSA...65..979F)	7	39	7	7	1	True
+citations(bibcode:1977PhLB...67..421M)	7	834	7	7	1	True
+citations(bibcode:1957ApJ...125...66S)	7	221	7	7	1	True
+citations(bibcode:2006IJMPD..15.1753C)	7	946	7	7	1	True
+citations(bibcode:2004PhRvD..69j3501T)	7	1445	7	7	1	True
+citations(bibcode:1983AnPhy.149..374C)	7	1879	7	7	1	True
+citations(bibcode:1972ApJ...178..623T)	7	1690	7	7	1	True
+citations(bibcode:1996PhRvB..54.9353B)	7	987	7	7	1	True
+citations(bibcode:1985RvMP...57..287L)	7	2690	7	7	1	True
+citations(bibcode:2003ApJ...594....1T)	7	929	7	7	1	True
+citations(bibcode:1987SSCom..63..973B)	7	330	7	7	1	True
+citations(bibcode:1936RSPSA.157..490H)	7	70	7	7	1	True
+citations(bibcode:2006Sci...312.1780P)	7	515	7	7	1	True
+citations(bibcode:1997PhRvL..78.4494P)	7	563	7	7	1	True
+citations(bibcode:1947PhRv...71..809B)	7	530	7	7	1	True
+citations(bibcode:1982ApJ...263..835S)	7	1936	7	7	1	True
+citations(bibcode:2002JHEP...04..013B)	7	393	7	7	1	True
+citations(bibcode:2006PhRvL..97r7401F)	7	299	7	7	1	True
+citations(bibcode:1984JFM...143....1A)	7	485	7	7	1	True
+citations(bibcode:1986PhRvB..33.8822P)	7	1738	7	7	1	True
+citations(bibcode:1991Natur.353..737O)	7	815	7	7	1	True
+citations(bibcode:2000NuPhB.586..141G)	7	424	7	7	1	True
+citations(bibcode:1961JAP....32.1679P)	7	345	7	7	1	True
+citations(bibcode:1959NucPh..13..104M)	7	110	7	7	1	True
+citations(bibcode:1984JChPh..81.3684B)	7	1667	7	7	1	True
+citations(bibcode:1957PhRv..108.1070B)	7	139	7	7	1	True
+citations(bibcode:1989CPL...157..479R)	7	1492	7	7	1	True
+citations(bibcode:1985ApJ...288..618R)	7	1914	7	7	1	True
+citations(bibcode:1996PhRvB..5417954N)	7	479	7	7	1	True
+citations(bibcode:2005PhR...421....1F)	7	178	7	7	1	True
+citations(bibcode:1996PhLB..379...99S)	7	988	7	7	1	True
+citations(bibcode:1983bhwd.book.....S)	7	1718	7	7	1	True
+citations(bibcode:1986PhLB..174...45F)	7	1278	7	7	1	True
+citations(bibcode:1990ARA&A..28..215D)	7	2866	7	7	1	True
+citations(bibcode:2007PhRvL..98t6805H)	7	354	7	7	1	True
+citations(bibcode:1998PhRvL..81.1562F)	7	2017	7	7	1	True
+citations(bibcode:1961PhRv..124...41A)	7	2142	7	7	1	True
+citations(bibcode:1992RvMP...64.1045P)	7	2150	7	7	1	True
+citations(bibcode:1949QJRMS..75...41S)	7	116	7	7	1	True
+citations(bibcode:1997quop.book.....S)	7	665	7	7	1	True
+citations(bibcode:2004PhRvD..70j6007O)	7	187	7	7	1	True
+citations(bibcode:2001RvMP...73..977D)	7	632	7	7	1	True
+citations(bibcode:2005PalOc..20.1003L)	7	174	7	7	1	True
+citations(bibcode:2004Natur.431..162W)	7	546	7	7	1	True
+citations(bibcode:1973PThPh..49..652K)	7	2419	7	7	1	True
+citations(bibcode:1996JMMM..159L...1S)	7	1138	7	7	1	True
+citations(bibcode:1977PhRvL..38.1440P)	7	1167	7	7	1	True
+citations(bibcode:1982PhRvL..48.1559T)	7	1357	7	7	1	True
+citations(bibcode:1956PhRv..102.1464M)	7	227	7	7	1	True
+citations(bibcode:2006PhR...424..175B)	7	663	7	7	1	True
+citations(bibcode:1972JLTP....7..351P)	7	663	7	7	1	True
+citations(bibcode:2001RvMP...73..565R)	7	704	7	7	1	True
+citations(bibcode:2005RvMP...77..977S)	7	258	7	7	1	True
+citations(bibcode:1970ssr..book.....K)	7	187	7	7	1	True
+citations(bibcode:1972PMag...25....1A)	7	829	7	7	1	True
+citations(bibcode:1991ApJ...376..214B)	7	1770	7	7	1	True
+citations(bibcode:1968SvPhU..10..509V)	7	1403	7	7	1	True
+citations(bibcode:1992JChPh..96.6796K)	7	1973	7	7	1	True
+citations(bibcode:1991PhLB..264..440D)	7	270	7	7	1	True
+citations(bibcode:1998BAMS...79...61T)	7	789	7	7	1	True
+citations(bibcode:1994PhRvB..4916223B)	7	791	7	7	1	True
+citations(bibcode:1977SurSc..62..267T)	7	212	7	7	1	True
+citations(bibcode:2009ApJS..182..543A)	7	795	7	7	1	True
+citations(bibcode:2002JPCM...14.2745S)	7	1190	7	7	1	True
+citations(bibcode:2011PhRvD..83k5013B)	7	6	7	7	1	True
+citations(bibcode:1985NuPhB.250..465G)	7	1798	7	7	1	True
+citations(bibcode:1996PhRvA..53.2046B)	7	771	7	7	1	True
+citations(bibcode:1974PhRvD...9.3471C)	7	1249	7	7	1	True
+citations(bibcode:1994Sci...265..195P)	7	390	7	7	1	True
+citations(bibcode:1986PhRvL..56..889K)	7	1945	7	7	1	True
+citations(bibcode:2005RvMP...77..633F)	7	458	7	7	1	True
+citations(bibcode:2008RvMP...80..517A)	7	216	7	7	1	True
+citations(bibcode:1969drea.book.....B)	7	1925	7	7	1	True
+citations(bibcode:2004CMaPh.252..189W)	7	281	7	7	1	True
+citations(bibcode:2008PhRvL.101j7006R)	7	494	7	7	1	True
+citations(bibcode:2000Sci...290.2282M)	7	627	7	7	1	True
+citations(bibcode:1944PNAS...30..244M)	7	1279	7	7	1	True
+citations(bibcode:1986PhRvL..57.1761B)	7	1203	7	7	1	True
+citations(bibcode:1982JChPh..76..637S)	7	438	7	7	1	True
+citations(bibcode:1998Natur.391..667E)	7	1145	7	7	1	True
+citations(bibcode:2002Natur.419..594S)	7	361	7	7	1	True
+citations(bibcode:1988aitb.book.....S)	7	416	7	7	1	True
+citations(bibcode:1981ApOpt..20..211K)	7	296	7	7	1	True
+citations(bibcode:2005NuPhA.757..184P)	7	610	7	7	1	True
+citations(bibcode:1929PhRv...33..730M)	7	20	7	7	1	True
+citations(bibcode:2000Sci...287.1019D)	7	2122	7	7	1	True
+citations(bibcode:1961hhs..book.....C)	7	2358	7	7	1	True
+citations(bibcode:1950msms.book.....H)	7	2314	7	7	1	True
+citations(bibcode:2012EPJC...72.1971A)	7	48	7	7	1	True
+citations(bibcode:2006Sci...314.1757B)	7	156	7	7	1	True
+citations(bibcode:1995Sci...269..676H)	7	1198	7	7	1	True
+citations(bibcode:1998Natur.393..440W)	7	1892	7	7	1	True
+citations(bibcode:1952RSPSA.211..564L)	7	362	7	7	1	True
+citations(bibcode:1993gr.qc....10026T)	7	0	7	7	1	True
+citations(bibcode:1984PhRvL..53.1951S)	7	1982	7	7	1	True
+citations(bibcode:1972PhRvD...6.3368B)	7	195	7	7	1	True
+citations(bibcode:2003JHyMe...4.1147A)	7	326	7	7	1	True
+citations(bibcode:1916ZPhy...17..557S)	7	174	7	7	1	True
+citations(bibcode:1999IJTP...38.1113M)	7	680	7	7	1	True
+citations(bibcode:2000PhRvL..84.4184S)	7	1094	7	7	1	True
+citations(bibcode:1957qmot.book.....B)	7	1966	7	7	1	True
+citations(bibcode:1997PhRvL..78.1396P)	7	533	7	7	1	True
+citations(bibcode:1981SSCom..39..625R)	7	450	7	7	1	True
+citations(bibcode:1980stph.book.....L)	7	1753	7	7	1	True
+citations(bibcode:1975JPhF....5..965E)	7	1698	7	7	1	True
+citations(bibcode:1959RSPSA.253..358R)	7	316	7	7	1	True
+citations(bibcode:1980PhRvL..45..494K)	7	1292	7	7	1	True
+citations(bibcode:1984NuPhB.241..333B)	7	2147	7	7	1	True
+citations(bibcode:1953mtp..book.....M)	7	2405	7	7	1	True
+citations(bibcode:1982PhRvB..25.4515B)	7	1397	7	7	1	True
+citations(bibcode:1985Natur.318..162K)	7	2458	7	7	1	True
+citations(bibcode:1974PhRvD..10..275P)	7	1370	7	7	1	True
+citations(bibcode:1984SJNA...21..995S)	7	197	7	7	1	True
+citations(bibcode:2009RvMP...81..865H)	7	84	7	7	1	True
+citations(bibcode:2001Sci...292...77S)	7	1299	7	7	1	True
+citations(bibcode:2006NatPh...2..177N)	7	263	7	7	1	True
+citations(bibcode:1995CASSS...5.....H)	7	0	7	7	1	True
+citations(bibcode:2011PhRvL.107m1302A)	7	180	7	7	1	True
+citations(bibcode:1997PhRvD..55.5112B)	7	1091	7	7	1	True
+citations(bibcode:1988JSP....52..479T)	7	1209	7	7	1	True
+citations(bibcode:1990PhRvL..64..821P)	7	1522	7	7	1	True
+citations(bibcode:1965PhRv..139..796H)	7	1090	7	7	1	True
+citations(bibcode:1997PhRvL..78.1667K)	7	488	7	7	1	True
+citations(bibcode:1995NuPhB.435..129S)	7	623	7	7	1	True
+citations(bibcode:2005RvMP...77..935B)	7	365	7	7	1	True
+citations(bibcode:1941ApJ....93..133K)	7	170	7	7	1	True
+citations(bibcode:1999Natur.401..130A)	7	488	7	7	1	True
+citations(bibcode:2000ApJ...539L..13G)	7	1665	7	7	1	True
+citations(bibcode:1966PhRvL..17.1133M)	7	1983	7	7	1	True
+citations(bibcode:1992PhRvL..68.2512M)	7	919	7	7	1	True
+citations(bibcode:2005Sci...309.2180P)	7	639	7	7	1	True
+citations(bibcode:1993PhRvL..71.1994C)	7	1458	7	7	1	True
+citations(bibcode:1998PhLB..436..257A)	7	2244	7	7	1	True
+citations(bibcode:1975RvMP...47..773W)	7	1361	7	7	1	True
+citations(bibcode:2005PThPh.114.1083S)	7	172	7	7	1	True
+citations(bibcode:2005JAP....98d1301O)	7	753	7	7	1	True
+citations(bibcode:1984ucp..book.....W)	7	2295	7	7	1	True
+citations(bibcode:1926AnP...384..734S)	7	47	7	7	1	True
+citations(bibcode:1985PhRvL..55.2471C)	7	2756	7	7	1	True
+citations(bibcode:2001PhRvL..86.5227B)	7	216	7	7	1	True
+citations(bibcode:1956PhRv..102.1413M)	7	911	7	7	1	True
+citations(bibcode:2004RvMP...76..323Z)	7	1849	7	7	1	True
+citations(bibcode:2005PhRvL..95v6801K)	7	322	7	7	1	True
+citations(bibcode:1972hmfw.book.....A)	7	2365	7	7	1	True
+citations(bibcode:1996RvMP...68...13G)	7	1873	7	7	1	True
+citations(bibcode:2001JAP....89.5815V)	7	1001	7	7	1	True
+citations(bibcode:1976PhRvB..14.3110B)	7	314	7	7	1	True
+citations(bibcode:1987PhRvL..58..908W)	7	2836	7	7	1	True
+citations(bibcode:1976CMaPh..48..119L)	7	1058	7	7	1	True
+citations(bibcode:1980IJQE...16..347L)	7	415	7	7	1	True
+citations(bibcode:1998RvMP...70.1039I)	7	1577	7	7	1	True
+citations(bibcode:2001Natur.409...46K)	7	1100	7	7	1	True
+citations(bibcode:1996Sci...271..933A)	7	1059	7	7	1	True
+citations(bibcode:1983Sci...220..671K)	7	1852	7	7	1	True
+citations(bibcode:2003NIMPA.506..250G)	7	1244	7	7	1	True
+citations(bibcode:2005JPhD...38R.123F)	7	567	7	7	1	True
+citations(bibcode:1996ASPC..101...17A)	7	1696	7	7	1	True
+citations(bibcode:1976PhRvD..13..974W)	7	364	7	7	1	True
+citations(bibcode:1989RvMP...61....1W)	7	1852	7	7	1	True
+citations(bibcode:1999PhR...323..183A)	7	973	7	7	1	True
+citations(bibcode:1982RvGSP..20..851M)	7	727	7	7	1	True
+citations(bibcode:2003PhRvL..90v7902V)	7	586	7	7	1	True
+citations(bibcode:1956JPCS....1...82K)	7	222	7	7	1	True
+citations(bibcode:2008PhRvL.101h7004K)	7	242	7	7	1	True
+citations(bibcode:2009ApJS..180..225H)	7	381	7	7	1	True
+citations(bibcode:2000PhRvL..84.2722D)	7	576	7	7	1	True
+citations(bibcode:1941JChPh...9..341C)	7	891	7	7	1	True
+citations(bibcode:1981MWRv..109..784W)	7	717	7	7	1	True
+citations(bibcode:2001JGR...10619999N)	7	89	7	7	1	True
+citations(bibcode:1957JPCS....1..249K)	7	1218	7	7	1	True
+citations(bibcode:1968PUSNO..21....1B)	7	84	7	7	1	True
+citations(bibcode:2001Sci...293.1289C)	7	553	7	7	1	True
+citations(bibcode:2005QJRMS.131.2961U)	7	937	7	7	1	True
+citations(bibcode:1963PhRv..131.2766G)	7	2067	7	7	1	True
+citations(bibcode:1932RSPSA.137..696Z)	7	1329	7	7	1	True
+citations(bibcode:1998PhRvA..57..120L)	7	2076	7	7	1	True
+citations(bibcode:2006AJ....131.1163S)	7	2053	7	7	1	True
+citations(bibcode:1979NuPhB.159..213V)	7	390	7	7	1	True
+citations(bibcode:2003JChPh.118.8207H)	7	194	7	7	1	True
+citations(bibcode:1972Natur.238...37F)	7	523	7	7	1	True
+citations(bibcode:1950PhRv...79..615R)	7	201	7	7	1	True
+citations(bibcode:1999JChPh.110.6158A)	7	315	7	7	1	True
+citations(bibcode:1996PhRvA..54.3824B)	7	1491	7	7	1	True
+citations(bibcode:2007NatMa...6..183G)	7	1052	7	7	1	True
+citations(bibcode:2008RvMP...80..885B)	7	391	7	7	1	True
+citations(bibcode:1997PhT....50g..36H)	7	787	7	7	1	True
+citations(bibcode:1959ApJ...130...26B)	7	120	7	7	1	True
+citations(bibcode:2003PhRvD..68d6005K)	7	1080	7	7	1	True
+citations(bibcode:1961PhRv..122..345N)	7	1851	7	7	1	True
+citations(bibcode:1969PhRvL..23..880C)	7	1183	7	7	1	True
+citations(bibcode:1957JPSJ...12..570K)	7	2320	7	7	1	True
+citations(bibcode:1968PhRv..170..379T)	7	292	7	7	1	True
+citations(bibcode:2005Natur.437..681O)	7	149	7	7	1	True
+citations(bibcode:1996PhRvL..77.1413P)	7	1263	7	7	1	True
+citations(bibcode:2007PhRvB..75l1306M)	7	102	7	7	1	True
+citations(bibcode:2008PhRvL.101e7003M)	7	427	7	7	1	True
+citations(bibcode:1990ApPhL..57.1046C)	7	2421	7	7	1	True
+citations(bibcode:1988cels.book.....H)	7	113	7	7	1	True
+citations(bibcode:1951PhRv...82..403Z)	8	2307	8	8	1	True
+citations(bibcode:2005MNRAS.362..799M)	8	570	8	8	1	True
+citations(bibcode:1998ApJ...498..541K)	8	1432	8	8	1	True
+citations(bibcode:1999RvMP...71..463D)	8	2007	8	8	1	True
+citations(bibcode:1994JCoPh.114..185B)	8	976	8	8	1	True
+citations(bibcode:1987PhRvL..59..381B)	8	2233	8	8	1	True
+citations(bibcode:2003JHEP...05..013M)	8	373	8	8	1	True
+citations(bibcode:1930PhRv...35..925C)	8	40	8	8	1	True
+citations(bibcode:1985PhR...117...75H)	8	2405	8	8	1	True
+citations(bibcode:1932PhRv...40..749W)	8	2432	8	8	1	True
+citations(bibcode:1972JPhC....5.1629V)	8	2309	8	8	1	True
+citations(bibcode:2002Natur.415...39G)	8	1858	8	8	1	True
+citations(bibcode:1980MaMol..13.1602L)	8	386	8	8	1	True
+citations(bibcode:1997PhRvB..5612685T)	8	548	8	8	1	True
+citations(bibcode:1983ApJ...270..119M)	8	1757	8	8	1	True
+citations(bibcode:1987ApPhL..51..913T)	8	1826	8	8	1	True
+citations(bibcode:2003NuPhA.729..337A)	8	813	8	8	1	True
+citations(bibcode:1947PhRv...71..622W)	8	653	8	8	1	True
+citations(bibcode:1998PhRvL..80.1582C)	8	1612	8	8	1	True
+citations(bibcode:1974ITAC...19..716A)	8	620	8	8	1	True
+citations(bibcode:1986JGR....91.4673M)	8	784	8	8	1	True
+citations(bibcode:2005Natur.438..201Z)	8	1394	8	8	1	True
+citations(bibcode:1997ESASP1200.....P)	8	1600	8	8	1	True
+citations(bibcode:2003Natur.424..824B)	8	947	8	8	1	True
+citations(bibcode:2000PhRvL..85.3966P)	8	1662	8	8	1	True
+citations(bibcode:2001Natur.410...63N)	8	1903	8	8	1	True
+citations(bibcode:1998ARA&A..36..189K)	8	2167	8	8	1	True
+citations(bibcode:1992A&AS...96..269S)	8	2130	8	8	1	True
+citations(bibcode:2004Natur.430..431E)	8	430	8	8	1	True
+citations(bibcode:1996JPSJ...65.1920F)	8	399	8	8	1	True
+citations(bibcode:1992PhRvL..69.2881B)	8	1206	8	8	1	True
+citations(bibcode:2005PhRvL..95n6802K)	8	205	8	8	1	True
+citations(bibcode:1999ITMTT..47.2075P)	8	757	8	8	1	True
+citations(bibcode:1982PhLB..108..389L)	8	2105	8	8	1	True
+citations(bibcode:2004JHEP...10..025L)	8	133	8	8	1	True
+citations(bibcode:1980PhRvL..44..912M)	8	1409	8	8	1	True
+citations(bibcode:1983PhRvL..50.1395L)	8	2054	8	8	1	True
+citations(bibcode:1998PhRvL..80.2245W)	8	1862	8	8	1	True
+citations(bibcode:2006MNRAS.365...11C)	8	1026	8	8	1	True
+citations(bibcode:2004ApJ...607..665R)	8	1841	8	8	1	True
+citations(bibcode:1998AdTMP...2..253W)	8	75	8	8	1	True
+citations(bibcode:1986nras.book.....P)	8	2929	8	8	1	True
+citations(bibcode:1993JChPh..98.1358W)	8	1373	8	8	1	True
+citations(bibcode:2003RvMP...75..473D)	8	904	8	8	1	True
+citations(bibcode:1998AJ....115.1693C)	8	2050	8	8	1	True
+citations(bibcode:1986PhRvL..56..930B)	8	1858	8	8	1	True
+citations(bibcode:1995PhRvL..75.1260J)	8	274	8	8	1	True
+citations(bibcode:1989MWRv..117.1779T)	8	575	8	8	1	True
+citations(bibcode:1958PhRv..112.1546K)	8	200	8	8	1	True
+citations(bibcode:2005PhRvL..95n2001A)	8	199	8	8	1	True
+citations(bibcode:1999JHEP...09..032S)	8	1106	8	8	1	True
+citations(bibcode:2005MNRAS.364.1105S)	8	1100	8	8	1	True
+citations(bibcode:1989Natur.342..637F)	8	564	8	8	1	True
+citations(bibcode:2006NatPh...2..620K)	8	363	8	8	1	True
+citations(bibcode:1991rc3..book.....D)	8	567	8	8	1	True
+citations(bibcode:1935RSPSA.151..585F)	8	210	8	8	1	True
+citations(bibcode:1999JMMM..192..203N)	8	1200	8	8	1	True
+citations(bibcode:1984JETPL..39...78B)	8	456	8	8	1	True
+citations(bibcode:2001ApJ...553...47F)	8	1868	8	8	1	True
+citations(bibcode:1931MNRAS..91..870P)	8	10	8	8	1	True
+citations(bibcode:1995JCoPh.117....1P)	8	298	8	8	1	True
+citations(bibcode:1998AJ....115.2285M)	8	1688	8	8	1	True
+citations(bibcode:1991PhRvL..67..661E)	8	1848	8	8	1	True
+citations(bibcode:2005RvMP...77..513B)	8	410	8	8	1	True
+citations(bibcode:1993ARA&A..31..473A)	8	1817	8	8	1	True
+citations(bibcode:1972PhRvB...6.4370J)	8	1591	8	8	1	True
+citations(bibcode:1963JAtS...20..130L)	10	1947	10	10	1	True
+citations(bibcode:1988PhRvL..61.2472B)	10	2568	10	10	1	True
+citations(bibcode:2005RvMP...77..259S)	10	427	10	10	1	True
+citations(bibcode:2003AnPhy.303....2K)	10	492	10	10	1	True
+citations(bibcode:1929PGro...43....1V)	10	30	10	10	1	True
+citations(bibcode:1950PhRv...78..182R)	10	5	10	10	1	True
+citations(bibcode:1951PhRv...82..664S)	11	2146	11	11	1	True
+citations(id:[1000000 TO 1010000])	30	56251	30	30	1	True
+citations(bibcode:1993PhyB..192...55R)	54	996	54	54	1	True
+citations(id:[1000000 TO 1020000])	60	108923	60	60	1	True
+citations(id:[1000000 TO 1030000])	99	149610	99	99	1	True
+citations(id:[1000000 TO 1040000])	127	180407	127	127	1	True
+citations(id:[1000000 TO 1050000])	158	210415	158	158	1	True
+citations(id:[1000000 TO 1060000])	202	252007	202	202	1	True
+citations(id:[1000000 TO 1070000])	238	280112	238	238	1	True
+citations(id:[1000000 TO 1080000])	293	304347	293	293	1	True
+citations(id:[1000000 TO 1090000])	325	322710	325	325	1	True
+citations(id:[1000000 TO 1100000])	348	344093	348	348	1	True
+citations(id:[1000000 TO 1110000])	417	370871	417	417	1	True
+citations(id:[1000000 TO 1120000])	468	398377	468	468	1	True
+citations(id:[1000000 TO 1130000])	486	418199	486	486	1	True
+citations(id:[1000000 TO 1140000])	555	445655	555	555	1	True
+citations(id:[1000000 TO 1150000])	611	470702	611	611	1	True
+citations(id:[1000000 TO 1170000])	649	512769	649	649	1	True
+citations(id:[1000000 TO 1160000])	706	498708	706	706	1	True
+citations(id:[1000000 TO 1190000])	833	555594	833	833	1	True
+citations(id:[1000000 TO 1180000])	833	533801	833	833	1	True
+citations(id:[1000000 TO 1210000])	897	587859	897	897	1	True
+citations(id:[1000000 TO 1200000])	910	572723	910	910	1	True
+citations(id:[1000000 TO 1220000])	971	598007	971	971	1	True
+citations(id:[1000000 TO 1230000])	1011	615406	1011	1011	1	True
+citations(id:[1000000 TO 1240000])	1028	634888	1028	1028	1	True
+citations(id:[1000000 TO 1250000])	1176	655822	1176	1176	1	True
+citations(id:[1000000 TO 1270000])	1193	689592	1193	1193	1	True
+citations(id:[1000000 TO 1260000])	1229	672381	1229	1229	1	True
+citations(id:[1000000 TO 1280000])	1280	701068	1280	1280	1	True
+citations(id:[1000000 TO 1300000])	1392	726674	1392	1392	1	True
+citations(id:[1000000 TO 1290000])	1393	711518	1393	1393	1	True
+citations(id:[1000000 TO 1310000])	1461	738836	1461	1461	1	True
+citations(id:[1000000 TO 1330000])	1485	772476	1485	1485	1	True
+citations(id:[1000000 TO 1320000])	1491	754548	1491	1491	1	True
+citations(id:[1000000 TO 1340000])	1668	789926	1668	1668	1	True
+citations(id:[1000000 TO 1350000])	1684	801917	1684	1684	1	True
+citations(id:[1000000 TO 1360000])	1735	814385	1735	1735	1	True
+citations(id:[1000000 TO 1380000])	1828	835388	1828	1828	1	True
+citations(id:[1000000 TO 1370000])	1853	825420	1853	1853	1	True
+citations(id:[1000000 TO 1390000])	1911	848131	1911	1911	1	True
+citations(id:[1000000 TO 1400000])	1961	866155	1961	1961	1	True
+citations(id:[1000000 TO 1410000])	2037	878341	2037	2037	1	True
+citations(id:[1000000 TO 1430000])	2102	898838	2102	2102	1	True
+citations(id:[1000000 TO 1460000])	2166	934536	2166	2166	1	True
+citations(id:[1000000 TO 1420000])	2172	889613	2172	2172	1	True
+citations(id:[1000000 TO 1450000])	2225	919032	2225	2225	1	True
+citations(id:[1000000 TO 1470000])	2272	941103	2272	2272	1	True
+citations(id:[1000000 TO 1480000])	2417	952308	2417	2417	1	True
+citations(id:[1000000 TO 1490000])	2430	964439	2430	2430	1	True
+citations(id:[1000000 TO 1440000])	2444	912184	2444	2444	1	True
+citations(id:[1000000 TO 1500000])	2493	975052	2493	2493	1	True
+citations(id:[1000000 TO 1520000])	2644	1000683	2644	2644	1	True
+citations(id:[1000000 TO 1510000])	2986	986089	2986	2986	1	True

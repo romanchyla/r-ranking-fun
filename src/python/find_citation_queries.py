@@ -14,9 +14,11 @@ hits
 
 
 def run(solr_url,
+        query_name='citations',
         fl="title,author,recid,bibcode", 
-        min=0, max=1000000, increment=9,
-        max_hits=10, max_qtime=60000):
+        min=0, max=2000000, increment=9,
+        max_hits=10, max_qtime=60000
+        ):
     
     
     results = []
@@ -32,7 +34,7 @@ def run(solr_url,
         q = "citation_count:[%s TO %s]" % (i,j)
         log.info("%s" % q)
         rsp = req(solr_url, q=q, fl=fl, rows=max_hits, sort="citation_count desc")
-        r = select_representative_record(rsp, solr_url, j)
+        r = select_representative_record(rsp, solr_url, j, query_name)
         if r != None:
             results.append(r)
             empty = 0
@@ -47,15 +49,16 @@ def run(solr_url,
     
     start_id = max
     end_id = start_id
-    incr = 10000
+    incr = 100
+    cycle = 1
     while True:
-        end_id = end_id + incr
+        end_id = end_id + (cycle * (incr * increment))
         q = "id:[%s TO %s]" % (start_id, end_id)
         log.info("%s" % q)
         # first issue the query without citations
         rsp = req(solr_url, q=q, fl=fl, rows=1)
-        
-        rsp = req(solr_url, q=("citations(%s)" % q), fl=fl, rows=1)
+        # now execute the functional query
+        rsp = req(solr_url, q=("%s(%s)" % (query_name, q)), fl=fl, rows=1)
         if (not rsp['responseHeader'].has_key('status') or rsp['responseHeader']['status'] != 0):
             log.error("Error searching: %s" % str(rsp))
             continue
@@ -66,6 +69,7 @@ def run(solr_url,
             log.info("Stopping because qtime too high: %s" % (qtime,))
             break
         log.info("last found: q=%s, num=%s, qtime=%s" % (q, numfound, qtime))
+        cycle += 1
         
     today = datetime.date.today()
     previous = today
@@ -75,7 +79,8 @@ def run(solr_url,
     while False:
         q = "pubdate:[%s TO %s]" % (str(previous),str(today))
         log.info("%s" % q)
-        rsp = req(solr_url, q=("citations(%s)" % q), fl=fl, rows=1)
+        # now execute the functional query
+        rsp = req(solr_url, q=("%s(%s)" % (query_name, q)), fl=fl, rows=1)
         if (not rsp['responseHeader'].has_key('status') or rsp['responseHeader']['status'] != 0):
             log.error("Error searching: %s" % str(rsp))
             continue
@@ -87,18 +92,19 @@ def run(solr_url,
         if previous < stop_day:
             break
     
+    print "#%s" % (query_name,)
     print "query\tnumFound\tQTime"
     print "\n".join(map(lambda x: "%s\t%s\t%s" % x, results))       
 
 
-def select_representative_record(rsp, solr_url, j):
+def select_representative_record(rsp, solr_url, j, query_name):
     if not rsp['response'].has_key('docs'):
         return None
     
     tmp_results = []
     for doc in rsp['response']['docs']:
         q = "bibcode:%s" % doc['bibcode']
-        cit_rsp = req(solr_url, q=("citations(%s)" % q), fl="citation_count", rows=0)
+        cit_rsp = req(solr_url, q=("%s(%s)" % (query_name, q)), fl="citation_count", rows=0)
         
         if (not cit_rsp['responseHeader'].has_key('status') or cit_rsp['responseHeader']['status'] != 0):
             log.error("Error searching: %s" % str(rsp))

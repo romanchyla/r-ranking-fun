@@ -1,0 +1,335 @@
+                                             Query       QTime        numFound    minQTime    maxQTime  #invocations    return consistent
+        joincitations(bibcode:2000ApJ...539L..13G)          15            1665          15          16           2        True
+        joincitations(bibcode:1995JCoPh.117....1P)          15             298          15          16           2        True
+        joincitations(bibcode:1992A&AS...96..269S)          15            2130          15          16           2        True
+        joincitations(bibcode:2007NatMa...6..183G)          15            1052          15          15           2        True
+        joincitations(bibcode:1968SvPhU..10..509V)          15            1403          15          16           2        True
+        joincitations(bibcode:1988cels.book.....H)          15             113          15          16           2        True
+        joincitations(bibcode:2005RvMP...77..633F)          15             458          15          16           2        True
+        joincitations(bibcode:2006MNRAS.365...11C)          15            1026          15          16           2        True
+        joincitations(bibcode:1989RvMP...61....1W)          15            1852          15          16           2        True
+        joincitations(bibcode:1986PhRvL..56..930B)          15            1858          15          16           2        True
+        joincitations(bibcode:1952RSPSA.211..564L)          15             362          15          16           2        True
+        joincitations(bibcode:1983AnPhy.149..374C)          15            1879          15          16           2        True
+        joincitations(bibcode:2008PhRvL.101e7003M)          15             427          15          16           2        True
+        joincitations(bibcode:1947PhRv...71..809B)          15             530          15          16           2        True
+        joincitations(bibcode:2003NIMPA.506..250G)          15            1244          15          16           2        True
+        joincitations(bibcode:1995CASSS...5.....H)          15               0          15          16           2        True
+        joincitations(bibcode:1996JMMM..159L...1S)          15            1138          15          16           2        True
+        joincitations(bibcode:1999ITMTT..47.2075P)          15             757          15          16           2        True
+        joincitations(bibcode:2002JHEP...07..012P)          15            1087          15          16           2        True
+        joincitations(bibcode:1995PhRvL..75.1260J)          15             274          15          16           2        True
+        joincitations(bibcode:2004JHEP...10..025L)          15             133          15          16           2        True
+        joincitations(bibcode:2001Natur.410...63N)          15            1903          15          16           2        True
+        joincitations(bibcode:2005Natur.437..681O)          15             149          15          16           2        True
+        joincitations(bibcode:2006Sci...312.1780P)          15             515          15          16           2        True
+        joincitations(bibcode:2007PhRvL..98t6805H)          15             354          15          16           2        True
+        joincitations(bibcode:2005QJRMS.131.2961U)          15             937          15          16           2        True
+        joincitations(bibcode:2000Sci...290.2282M)          15             627          15          16           2        True
+        joincitations(bibcode:1996PhLB..379...99S)          15             988          15          16           2        True
+        joincitations(bibcode:1997PhRvD..55.5112B)          15            1091          15          16           2        True
+        joincitations(bibcode:2001RvMP...73..565R)          15             704          15          16           2        True
+        joincitations(bibcode:2003JHEP...05..013M)          15             373          15          16           2        True
+        joincitations(bibcode:2004Natur.431..162W)          15             546          15          16           2        True
+        joincitations(bibcode:1984NuPhB.241..333B)          15            2147          15          16           2        True
+        joincitations(bibcode:1986JGR....91.4673M)          15             784          15          16           2        True
+        joincitations(bibcode:1957ApJ...125...66S)          15             221          15          16           2        True
+        joincitations(bibcode:1996PhRvB..5417954N)          15             479          15          16           2        True
+        joincitations(bibcode:1989MWRv..117.1779T)          16             575          15          17           2        True
+        joincitations(bibcode:2001ApJ...553...47F)          16            1868          16          16           2        True
+        joincitations(bibcode:2003JHyMe...4.1147A)          16             326          16          17           2        True
+        joincitations(bibcode:1999IJTP...38.1113M)          16             680          16          16           2        True
+        joincitations(bibcode:1961PhRv..122..345N)          16            1851          16          16           2        True
+        joincitations(bibcode:1998PhRvL..81.1562F)          16            2017          16          16           2        True
+        joincitations(bibcode:2006NatPh...2..177N)          16             263          16          17           2        True
+        joincitations(bibcode:1956JPCS....1...82K)          16             222          16          16           2        True
+        joincitations(bibcode:1981SSCom..39..625R)          16             450          16          17           2        True
+        joincitations(bibcode:2004ApJ...607..665R)          16            1841          16          16           2        True
+        joincitations(bibcode:1982ApJ...263..835S)          16            1936          16          16           2        True
+        joincitations(bibcode:1977PhRvL..38.1440P)          16            1167          16          16           2        True
+        joincitations(bibcode:1976CMaPh..48..119L)          16            1058          16          16           2        True
+        joincitations(bibcode:1963PhRv..131.2766G)          16            2067          16          16           2        True
+        joincitations(bibcode:1976PhRvB..14.3110B)          16             314          16          16           2        True
+        joincitations(bibcode:2001Sci...292...77S)          16            1299          16          16           2        True
+        joincitations(bibcode:1950PhRv...79..615R)          16             201          16          16           2        True
+        joincitations(bibcode:1989Natur.342..637F)          16             564          15          17           2        True
+        joincitations(bibcode:1995Sci...269..676H)          16            1198          16          16           2        True
+        joincitations(bibcode:1972PMag...25....1A)          16             829          16          17           2        True
+        joincitations(bibcode:1977PhLB...67..421M)          16             834          15          17           2        True
+        joincitations(bibcode:1926AnP...384..734S)          16              47          15          17           2        True
+        joincitations(bibcode:1991PhLB..264..440D)          16             270          16          16           2        True
+        joincitations(bibcode:1976PhRvD..13..974W)          16             364          16          16           2        True
+        joincitations(bibcode:2012EPJC...72.1971A)          16              48          15          17           2        True
+        joincitations(bibcode:1984ucp..book.....W)          16            2295          16          17           2        True
+        joincitations(bibcode:1953mtp..book.....M)          16            2405          16          16           2        True
+        joincitations(bibcode:1992RvMP...64.1045P)          16            2150          16          17           2        True
+        joincitations(bibcode:2011PhRvD..83k5013B)          16               6          16          17           2        True
+        joincitations(bibcode:1987SSCom..63..973B)          16             330          16          17           2        True
+        joincitations(bibcode:2009ApJS..180..225H)          16             381          16          16           2        True
+        joincitations(bibcode:1998AJ....115.1693C)          16            2050          16          16           2        True
+        joincitations(bibcode:2006IJMPD..15.1753C)          16             946          16          16           2        True
+        joincitations(bibcode:1991Natur.353..737O)          16             815          16          16           2        True
+        joincitations(bibcode:1998PhRvL..80.1582C)          16            1612          16          17           2        True
+        joincitations(bibcode:2004CMaPh.252..189W)          16             281          15          17           2        True
+        joincitations(bibcode:1986PhRvB..33.8822P)          16            1738          16          17           2        True
+        joincitations(bibcode:2000NuPhB.586..141G)          16             424          16          16           2        True
+        joincitations(bibcode:1959ApJ...130...26B)          16             120          15          17           2        True
+        joincitations(bibcode:1997PhRvL..78.1667K)          16             488          16          17           2        True
+        joincitations(bibcode:2003NuPhA.729..337A)          16             813          16          16           2        True
+        joincitations(bibcode:1997PhRvL..78.4494P)          16             563          15          17           2        True
+        joincitations(bibcode:1970ssr..book.....K)          16             187          16          17           2        True
+        joincitations(bibcode:2003PhRvL..90v7902V)          16             586          15          17           2        True
+        joincitations(bibcode:1984PhRvL..53.1951S)          16            1982          16          16           2        True
+        joincitations(bibcode:1961JAP....32.1679P)          16             345          16          16           2        True
+        joincitations(bibcode:2002Natur.419..594S)          16             361          16          16           2        True
+        joincitations(bibcode:1987PhRvL..59..381B)          16            2233          16          17           2        True
+        joincitations(bibcode:1980MaMol..13.1602L)          16             386          16          16           2        True
+        joincitations(bibcode:1984SJNA...21..995S)          16             197          16          17           2        True
+        joincitations(bibcode:2012PhRvL.109r1301A)          16              11          16          17           2        True
+        joincitations(bibcode:1949QJRMS..75...41S)          16             116          15          17           2        True
+        joincitations(bibcode:2005PhRvL..95v6801K)          16             322          16          16           2        True
+        joincitations(bibcode:2001RvMP...73..977D)          16             632          15          17           2        True
+        joincitations(bibcode:1972PhRvB...6.4370J)          16            1591          16          17           2        True
+        joincitations(bibcode:2003ApJ...594....1T)          16             929          16          16           2        True
+        joincitations(bibcode:2006NatPh...2..620K)          16             363          15          17           2        True
+        joincitations(bibcode:1975JPhF....5..965E)          16            1698          16          16           2        True
+        joincitations(bibcode:1998PhRvA..57..120L)          16            2076          16          16           2        True
+        joincitations(bibcode:1957qmot.book.....B)          16            1966          16          16           2        True
+        joincitations(bibcode:2002JHEP...04..013B)          16             393          15          17           2        True
+        joincitations(bibcode:1929PGro...43....1V)          16              30          16          17           2        True
+        joincitations(bibcode:1990ARA&A..28..215D)          16            2866          16          16           2        True
+        joincitations(bibcode:1972hmfw.book.....A)          16            2365          16          16           2        True
+        joincitations(bibcode:1998BAMS...79...61T)          16             789          16          16           2        True
+        joincitations(bibcode:1990PhRvL..64..821P)          16            1522          16          16           2        True
+        joincitations(bibcode:1985RvMP...57..287L)          16            2690          16          16           2        True
+        joincitations(bibcode:2005RvMP...77..259S)          16             427          15          17           2        True
+        joincitations(bibcode:1980PhRvL..45..494K)          16            1292          16          16           2        True
+        joincitations(bibcode:2005RvMP...77..977S)          16             258          16          16           2        True
+        joincitations(bibcode:1986nras.book.....P)          16            2929          16          16           2        True
+        joincitations(bibcode:1950msms.book.....H)          16            2314          16          16           2        True
+        joincitations(bibcode:2001Natur.409...46K)          16            1100          16          16           2        True
+        joincitations(bibcode:1981ApOpt..20..211K)          16             296          16          16           2        True
+        joincitations(bibcode:1964ApPhL...4...89W)          16             883          16          16           2        True
+        joincitations(bibcode:1999JHEP...09..032S)          16            1106          16          17           2        True
+        joincitations(bibcode:2002Natur.415...39G)          16            1858          16          17           2        True
+        joincitations(bibcode:1988PhRvD..37.3406R)          16            1667          16          16           2        True
+        joincitations(bibcode:2005PhR...421....1F)          16             178          16          16           2        True
+        joincitations(bibcode:1996PhRvL..77.1413P)          16            1263          16          17           2        True
+        joincitations(bibcode:1998ARA&A..36..189K)          16            2167          16          17           2        True
+        joincitations(bibcode:1916ZPhy...17..557S)          16             174          16          16           2        True
+        joincitations(bibcode:1996PhRvB..54.9353B)          16             987          16          16           2        True
+        joincitations(bibcode:2003PhRvD..68d6005K)          16            1080          16          16           2        True
+        joincitations(bibcode:1998AJ....115.2285M)          16            1688          16          16           2        True
+        joincitations(bibcode:1935RSPSA.151..585F)          16             210          16          16           2        True
+        joincitations(bibcode:1968PhRv..170..379T)          16             292          16          16           2        True
+        joincitations(bibcode:2004RvMP...76..323Z)          16            1849          16          16           2        True
+        joincitations(bibcode:1986PhLB..174...45F)          16            1278          16          16           2        True
+        joincitations(bibcode:1986PhRvL..56..889K)          16            1945          16          17           2        True
+        joincitations(bibcode:2008RvMP...80..517A)          16             216          15          17           2        True
+        joincitations(bibcode:1984JETPL..39...78B)          16             456          15          17           2        True
+        joincitations(bibcode:2002JPCM...14.2745S)          16            1190          16          16           2        True
+        joincitations(bibcode:2005PalOc..20.1003L)          16             174          16          16           2        True
+        joincitations(bibcode:1993JChPh..98.1358W)          16            1373          16          16           2        True
+        joincitations(bibcode:2005Sci...309.2180P)          16             639          16          16           2        True
+        joincitations(bibcode:1985PhRvL..55.2471C)          16            2756          16          16           2        True
+        joincitations(bibcode:1975JOSA...65..979F)          16              39          15          17           2        True
+        joincitations(bibcode:1992PhRvL..68.2512M)          16             919          16          16           2        True
+        joincitations(bibcode:1996PhRvA..53.2046B)          16             771          16          17           2        True
+        joincitations(bibcode:1999RvMP...71..463D)          16            2007          16          16           2        True
+        joincitations(bibcode:1927RSPSA.115..700K)          16              54          15          17           2        True
+        joincitations(bibcode:1982RvGSP..20..851M)          16             727          16          16           2        True
+        joincitations(bibcode:1996RvMP...68...13G)          16            1873          16          16           2        True
+        joincitations(bibcode:2006AJ....131.1163S)          16            2053          16          16           2        True
+        joincitations(bibcode:2006Sci...314.1757B)          16             156          15          17           2        True
+        joincitations(bibcode:1991rc3..book.....D)          16             567          16          16           2        True
+        joincitations(bibcode:2003AnPhy.303....2K)          16             492          16          17           2        True
+        joincitations(bibcode:2005JAP....98d1301O)          16             753          16          16           2        True
+        joincitations(bibcode:1985PhR...117...75H)          16            2405          16          16           2        True
+        joincitations(bibcode:1983ApJ...270..119M)          16            1757          16          16           2        True
+        joincitations(bibcode:1966PhRvL..17.1133M)          16            1983          16          16           2        True
+        joincitations(bibcode:1961PhRv..124...41A)          16            2142          16          16           2        True
+        joincitations(bibcode:1998RvMP...70.1039I)          16            1577          16          16           2        True
+        joincitations(bibcode:1963JAtS...20..130L)          16            1947          16          16           2        True
+        joincitations(bibcode:1998Natur.393..440W)          16            1892          16          16           2        True
+        joincitations(bibcode:2006PhRvL..97r7401F)          16             299          16          17           2        True
+        joincitations(bibcode:1965PhRv..139..796H)          16            1090          16          16           2        True
+        joincitations(bibcode:1997PhRvL..78.1396P)          16             533          16          16           2        True
+        joincitations(bibcode:1941ApJ....93..133K)          16             170          15          17           2        True
+        joincitations(bibcode:1999JMMM..192..203N)          16            1200          16          16           2        True
+        joincitations(bibcode:1987PhRvL..58..908W)          16            2836          16          16           2        True
+        joincitations(bibcode:2004PhRvD..70j6007O)          16             187          16          16           2        True
+        joincitations(bibcode:1981MWRv..109..784W)          16             717          15          17           2        True
+        joincitations(bibcode:2004PhRvD..69j3501T)          16            1445          16          16           2        True
+        joincitations(bibcode:1961hhs..book.....C)          16            2358          16          16           2        True
+        joincitations(bibcode:1983Sci...220..671K)          16            1852          16          17           2        True
+        joincitations(bibcode:1990ApPhL..57.1046C)          16            2421          16          16           2        True
+        joincitations(bibcode:1957JPCS....1..249K)          16            1218          16          16           2        True
+        joincitations(bibcode:2005MNRAS.362..799M)          16             570          15          17           2        True
+        joincitations(bibcode:1994PhRvB..4916223B)          16             791          16          16           2        True
+        joincitations(bibcode:1959RSPSA.253..358R)          16             316          16          16           2        True
+        joincitations(bibcode:1950PhRv...78..182R)          16               5          16          16           2        True
+        joincitations(bibcode:2005PhRvL..95n6802K)          16             205          16          17           2        True
+        joincitations(bibcode:1974ITAC...19..716A)          16             620          16          16           2        True
+        joincitations(bibcode:1932PhRv...40..749W)          16            2432          16          17           2        True
+        joincitations(bibcode:1997ESASP1200.....P)          16            1600          16          16           2        True
+        joincitations(bibcode:1992PhRvL..69.2881B)          16            1206          16          16           2        True
+        joincitations(bibcode:1972ApJ...178..623T)          16            1690          16          16           2        True
+        joincitations(bibcode:1969drea.book.....B)          16            1925          16          16           2        True
+        joincitations(bibcode:1987ApPhL..51..913T)          16            1826          16          17           2        True
+        joincitations(bibcode:2001JGR...10619999N)          16              89          16          17           2        True
+        joincitations(bibcode:1973PThPh..49..652K)          16            2419          16          17           2        True
+        joincitations(bibcode:1985NuPhB.250..465G)          16            1798          16          16           2        True
+        joincitations(bibcode:1997PhRvB..5612685T)          16             548          16          17           2        True
+        joincitations(bibcode:1983bhwd.book.....S)          16            1718          15          18           2        True
+        joincitations(bibcode:2005PThPh.114.1083S)          16             172          16          16           2        True
+        joincitations(bibcode:1951PhRv...82..664S)          16            2146          16          16           2        True
+        joincitations(bibcode:1991ApJ...376..214B)          16            1770          16          16           2        True
+        joincitations(bibcode:1958PhRv..112.1546K)          16             200          16          16           2        True
+        joincitations(bibcode:1998PhRvL..80.2245W)          16            1862          16          16           2        True
+        joincitations(bibcode:2001Sci...293.1289C)          16             553          15          17           2        True
+        joincitations(bibcode:1968PUSNO..21....1B)          16              84          16          17           2        True
+        joincitations(bibcode:1984JChPh..81.3684B)          16            1667          16          16           2        True
+        joincitations(bibcode:1999JChPh.110.6158A)          16             315          16          17           2        True
+        joincitations(bibcode:1980stph.book.....L)          16            1753          16          16           2        True
+        joincitations(bibcode:2000Sci...287.1019D)          16            2122          16          16           2        True
+        joincitations(bibcode:1972Natur.238...37F)          16             523          16          17           2        True
+        joincitations(bibcode:2005Natur.438..201Z)          16            1394          16          16           2        True
+        joincitations(bibcode:2009ApJS..182..543A)          16             795          16          16           2        True
+        joincitations(bibcode:2005ApJ...633..560E)          16            1231          16          16           2        True
+        joincitations(bibcode:1984JFM...143....1A)          16             485          16          16           2        True
+        joincitations(bibcode:1932RSPSA.137..696Z)          16            1329          16          16           2        True
+        joincitations(bibcode:1989agna.book.....O)          16            2912          16          16           2        True
+        joincitations(bibcode:1936RSPSA.157..490H)          16              70          16          16           2        True
+        joincitations(bibcode:1951PhRv...82..403Z)          16            2307          16          16           2        True
+        joincitations(bibcode:2008RvMP...80..885B)          16             391          16          16           2        True
+        joincitations(bibcode:2003RvMP...75..473D)          16             904          16          16           2        True
+        joincitations(bibcode:1996PhRvA..54.3824B)          16            1491          16          16           2        True
+        joincitations(bibcode:2005RvMP...77..513B)          16             410          16          17           2        True
+        joincitations(bibcode:1993PhyB..192...55R)          16             996          16          16           2        True
+        joincitations(bibcode:1974PhRvD..10..275P)          16            1370          16          16           2        True
+        joincitations(bibcode:1972PhRvD...6.3368B)          16             195          16          16           2        True
+        joincitations(bibcode:1993ARA&A..31..473A)          16            1817          16          16           2        True
+        joincitations(bibcode:1994JCoPh.114..185B)          16             976          16          16           2        True
+        joincitations(bibcode:2001PhRvL..86.5227B)          16             216          16          16           2        True
+        joincitations(bibcode:1944PNAS...30..244M)          16            1279          16          16           2        True
+        joincitations(bibcode:1969PhRvL..23..880C)          16            1183          16          16           2        True
+        joincitations(bibcode:1985Natur.318..162K)          16            2458          16          17           2        True
+        joincitations(bibcode:1982PhRvL..48.1559T)          16            1357          16          16           2        True
+        joincitations(bibcode:1956PhRv..102.1413M)          16             911          16          17           2        True
+        joincitations(bibcode:2007PhRvB..75l1306M)          16             102          16          16           2        True
+        joincitations(bibcode:2001JAP....89.5815V)          16            1001          16          17           2        True
+        joincitations(bibcode:2008PhRvL.101j7006R)          16             494          16          17           2        True
+        joincitations(bibcode:2004Natur.430..431E)          16             430          15          17           2        True
+        joincitations(bibcode:2000PhRvL..84.4184S)          16            1094          16          16           2        True
+        joincitations(bibcode:1982PhRvB..25.4515B)          16            1397          16          16           2        True
+        joincitations(bibcode:1933RSPSA.141..282H)          16              50          15          17           2        True
+        joincitations(bibcode:2005MNRAS.364.1105S)          16            1100          16          16           2        True
+        joincitations(bibcode:1959NucPh..13..104M)          16             110          15          17           2        True
+        joincitations(bibcode:1988PhRvL..61.2472B)          16            2568          16          17           2        True
+        joincitations(bibcode:1988aitb.book.....S)          16             416          16          17           2        True
+        joincitations(bibcode:1998AdTMP...2..253W)          16              75          16          16           2        True
+        joincitations(bibcode:1989CPL...157..479R)          16            1492          16          16           2        True
+        joincitations(bibcode:1983PhRvL..50.1395L)          16            2054          16          16           2        True
+        joincitations(bibcode:1997PhT....50g..36H)          16             787          16          17           2        True
+        joincitations(bibcode:1982PhLB..108..389L)          16            2105          16          16           2        True
+        joincitations(bibcode:2000PhRvL..85.3966P)          16            1662          16          16           2        True
+        joincitations(bibcode:1975ITM....11.1018M)          16             307          16          17           2        True
+        joincitations(bibcode:1957PhRv..108.1070B)          16             139          16          17           2        True
+        joincitations(bibcode:1985ApJ...288..618R)          16            1914          16          16           2        True
+        joincitations(bibcode:1997quop.book.....S)          16             665          15          17           2        True
+        joincitations(bibcode:1974PhRvD...9.3471C)          16            1249          16          16           2        True
+        joincitations(bibcode:1957JPSJ...12..570K)          16            2320          16          16           2        True
+        joincitations(bibcode:1980PhRvL..44..912M)          16            1409          16          16           2        True
+        joincitations(bibcode:1988JSP....52..479T)          16            1209          16          16           2        True
+        joincitations(bibcode:1993gr.qc....10026T)          16               0          15          17           2        True
+        joincitations(bibcode:2000PhRvL..84.2722D)          16             576          16          17           2        True
+        joincitations(bibcode:2008PhRvL.101h7004K)          16             242          15          17           2        True
+        joincitations(bibcode:1986PhRvL..57.1761B)          16            1203          16          16           2        True
+        joincitations(bibcode:2005JPhD...38R.123F)          16             567          15          17           2        True
+        joincitations(bibcode:2005RvMP...77..935B)          16             365          16          17           2        True
+        joincitations(bibcode:1980IJQE...16..347L)          16             415          16          16           2        True
+        joincitations(bibcode:1972JLTP....7..351P)          16             663          15          17           2        True
+        joincitations(bibcode:1993PhRvL..71.1994C)          16            1458          16          16           2        True
+        joincitations(bibcode:1977SurSc..62..267T)          16             212          16          16           2        True
+        joincitations(bibcode:1994Sci...265..195P)          16             390          16          16           2        True
+        joincitations(bibcode:1995NuPhB.435..129S)          16             623          15          17           2        True
+        joincitations(bibcode:1998PhLB..436..257A)          16            2244          16          16           2        True
+        joincitations(bibcode:1975RvMP...47..773W)          16            1361          16          16           2        True
+        joincitations(bibcode:2003JChPh.118.8207H)          16             194          16          16           2        True
+        joincitations(bibcode:2005NuPhA.757..184P)          16             610          16          16           2        True
+        joincitations(bibcode:1979NuPhB.159..213V)          16             390          16          16           2        True
+        joincitations(bibcode:2005PhRvL..95n2001A)          16             199          16          16           2        True
+        joincitations(bibcode:1956PhRv..102.1464M)          16             227          16          17           2        True
+        joincitations(bibcode:2006PhR...424..175B)          16             663          15          17           2        True
+        joincitations(bibcode:1999PhR...323..183A)          16             973          16          16           2        True
+        joincitations(bibcode:1991PhRvB..44..943A)          16             954          16          16           2        True
+        joincitations(bibcode:1998ApJ...498..541K)          16            1432          16          16           2        True
+        joincitations(bibcode:1996Sci...271..933A)          16            1059          16          16           2        True
+        joincitations(bibcode:1931MNRAS..91..870P)          16              10          16          17           2        True
+        joincitations(bibcode:1996ASPC..101...17A)          16            1696          16          16           2        True
+        joincitations(bibcode:1991PhRvL..67..661E)          17            1848          17          17           2        True
+        joincitations(bibcode:1929PhRv...33..730M)          17              20          16          18           2        True
+        joincitations(bibcode:1947PhRv...71..622W)          17             653          16          18           2        True
+        joincitations(bibcode:1992JChPh..96.6796K)          17            1973          16          19           2        True
+        joincitations(bibcode:2011PhRvL.107m1302A)          18             180          16          20           2        True
+        joincitations(bibcode:1996JPSJ...65.1920F)          22             399          17          27           2        True
+        joincitations(bibcode:1941JChPh...9..341C)          38             891          16          61           2        True
+        joincitations(bibcode:1972JPhC....5.1629V)          39            2309          16          62           2        True
+        joincitations(bibcode:1998Natur.391..667E)          39            1145          16          62           2        True
+        joincitations(bibcode:2003Natur.424..824B)          39             947          16          62           2        True
+        joincitations(bibcode:1982JChPh..76..637S)          40             438          16          64           2        True
+        joincitations(bibcode:1930PhRv...35..925C)         232              40          15         449           2        True
+        joincitations(bibcode:1999Natur.401..130A)         234             488          16         452           2        True
+            joincitations(id:[1000000 TO 1010000])         600           56251         596         605           2        True
+            joincitations(id:[1000000 TO 1020000])        1199          108923        1183        1215           2        True
+            joincitations(id:[1000000 TO 1030000])        1790          149610        1784        1797           2        True
+            joincitations(id:[1000000 TO 1040000])        2381          180407        2379        2383           2        True
+        joincitations(bibcode:2009RvMP...81..865H)        2913              84          15        5811           2        True
+            joincitations(id:[1000000 TO 1050000])        2992          210415        2958        3027           2        True
+            joincitations(id:[1000000 TO 1060000])        3613          252007        3572        3654           2        True
+            joincitations(id:[1000000 TO 1070000])        4254          280112        4209        4299           2        True
+            joincitations(id:[1000000 TO 1080000])        4791          304347        4745        4837           2        True
+            joincitations(id:[1000000 TO 1090000])        5366          322710        5364        5369           2        True
+            joincitations(id:[1000000 TO 1100000])        6001          344093        5992        6011           2        True
+            joincitations(id:[1000000 TO 1110000])        6571          370871        6526        6617           2        True
+            joincitations(id:[1000000 TO 1120000])        7130          398377        7126        7135           2        True
+            joincitations(id:[1000000 TO 1130000])        7789          418199        7770        7809           2        True
+            joincitations(id:[1000000 TO 1140000])        8447          445655        8387        8508           2        True
+            joincitations(id:[1000000 TO 1150000])        9045          470702        8993        9097           2        True
+            joincitations(id:[1000000 TO 1160000])        9728          498708        9702        9754           2        True
+            joincitations(id:[1000000 TO 1170000])       10188          512769       10185       10191           2        True
+            joincitations(id:[1000000 TO 1180000])       10821          533801       10763       10880           2        True
+            joincitations(id:[1000000 TO 1190000])       11466          555594       11434       11498           2        True
+            joincitations(id:[1000000 TO 1200000])       12064          572723       12063       12065           2        True
+            joincitations(id:[1000000 TO 1210000])       12730          587859       12717       12744           2        True
+            joincitations(id:[1000000 TO 1220000])       13370          598007       13280       13460           2        True
+            joincitations(id:[1000000 TO 1230000])       13909          615406       13829       13990           2        True
+            joincitations(id:[1000000 TO 1240000])       14473          634888       14437       14510           2        True
+            joincitations(id:[1000000 TO 1250000])       15244          655822       15227       15261           2        True
+            joincitations(id:[1000000 TO 1260000])       15707          672381       15596       15819           2        True
+            joincitations(id:[1000000 TO 1270000])       16194          689592       16176       16212           2        True
+            joincitations(id:[1000000 TO 1280000])       16752          701068       16671       16834           2        True
+            joincitations(id:[1000000 TO 1290000])       17288          711518       17252       17324           2        True
+            joincitations(id:[1000000 TO 1300000])       17903          726674       17879       17927           2        True
+            joincitations(id:[1000000 TO 1310000])       18473          738836       18406       18541           2        True
+            joincitations(id:[1000000 TO 1320000])       18987          754548       18929       19045           2        True
+            joincitations(id:[1000000 TO 1330000])       19920          772476       19917       19924           2        True
+            joincitations(id:[1000000 TO 1340000])       20393          789926       20274       20512           2        True
+            joincitations(id:[1000000 TO 1350000])       20836          801917       20820       20852           2        True
+            joincitations(id:[1000000 TO 1360000])       21399          814385       21376       21422           2        True
+            joincitations(id:[1000000 TO 1370000])       22163          825420       22020       22307           2        True
+            joincitations(id:[1000000 TO 1380000])       22696          835388       22522       22871           2        True
+            joincitations(id:[1000000 TO 1390000])       23363          848131       23340       23386           2        True
+            joincitations(id:[1000000 TO 1400000])       23821          866155       23729       23913           2        True
+            joincitations(id:[1000000 TO 1410000])       24262          878341       24166       24359           2        True
+            joincitations(id:[1000000 TO 1420000])       25218          889613       25176       25261           2        True
+            joincitations(id:[1000000 TO 1430000])       25721          898838       25512       25931           2        True
+            joincitations(id:[1000000 TO 1440000])       26106          912184       26040       26173           2        True
+            joincitations(id:[1000000 TO 1450000])       27125          919032       27053       27197           2        True
+            joincitations(id:[1000000 TO 1460000])       27453          934536       27269       27638           2        True
+            joincitations(id:[1000000 TO 1470000])       28350          941103       28191       28509           2        True
+            joincitations(id:[1000000 TO 1480000])       28494          952308       28400       28589           2        True
+            joincitations(id:[1000000 TO 1490000])       29159          964439       29140       29179           2        True
+            joincitations(id:[1000000 TO 1500000])       30017          975052       29856       30179           2        True
+            joincitations(id:[1000000 TO 1510000])       30299          986089       30272       30327           2        True
+            joincitations(id:[1000000 TO 1520000])       31366         1000683       31237       31496           2        True

@@ -5,6 +5,7 @@ import os
 import config 
 from utils import req
 from itertools import combinations_with_replacement
+import simplejson
 
 log = config.get_logger("rfun.measure_qf")
 
@@ -13,6 +14,11 @@ def run(solr_url, query, haystack,
         qf="title,author", 
         min=0.0, max=2.0, increment=0.25,
         max_hits=100):
+    
+    min = float(min)
+    max = float(max)
+    increment = float(increment)
+    max_hits = int(max_hits)
     
     if (os.path.exists(query)):
         queries = load_queries(query)
@@ -28,7 +34,7 @@ def run(solr_url, query, haystack,
     fl = ','.join(list(set([x[0] for x in haystack])))
     combinations = generate_combinations(qf, min, max, increment)
     
-    results = {'': combinations}
+    results = {'qf-variations': combinations}
     
     i = 0
     for qf in combinations:
@@ -40,7 +46,11 @@ def run(solr_url, query, haystack,
             collect_data(q, qf, results, rsp, haystack)
             
     
-    print results       
+    def custom_handler(obj):
+        if isinstance(obj, DataPoint):
+            return obj.jsonize()
+        return obj
+    print simplejson.dumps(results, default=custom_handler)       
 
 
 def generate_combinations(qf, min, max, increment):
@@ -69,7 +79,7 @@ def generate_combinations(qf, min, max, increment):
         kw_incr[chr(64+i)] = i*inc
     
     for c in combinations:
-         results.add('+'.join(map(lambda x: '%s^%s' % x, zip(fields, [kw_incr[x] for x in c]))))
+         results.add(' '.join(map(lambda x: '%s^%s' % x, zip(fields, [kw_incr[x] for x in c]))))
          
          
     #next start from the min all the way to the maximum value
@@ -140,6 +150,8 @@ class DataPoint(object):
         return '%d/%d' % (self.misses, len(self.hits))
     def __repr__(self):
         return str(self.hits)
+    def jsonize(self):
+        return {"hits":self.hits, "qtime": self.qtime, "numfound": self.numfound, "misses":self.misses}
         
 def load_queries(file):
     fo = open(file, 'r')
@@ -150,11 +162,16 @@ def load_queries(file):
     return queries
 
 if __name__ == '__main__':
-    if (len(sys.argv) < 3):
-        print """usage: python measure_qf.py <solr-url> <file-with-queries|query> [qf] [min] [max] [increment] 
+    if 'demo' in sys.argv:
+        run("http://adsate:8987/solr/select", "../../data/raw/qf.queries", "../../data/raw/qf.haystack", 
+            min=-1, max=1.5, increment=0.5)
+        exit(0)
+    elif (len(sys.argv) < 3):
+        print """usage: python measure_qf.py <solr-url> <file-with-queries|query> <file-with-haystack|query> [qf] [min] [max] [increment] [max_hits] 
         examples:
-        python measure_qf.py http://localhost:8984/solr/select queries.txt 10 title,author 0.0 1.5 0.25
+        python measure_qf.py http://localhost:8984/solr/select queries.txt haystack.txt title,author 0.0 1.5 0.25 100
         """
         exit(0)
+    
     
     run(*sys.argv[1:])

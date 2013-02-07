@@ -43,7 +43,7 @@ _loggers = []
 def get_logger(name):
     """Creates a logger for you - with the parent logger and
     common configuration"""
-    if name[0:8] != 'rfun' and len(name) > 8:
+    if name[0:4] != 'rfun' and len(name) > 4:
         sys.stderr.write("Warning: you are creating a logger without 'rfun' as a root (%s),"
         "this means that it will not share montysolr settings and cannot be administered from one place" % name)
     if log:

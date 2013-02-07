@@ -10,6 +10,8 @@ import simplejson
 log = config.get_logger("rfun.measure_qf")
 
 
+
+
 def run(solr_url, query, haystack,
         qf="title,author", 
         min=0.0, max=2.0, increment=0.25,
@@ -34,7 +36,7 @@ def run(solr_url, query, haystack,
     fl = ','.join(list(set([x[0] for x in haystack])))
     combinations = generate_combinations(qf, min, max, increment)
     
-    results = {'qf-variations': combinations}
+    results = {'variations': combinations}
     
     i = 0
     for qf in combinations:
@@ -50,7 +52,17 @@ def run(solr_url, query, haystack,
         if isinstance(obj, DataPoint):
             return obj.jsonize()
         return obj
+    
+    out = {}
+    out['results'] = results
+    out['simplified'] = output_positions(results)
+    
     print simplejson.dumps(results, default=custom_handler)       
+
+
+def output_positions(results):
+    variations = results['variations']
+    for query, rows in 
 
 
 def generate_combinations(qf, min, max, increment):
@@ -104,7 +116,7 @@ def generate_combinations(qf, min, max, increment):
 def collect_data(q, qf, results, rsp, haystack):
     
     if (not results.has_key(q)):
-        results[q] = [q]
+        results[q] = []
     row = results[q]
     
     if (not rsp['responseHeader'].has_key('status') or rsp['responseHeader']['status'] != 0):
@@ -163,7 +175,7 @@ def load_queries(file):
 
 if __name__ == '__main__':
     if 'demo' in sys.argv:
-        run("http://adsate:8987/solr/select", "../../data/raw/qf.queries", "../../data/raw/qf.haystack", 
+        run("http://localhost:8987/solr/select", "../../data/raw/qf.queries", "../../data/raw/qf.haystack", 
             min=-1, max=1.5, increment=0.5)
         exit(0)
     elif (len(sys.argv) < 3):

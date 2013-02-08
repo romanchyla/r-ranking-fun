@@ -6,6 +6,7 @@ import config
 from utils import req
 from itertools import combinations_with_replacement
 import simplejson
+import datetime
 
 log = config.get_logger("rfun.measure_qf")
 
@@ -56,13 +57,24 @@ def run(solr_url, query, haystack,
     out = {}
     out['results'] = results
     out['simplified'] = output_positions(results)
+    out['params'] = dict(max=max, min=min, increment=increment, solr=solr_url, query=query,
+                         maxhits=max_hits, generated=datetime.date.today().isoformat())
     
-    print simplejson.dumps(results, default=custom_handler)       
+    print simplejson.dumps(out, default=custom_handler)       
 
 
 def output_positions(results):
     variations = results['variations']
-    for query, rows in 
+    out = [("factors", "query", "hit_position")]
+    for query, rows in results.items():
+        if query == 'variations':
+            continue
+        i = 0
+        for data_point in rows:
+            for hit_position, hay_position in data_point.hits:
+                out.append((variations[i], query, hit_position))
+            i += 1
+    return out
 
 
 def generate_combinations(qf, min, max, increment):
@@ -139,7 +151,7 @@ def collect_data(q, qf, results, rsp, haystack):
                 if (isinstance(doc[field], list)):
                     for x in doc[field]:
                         if str(x).lower() == value:
-                            hits.append((i, j)) #'%s:%s' % (field, value)
+                            hits.append((i, j)) #i=position in hits, j=position in haystack
                             break
                 else:
                     if doc[field].lower() == value:
@@ -156,14 +168,15 @@ class DataPoint(object):
         self.hits = hits
         self.qtime = qtime
         self.numfound = numfound
-        self.misses = misses
+        self.nomissed = misses
         
     def __str__(self):
         return '%d/%d' % (self.misses, len(self.hits))
     def __repr__(self):
         return str(self.hits)
     def jsonize(self):
-        return {"hits":self.hits, "qtime": self.qtime, "numfound": self.numfound, "misses":self.misses}
+        return {"hits":self.hits, "qtime": self.qtime, "numfound": self.numfound, 
+                "found": len(self.hits), "missed":self.nomissed}
         
 def load_queries(file):
     fo = open(file, 'r')
@@ -175,8 +188,8 @@ def load_queries(file):
 
 if __name__ == '__main__':
     if 'demo' in sys.argv:
-        run("http://localhost:8987/solr/select", "../../data/raw/qf.queries", "../../data/raw/qf.haystack", 
-            min=-1, max=1.5, increment=0.5)
+        run("http://adsate:8989/solr/select", "../../data/raw/qf.queries", "../../data/raw/qf.haystack", 
+            qf="author,title,abstract,all", min=-1, max=1.5, increment=0.5)
         exit(0)
     elif (len(sys.argv) < 3):
         print """usage: python measure_qf.py <solr-url> <file-with-queries|query> <file-with-haystack|query> [qf] [min] [max] [increment] [max_hits] 

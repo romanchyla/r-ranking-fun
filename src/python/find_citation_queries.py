@@ -16,7 +16,7 @@ hits
 def run(solr_url,
         query_name='citations',
         fl="title,author,recid,bibcode", 
-        min=0, max=2000000, increment=9,
+        min=0, max=4000000, increment=9,
         max_hits=10, max_qtime=60000
         ):
     
@@ -27,7 +27,7 @@ def run(solr_url,
     i = 0
     j = None
     empty = 0
-    while True:
+    while False:
         i = i + 1
         j = i + increment
         

@@ -1,55 +1,51 @@
 from lark import Lark
 
 grammar=r"""
-    expr: (FLOAT EQUAL operation expr)+
-        | qweight
+    expr: (FLOAT _EQUAL operation expr)+
+        | qweight+
     
-    qweight: (FLOAT EQUAL item operation?)+
+    qweight: FLOAT _EQUAL "weight" "(" wdescription ")" "[SchemaSimilarity]" _COMMA woperation score -> weight
+    wdescription: DESCRIPTION+ -> wdescription
         
-    
-    item: weight  
-        | score
-        | idf
-        | tfnorm
-        | boost
-        
-    
-    operation: "result of:" -> resultof
-              | "sum of:" -> sum
+    woperation:"result of:" -> resultof
+            | "product of:" -> productof
+            
+    operation: 
+              | "sum of:" -> sumof
               | "max of:" -> maxof
               | "computed from:" -> computedfrom 
-              | "product of:" -> product
+              
 
     
-    weight: "weight" "(" DESCRIPTION+ ")" "[SchemaSimilarity]" COMMA
+    score: FLOAT _EQUAL scoredesc _COMMA woperation boost? idf tfnorm
+    scoredesc: "score" "(" (DESCRIPTION | _EQUAL | _COMMA)+ ")"
     
-    score: "score" "(" (DESCRIPTION | EQUAL | COMMA)+ ")" COMMA
+    boost: FLOAT _EQUAL "boost" 
     
-    boost: "boost" 
-    
-    idf: ("idf" "(" idfdata ")")
-        | ("idf(), sum of:" FLOAT EQUAL idf+)
+    idf: FLOAT _EQUAL (("idf" "(" _idfdata ")") | ("idf(), sum of:" idf+ ))
         
     
-    tfnorm: "tfNorm" COMMA operation tffreq tfk1 tfb tfavgdl tfdl
-    tffreq:  FLOAT EQUAL ("termFreq"|"phraseFreq") EQUAL FLOAT
-    tfk1: FLOAT EQUAL "parameter k1"
-    tfb: FLOAT EQUAL "parameter b"
-    tfavgdl: FLOAT EQUAL "avgFieldLength"
-    tfdl: FLOAT EQUAL "fieldLength"
+    tfnorm: FLOAT _EQUAL "tfNorm" _COMMA operation tffreq tfk1 tfb tfavgdl tfdl
+    tffreq:  FLOAT _EQUAL (("termFreq"|"phraseFreq") _EQUAL _FLOAT)
+    tfk1: FLOAT _EQUAL "parameter k1"
+    tfb: FLOAT _EQUAL "parameter b"
+    tfavgdl: FLOAT _EQUAL "avgFieldLength"
+    tfdl: FLOAT _EQUAL "fieldLength"
     
-    idfdata: docfreq COMMA doccount
+    _idfdata: docfreq _COMMA doccount
     
-    docfreq: "docFreq" EQUAL DIGIT+
+    docfreq: "docFreq" _EQUAL _nums
     
-    doccount: "docCount" EQUAL nums
+    doccount: "docCount" _EQUAL _nums
     
-    nums: DIGIT+
+    _nums: /\d+/
     EQUAL: "="
+    _EQUAL: "="
+    _FLOAT: FLOAT
     
-    COMMA: ","
+    _COMMA: ","
     
-    DESCRIPTION: ("a".."z"|"A".."Z"|":"|FLOAT|DIGIT|EQUAL)+ | ESCAPED_STRING 
+    DESCRIPTION: ("a".."z"|"A".."Z"|":"|FLOAT|DIGIT)+ | ESCAPED_STRING
 
     %import common.ESCAPED_STRING
     %import common.STRING_INNER
@@ -74,7 +70,7 @@ test = r"""
 """
 expl_parser = Lark(grammar, start='expr')
 tree = expl_parser.parse(test)
-#print tree.pretty()
+print tree.pretty()
 
 test= r"""
 9.254193 = weight(title:weak in 51038) [SchemaSimilarity], result of:
@@ -99,7 +95,7 @@ test= r"""
             10.24 = fieldLength
 """
 tree = expl_parser.parse(test)
-#print tree.pretty()
+print tree.pretty()
 
 
 

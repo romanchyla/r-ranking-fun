@@ -1,0 +1,118 @@
+{
+  "responseHeader":{
+    "status":0,
+    "QTime":84,
+    "params":{
+      "q":"title:foo",
+      "indent":"on",
+      "fl":"title,author,score",
+      "wt":"json",
+      "debugQuery":"on"}},
+  "response":{"numFound":8,"start":0,"maxScore":24.86073,"docs":[
+      {
+        "author":["MohamadiShakiba, Nafiseh",
+          "Doostari, Mohamad-Ali",
+          "Norouzi, Shahin"],
+        "title":["I-FOO: An Enhancement to FOO Protocol"],
+        "score":24.86073},
+      {
+        "title":["Foo's paradise"],
+        "score":22.315474},
+      {
+        "author":["Fessenden, Richard W.",
+          "Schuler, Robert H."],
+        "title":["ESR Spectrum of FOO"],
+        "score":21.174852},
+      {
+        "author":["Denis, Pablo A.",
+          "Ventura, Oscar N."],
+        "title":["CCSDT study of the fluoroperoxyl radical, FOO"],
+        "score":20.292845},
+      {
+        "author":["Hinchliffe, Alan"],
+        "title":["Structure and properties of FCO, FOO, ClCO and ClOO"],
+        "score":19.06905},
+      {
+        "author":["McMullen, T."],
+        "title":["Polaron spectral function at finite temperature in Foo's approximation"],
+        "score":19.06905},
+      {
+        "author":["Denis, Pablo A.",
+          "Ventura, Oscar N."],
+        "title":["Corrigendum to ?CCSDT study of the fluoroperoxyl radical, FOO? [Chem. Phys. Lett. 385 (2004) 292?297]"],
+        "score":14.8496895},
+      {
+        "author":["Smith, Richard C. G.",
+          "Adams, Matthew",
+          "Gittins, Stewart",
+          "Gherardi, Steve",
+          "Wood, Duncan",
+          "Maier, Stefan",
+          "Stovold, Richard",
+          "Donald, Graham",
+          "Khohkar, Sarfraz",
+          "Allen, Adrian"],
+        "title":["Near real-time Feed On Offer (FOO) from MODIS for early season grazing management of Mediterranean annual pastures"],
+        "score":14.8496895}]
+  },
+  "debug":{
+    "rawquerystring":"title:foo",
+    "querystring":"title:foo",
+    "parsedquery":"title:foo",
+    "parsedquery_toString":"title:foo",
+    "explain":{
+      "22088101":"\n24.860731 = weight(title:foo in 91171) [SchemaSimilarity], result of:\n  24.860731 = score(doc=91171,freq=2.0 = termFreq=2.0\n), product of:\n    14.582924 = idf(docFreq=8, docCount=18310579)\n    1.7047837 = tfNorm, computed from:\n      2.0 = termFreq=2.0\n      1.2 = parameter k1\n      0.75 = parameter b\n      16.734879 = avgFieldLength\n      5.2244897 = fieldLength\n",
+      "24283616":"\n22.315474 = weight(title:foo in 120369) [SchemaSimilarity], result of:\n  22.315474 = score(doc=120369,freq=1.0 = termFreq=1.0\n), product of:\n    14.582924 = idf(docFreq=8, docCount=18310579)\n    1.5302469 = tfNorm, computed from:\n      1.0 = termFreq=1.0\n      1.2 = parameter k1\n      0.75 = parameter b\n      16.734879 = avgFieldLength\n      2.56 = fieldLength\n",
+      "15422661":"\n21.174852 = weight(title:foo in 180145) [SchemaSimilarity], result of:\n  21.174852 = score(doc=180145,freq=1.0 = termFreq=1.0\n), product of:\n    14.582924 = idf(docFreq=8, docCount=18310579)\n    1.4520307 = tfNorm, computed from:\n      1.0 = termFreq=1.0\n      1.2 = parameter k1\n      0.75 = parameter b\n      16.734879 = avgFieldLength\n      4.0 = fieldLength\n",
+      "19590164":"\n20.292847 = weight(title:foo in 16935) [SchemaSimilarity], result of:\n  20.292847 = score(doc=16935,freq=1.0 = termFreq=1.0\n), product of:\n    14.582924 = idf(docFreq=8, docCount=18310579)\n    1.3915485 = tfNorm, computed from:\n      1.0 = termFreq=1.0\n      1.2 = parameter k1\n      0.75 = parameter b\n      16.734879 = avgFieldLength\n      5.2244897 = fieldLength\n",
+      "16351153":"\n19.06905 = weight(title:foo in 270585) [SchemaSimilarity], result of:\n  19.06905 = score(doc=270585,freq=1.0 = termFreq=1.0\n), product of:\n    14.582924 = idf(docFreq=8, docCount=18310579)\n    1.3076288 = tfNorm, computed from:\n      1.0 = termFreq=1.0\n      1.2 = parameter k1\n      0.75 = parameter b\n      16.734879 = avgFieldLength\n      7.111111 = fieldLength\n",
+      "16470786":"\n19.06905 = weight(title:foo in 66126) [SchemaSimilarity], result of:\n  19.06905 = score(doc=66126,freq=1.0 = termFreq=1.0\n), product of:\n    14.582924 = idf(docFreq=8, docCount=18310579)\n    1.3076288 = tfNorm, computed from:\n      1.0 = termFreq=1.0\n      1.2 = parameter k1\n      0.75 = parameter b\n      16.734879 = avgFieldLength\n      7.111111 = fieldLength\n",
+      "19591310":"\n14.8496895 = weight(title:foo in 220599) [SchemaSimilarity], result of:\n  14.8496895 = score(doc=220599,freq=1.0 = termFreq=1.0\n), product of:\n    14.582924 = idf(docFreq=8, docCount=18310579)\n    1.018293 = tfNorm, computed from:\n      1.0 = termFreq=1.0\n      1.2 = parameter k1\n      0.75 = parameter b\n      16.734879 = avgFieldLength\n      16.0 = fieldLength\n",
+      "21451476":"\n14.8496895 = weight(title:foo in 313152) [SchemaSimilarity], result of:\n  14.8496895 = score(doc=313152,freq=1.0 = termFreq=1.0\n), product of:\n    14.582924 = idf(docFreq=8, docCount=18310579)\n    1.018293 = tfNorm, computed from:\n      1.0 = termFreq=1.0\n      1.2 = parameter k1\n      0.75 = parameter b\n      16.734879 = avgFieldLength\n      16.0 = fieldLength\n"},
+    "QParser":"AqpAdsabsQParser",
+    "timing":{
+      "time":84.0,
+      "prepare":{
+        "time":9.0,
+        "query":{
+          "time":8.0},
+        "facet":{
+          "time":0.0},
+        "facet_module":{
+          "time":0.0},
+        "mlt":{
+          "time":0.0},
+        "highlight":{
+          "time":0.0},
+        "stats":{
+          "time":0.0},
+        "expand":{
+          "time":0.0},
+        "terms":{
+          "time":0.0},
+        "wordcloud":{
+          "time":0.0},
+        "debug":{
+          "time":0.0}},
+      "process":{
+        "time":75.0,
+        "query":{
+          "time":63.0},
+        "facet":{
+          "time":0.0},
+        "facet_module":{
+          "time":0.0},
+        "mlt":{
+          "time":0.0},
+        "highlight":{
+          "time":0.0},
+        "stats":{
+          "time":0.0},
+        "expand":{
+          "time":0.0},
+        "terms":{
+          "time":0.0},
+        "wordcloud":{
+          "time":0.0},
+        "debug":{
+          "time":12.0}}}}}

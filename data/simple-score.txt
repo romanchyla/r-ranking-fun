@@ -1,0 +1,10 @@
+19.06905 = weight(title:foo in 270585) [SchemaSimilarity], result of:
+  19.06905 = score(doc=270585,freq=1.0 = termFreq=1.0
+), product of:
+    14.582924 = idf(docFreq=8, docCount=18310579)
+    1.3076288 = tfNorm, computed from:
+      1.0 = termFreq=1.0
+      1.2 = parameter k1
+      0.75 = parameter b
+      16.734879 = avgFieldLength
+      7.111111 = fieldLength

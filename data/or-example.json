@@ -1,0 +1,137 @@
+{
+  "responseHeader":{
+    "status":0,
+    "QTime":425,
+    "params":{
+      "q":"title:(foo or bar)",
+      "indent":"on",
+      "fl":"title,author,score",
+      "wt":"json",
+      "debugQuery":"on"}},
+  "response":{"numFound":11643,"start":0,"maxScore":25.45882,"docs":[
+      {
+        "author":["Chen, Wei",
+          "Steele, T. G.",
+          "Zhu, Shi-Lin"],
+        "title":["Exotic open-flavor $bc\\bar{q}\\bar{q}$, $bc\\bar{s}\\bar{s}$ and $qc\\bar{q}\\bar{b}$, $sc\\bar{s}\\bar{b}$ tetraquark states"],
+        "score":25.45882},
+      {
+        "author":["Chen, Wei",
+          "Chen, Hua-Xing",
+          "Liu, Xiang",
+          "Steele, T. G.",
+          "Zhu, Shi-Lin"],
+        "title":["Mass spectra for $qc\\bar q\\bar c$, $sc\\bar s\\bar c$, $qb\\bar q\\bar b$, $sb\\bar s\\bar b$ tetraquark states with $J^{PC}=0^{++}$ and $2^{++}$"],
+        "score":25.45882},
+      {
+        "author":["Fayyazuddin"],
+        "title":["The decays \\bar{B}->\\bar{K}D and \\bar{B}-> \\bar{K}\\bar{D} and final state interactions"],
+        "score":25.389145},
+      {
+        "author":["Fayyazuddin"],
+        "title":["The decays $\\bar{B}\\to \\bar{K}D$ and $\\bar{B}\\to \\bar{K}\\bar{D}$ and final state interactions"],
+        "score":25.389145},
+      {
+        "author":["Cui, Ying",
+          "Chen, Xiao-Lin",
+          "Deng, Wei-Zhen",
+          "Zhu, Shi-Lin"],
+        "title":["The Possible Heavy Tetraquarks $qQ\\bar q \\bar Q$, $qq\\bar Q \\bar Q$ and $qQ\\bar Q \\bar Q$"],
+        "score":25.281952},
+      {
+        "author":["Agaev, S. S.",
+          "Azizi, K.",
+          "Barsbay, B.",
+          "Sundu, H."],
+        "title":["The doubly charmed pseudoscalar tetraquarks $T_{cc;\\bar{s} \\bar{s}}^{++}$ and $T_{cc;\\bar{d} \\bar{s}}^{++}$"],
+        "score":25.201328},
+      {
+        "author":["MohamadiShakiba, Nafiseh",
+          "Doostari, Mohamad-Ali",
+          "Norouzi, Shahin"],
+        "title":["I-FOO: An Enhancement to FOO Protocol"],
+        "score":24.839085},
+      {
+        "author":["Primrose, E. J. F.",
+          "Freudenstein, F.",
+          "Roth, B."],
+        "title":["Six-bar motion III. Extension of the six-bar techniques to eight-bar and 2n-bar mechanisms"],
+        "score":24.247044},
+      {
+        "author":["Chen, Wei",
+          "Chen, Hua-Xing",
+          "Liu, Xiang",
+          "Steele, T. G.",
+          "Zhu, Shi-Lin"],
+        "title":["Open-flavor charmed/bottom $sq\\bar q\\bar Q$ and $qq\\bar q\\bar Q$ tetraquark states"],
+        "score":24.247044},
+      {
+        "author":["Naeem Anwar, Muhammad",
+          "Ferretti, Jacopo",
+          "Santopinto, Elena"],
+        "title":["Spectroscopy of the hidden-charm $[qc][\\bar q \\bar c]$ and $[sc][\\bar s \\bar c]$ tetraquarks"],
+        "score":24.247044}]
+  },
+  "debug":{
+    "rawquerystring":"title:(foo or bar)",
+    "querystring":"title:(foo or bar)",
+    "parsedquery":"title:foo (title:bar title:syn::bar)",
+    "parsedquery_toString":"title:foo (title:bar title:syn::bar)",
+    "explain":{
+      "25080673":"\n25.458822 = sum of:\n  25.458822 = sum of:\n    13.096327 = weight(title:bar in 167775) [SchemaSimilarity], result of:\n      13.096327 = score(doc=167775,freq=8.0 = termFreq=8.0\n), product of:\n        7.314764 = idf(docFreq=12040, docCount=18088648)\n        1.7903963 = tfNorm, computed from:\n          8.0 = termFreq=8.0\n          1.2 = parameter k1\n          0.75 = parameter b\n          16.729553 = avgFieldLength\n          28.444445 = fieldLength\n    12.362495 = weight(title:syn::bar in 167775) [SchemaSimilarity], result of:\n      12.362495 = score(doc=167775,freq=8.0 = termFreq=8.0\n), product of:\n        6.904893 = idf(docFreq=18140, docCount=18088648)\n        1.7903963 = tfNorm, computed from:\n          8.0 = termFreq=8.0\n          1.2 = parameter k1\n          0.75 = parameter b\n          16.729553 = avgFieldLength\n          28.444445 = fieldLength\n",
+      "25316809":"\n25.458822 = sum of:\n  25.458822 = sum of:\n    13.096327 = weight(title:bar in 1109) [SchemaSimilarity], result of:\n      13.096327 = score(doc=1109,freq=8.0 = termFreq=8.0\n), product of:\n        7.314764 = idf(docFreq=12040, docCount=18088648)\n        1.7903963 = tfNorm, computed from:\n          8.0 = termFreq=8.0\n          1.2 = parameter k1\n          0.75 = parameter b\n          16.729553 = avgFieldLength\n          28.444445 = fieldLength\n    12.362495 = weight(title:syn::bar in 1109) [SchemaSimilarity], result of:\n      12.362495 = score(doc=1109,freq=8.0 = termFreq=8.0\n), product of:\n        6.904893 = idf(docFreq=18140, docCount=18088648)\n        1.7903963 = tfNorm, computed from:\n          8.0 = termFreq=8.0\n          1.2 = parameter k1\n          0.75 = parameter b\n          16.729553 = avgFieldLength\n          28.444445 = fieldLength\n",
+      "24760516":"\n25.389145 = sum of:\n  25.389145 = sum of:\n    13.060484 = weight(title:bar in 209326) [SchemaSimilarity], result of:\n      13.060484 = score(doc=209326,freq=5.0 = termFreq=5.0\n), product of:\n        7.314764 = idf(docFreq=12040, docCount=18088648)\n        1.7854962 = tfNorm, computed from:\n          5.0 = termFreq=5.0\n          1.2 = parameter k1\n          0.75 = parameter b\n          16.729553 = avgFieldLength\n          16.0 = fieldLength\n    12.32866 = weight(title:syn::bar in 209326) [SchemaSimilarity], result of:\n      12.32866 = score(doc=209326,freq=5.0 = termFreq=5.0\n), product of:\n        6.904893 = idf(docFreq=18140, docCount=18088648)\n        1.7854962 = tfNorm, computed from:\n          5.0 = termFreq=5.0\n          1.2 = parameter k1\n          0.75 = parameter b\n          16.729553 = avgFieldLength\n          16.0 = fieldLength\n",
+      "24750577":"\n25.389145 = sum of:\n  25.389145 = sum of:\n    13.060484 = weight(title:bar in 184274) [SchemaSimilarity], result of:\n      13.060484 = score(doc=184274,freq=5.0 = termFreq=5.0\n), product of:\n        7.314764 = idf(docFreq=12040, docCount=18088648)\n        1.7854962 = tfNorm, computed from:\n          5.0 = termFreq=5.0\n          1.2 = parameter k1\n          0.75 = parameter b\n          16.729553 = avgFieldLength\n          16.0 = fieldLength\n    12.32866 = weight(title:syn::bar in 184274) [SchemaSimilarity], result of:\n      12.32866 = score(doc=184274,freq=5.0 = termFreq=5.0\n), product of:\n        6.904893 = idf(docFreq=18140, docCount=18088648)\n        1.7854962 = tfNorm, computed from:\n          5.0 = termFreq=5.0\n          1.2 = parameter k1\n          0.75 = parameter b\n          16.729553 = avgFieldLength\n          16.0 = fieldLength\n",
+      "24830677":"\n25.281952 = sum of:\n  25.281952 = sum of:\n    13.005343 = weight(title:bar in 1542) [SchemaSimilarity], result of:\n      13.005343 = score(doc=1542,freq=6.0 = termFreq=6.0\n), product of:\n        7.314764 = idf(docFreq=12040, docCount=18088648)\n        1.777958 = tfNorm, computed from:\n          6.0 = termFreq=6.0\n          1.2 = parameter k1\n          0.75 = parameter b\n          16.729553 = avgFieldLength\n          20.897959 = fieldLength\n    12.276609 = weight(title:syn::bar in 1542) [SchemaSimilarity], result of:\n      12.276609 = score(doc=1542,freq=6.0 = termFreq=6.0\n), product of:\n        6.904893 = idf(docFreq=18140, docCount=18088648)\n        1.777958 = tfNorm, computed from:\n          6.0 = termFreq=6.0\n          1.2 = parameter k1\n          0.75 = parameter b\n          16.729553 = avgFieldLength\n          20.897959 = fieldLength\n",
+      "26452844":"\n25.201328 = sum of:\n  25.201328 = sum of:\n    12.472973 = weight(title:bar in 9878) [SchemaSimilarity], result of:\n      12.472973 = score(doc=9878,freq=4.0 = termFreq=4.0\n), product of:\n        7.314764 = idf(docFreq=12040, docCount=18088648)\n        1.7051778 = tfNorm, computed from:\n          4.0 = termFreq=4.0\n          1.2 = parameter k1\n          0.75 = parameter b\n          16.729553 = avgFieldLength\n          16.0 = fieldLength\n    12.728354 = weight(title:syn::bar in 9878) [SchemaSimilarity], result of:\n      12.728354 = score(doc=9878,freq=6.0 = termFreq=6.0\n), product of:\n        6.904893 = idf(docFreq=18140, docCount=18088648)\n        1.8433819 = tfNorm, computed from:\n          6.0 = termFreq=6.0\n          1.2 = parameter k1\n          0.75 = parameter b\n          16.729553 = avgFieldLength\n          16.0 = fieldLength\n",
+      "22088101":"\n24.839083 = sum of:\n  24.839083 = weight(title:foo in 91171) [SchemaSimilarity], result of:\n    24.839083 = score(doc=91171,freq=2.0 = termFreq=2.0\n), product of:\n      14.570729 = idf(docFreq=8, docCount=18088648)\n      1.7047248 = tfNorm, computed from:\n        2.0 = termFreq=2.0\n        1.2 = parameter k1\n        0.75 = parameter b\n        16.729553 = avgFieldLength\n        5.2244897 = fieldLength\n",
+      "15454347":"\n24.247044 = sum of:\n  24.247044 = sum of:\n    12.472973 = weight(title:bar in 316189) [SchemaSimilarity], result of:\n      12.472973 = score(doc=316189,freq=4.0 = termFreq=4.0\n), product of:\n        7.314764 = idf(docFreq=12040, docCount=18088648)\n        1.7051778 = tfNorm, computed from:\n          4.0 = termFreq=4.0\n          1.2 = parameter k1\n          0.75 = parameter b\n          16.729553 = avgFieldLength\n          16.0 = fieldLength\n    11.77407 = weight(title:syn::bar in 316189) [SchemaSimilarity], result of:\n      11.77407 = score(doc=316189,freq=4.0 = termFreq=4.0\n), product of:\n        6.904893 = idf(docFreq=18140, docCount=18088648)\n        1.7051778 = tfNorm, computed from:\n          4.0 = termFreq=4.0\n          1.2 = parameter k1\n          0.75 = parameter b\n          16.729553 = avgFieldLength\n          16.0 = fieldLength\n",
+      "25308284":"\n24.247044 = sum of:\n  24.247044 = sum of:\n    12.472973 = weight(title:bar in 130338) [SchemaSimilarity], result of:\n      12.472973 = score(doc=130338,freq=4.0 = termFreq=4.0\n), product of:\n        7.314764 = idf(docFreq=12040, docCount=18088648)\n        1.7051778 = tfNorm, computed from:\n          4.0 = termFreq=4.0\n          1.2 = parameter k1\n          0.75 = parameter b\n          16.729553 = avgFieldLength\n          16.0 = fieldLength\n    11.77407 = weight(title:syn::bar in 130338) [SchemaSimilarity], result of:\n      11.77407 = score(doc=130338,freq=4.0 = termFreq=4.0\n), product of:\n        6.904893 = idf(docFreq=18140, docCount=18088648)\n        1.7051778 = tfNorm, computed from:\n          4.0 = termFreq=4.0\n          1.2 = parameter k1\n          0.75 = parameter b\n          16.729553 = avgFieldLength\n          16.0 = fieldLength\n",
+      "25794115":"\n24.247044 = sum of:\n  24.247044 = sum of:\n    12.472973 = weight(title:bar in 124164) [SchemaSimilarity], result of:\n      12.472973 = score(doc=124164,freq=4.0 = termFreq=4.0\n), product of:\n        7.314764 = idf(docFreq=12040, docCount=18088648)\n        1.7051778 = tfNorm, computed from:\n          4.0 = termFreq=4.0\n          1.2 = parameter k1\n          0.75 = parameter b\n          16.729553 = avgFieldLength\n          16.0 = fieldLength\n    11.77407 = weight(title:syn::bar in 124164) [SchemaSimilarity], result of:\n      11.77407 = score(doc=124164,freq=4.0 = termFreq=4.0\n), product of:\n        6.904893 = idf(docFreq=18140, docCount=18088648)\n        1.7051778 = tfNorm, computed from:\n          4.0 = termFreq=4.0\n          1.2 = parameter k1\n          0.75 = parameter b\n          16.729553 = avgFieldLength\n          16.0 = fieldLength\n"},
+    "QParser":"AqpAdsabsQParser",
+    "timing":{
+      "time":425.0,
+      "prepare":{
+        "time":16.0,
+        "query":{
+          "time":16.0},
+        "facet":{
+          "time":0.0},
+        "facet_module":{
+          "time":0.0},
+        "mlt":{
+          "time":0.0},
+        "highlight":{
+          "time":0.0},
+        "stats":{
+          "time":0.0},
+        "expand":{
+          "time":0.0},
+        "terms":{
+          "time":0.0},
+        "wordcloud":{
+          "time":0.0},
+        "debug":{
+          "time":0.0}},
+      "process":{
+        "time":408.0,
+        "query":{
+          "time":371.0},
+        "facet":{
+          "time":0.0},
+        "facet_module":{
+          "time":0.0},
+        "mlt":{
+          "time":0.0},
+        "highlight":{
+          "time":0.0},
+        "stats":{
+          "time":0.0},
+        "expand":{
+          "time":0.0},
+        "terms":{
+          "time":0.0},
+        "wordcloud":{
+          "time":0.0},
+        "debug":{
+          "time":36.0}}}}}

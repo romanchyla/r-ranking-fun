@@ -1,31 +1,36 @@
-from lark import Lark
+from lark import Lark, Tree
 
 grammar=r"""
-    expr: (FLOAT _EQUAL operation expr)+
-        | qweight+
+    expr: (FLOAT _EQUAL operation expr*)
+        | qscore+
     
-    qweight: FLOAT _EQUAL "weight" "(" wdescription ")" "[SchemaSimilarity]" _COMMA woperation score -> weight
+    qscore: FLOAT _EQUAL operation qweight+
+    
+    qweight: FLOAT _EQUAL "weight" "(" wdescription ")" "[SchemaSimilarity]" _COMMA wscore -> weight
     wdescription: DESCRIPTION+ -> wdescription
+    wscore: woperation score
         
     woperation:"result of:" -> resultof
-            | "product of:" -> productof
-            
-    operation: 
-              | "sum of:" -> sumof
-              | "max of:" -> maxof
+              | "product of:" -> productof
               | "computed from:" -> computedfrom 
+              | "max of:" -> maxof
+              | "sum of:" -> sumof
+              
+    operation: "sum of:" -> sumof
+              | "max of:" -> maxof
               
 
     
-    score: FLOAT _EQUAL scoredesc _COMMA woperation boost? idf tfnorm
+    score: FLOAT _EQUAL scoredesc _COMMA scorecomp
     scoredesc: "score" "(" (DESCRIPTION | _EQUAL | _COMMA)+ ")"
+    scorecomp:  woperation boost? idf tfnorm
     
     boost: FLOAT _EQUAL "boost" 
     
     idf: FLOAT _EQUAL (("idf" "(" _idfdata ")") | ("idf(), sum of:" idf+ ))
         
     
-    tfnorm: FLOAT _EQUAL "tfNorm" _COMMA operation tffreq tfk1 tfb tfavgdl tfdl
+    tfnorm: FLOAT _EQUAL "tfNorm" _COMMA woperation tffreq tfk1 tfb tfavgdl tfdl
     tffreq:  FLOAT _EQUAL (("termFreq"|"phraseFreq") _EQUAL _FLOAT)
     tfk1: FLOAT _EQUAL "parameter k1"
     tfb: FLOAT _EQUAL "parameter b"
@@ -55,7 +60,7 @@ grammar=r"""
     %ignore WS
 """
 
-test = r"""
+test1 = r"""
 19.06905 = weight(title:foo in 270585) [SchemaSimilarity], result of:
   19.06905 = score(doc=270585,freq=1.0 = termFreq=1.0
 ), product of:
@@ -68,38 +73,34 @@ test = r"""
       7.111111 = fieldLength
 
 """
-expl_parser = Lark(grammar, start='expr')
-tree = expl_parser.parse(test)
-print tree.pretty()
 
-test= r"""
-9.254193 = weight(title:weak in 51038) [SchemaSimilarity], result of:
-        9.254193 = score(doc=51038,freq=2.0 = termFreq=2.0
+test2= r"""
+25.458822 = sum of:
+  25.458822 = sum of:
+    13.096327 = weight(title:bar in 1109) [SchemaSimilarity], result of:
+      13.096327 = score(doc=1109,freq=8.0 = termFreq=8.0
 ), product of:
-          5.993038 = idf(docFreq=45639, docCount=18284546)
-          1.5441573 = tfNorm, computed from:
-            2.0 = termFreq=2.0
-            1.2 = parameter k1
-            0.75 = parameter b
-            16.773111 = avgFieldLength
-            10.24 = fieldLength
-      8.464998 = weight(title:syn::weak in 51038) [SchemaSimilarity], result of:
-        8.464998 = score(doc=51038,freq=2.0 = termFreq=2.0
+        7.314764 = idf(docFreq=12040, docCount=18088648)
+        1.7903963 = tfNorm, computed from:
+          8.0 = termFreq=8.0
+          1.2 = parameter k1
+          0.75 = parameter b
+          16.729553 = avgFieldLength
+          28.444445 = fieldLength
+    12.362495 = weight(title:syn::bar in 1109) [SchemaSimilarity], result of:
+      12.362495 = score(doc=1109,freq=8.0 = termFreq=8.0
 ), product of:
-          5.4819536 = idf(docFreq=76085, docCount=18284546)
-          1.5441573 = tfNorm, computed from:
-            2.0 = termFreq=2.0
-            1.2 = parameter k1
-            0.75 = parameter b
-            16.773111 = avgFieldLength
-            10.24 = fieldLength
+        6.904893 = idf(docFreq=18140, docCount=18088648)
+        1.7903963 = tfNorm, computed from:
+          8.0 = termFreq=8.0
+          1.2 = parameter k1
+          0.75 = parameter b
+          16.729553 = avgFieldLength
+          28.444445 = fieldLength
 """
-tree = expl_parser.parse(test)
-print tree.pretty()
 
 
-
-test= r"""
+test3= r"""
 132.459 = sum of:
   48.40565 = sum of:
     17.719193 = sum of:
@@ -216,5 +217,91 @@ test= r"""
           16.773111 = avgFieldLength
           10.24 = fieldLength
 """
-tree = expl_parser.parse(test)
-print tree.pretty()
+
+
+def parse_tree(tree):    
+    out = []
+    _parse_tree(tree, out)
+    return out
+
+def has_child(t, v):
+    if isinstance(t, Tree):
+        for c in t.children:
+            if hasattr(c, 'data') and c.data == v:
+                return v
+    return None
+
+def _parse_tree(t, out):
+    if not isinstance(t, Tree):
+        return
+    if t.data == 'idf':
+        # nested idf, made of multiple idf's - multi-token sitation
+        if has_child(t, 'idf'):
+            out.append('sum(')
+            l = len(out)
+            for x in t.children[1:]:
+                if len(out) != l:
+                    out.append(', ')
+                _parse_tree(x, out)
+            out.append(')')
+        else:
+            out.append('idf(')
+            out.append(t.children[1].children[0].value) # docfreq
+            out.append(',')
+            out.append(t.children[2].children[0].value) # doccount
+            out.append(')')
+    elif t.data == 'tfnorm':
+        out.append('tf(')
+        out.append(t.children[2].children[0].value) #tffreq
+        out.append(',')
+        out.append(t.children[3].children[0].value) #k1
+        out.append(',')
+        out.append(t.children[4].children[0].value) #b
+        out.append(',')
+        out.append(t.children[5].children[0].value) #avgdl
+        out.append(',')
+        out.append(t.children[6].children[0].value) #doclen
+        out.append(')')
+    
+    elif t.data == 'expr' and isinstance(t.children[0], Tree):
+        out.append('sum(')
+        l=len(out)
+        for x in t.children:
+            if len(out) != l:
+                out.append(', ')
+                l=len(out)
+            _parse_tree(x, out)
+        out.append(')')
+    elif t.data == 'expr' and not isinstance(t.children[0], Tree):
+        if t.children[1].data == 'sumof':
+            out.append('sum(')
+        elif t.children[1].data == 'maxof':
+            out.append('max(')
+        else:
+            raise Exception('Unknown tree: %s' % t)
+        l=len(out)
+        for x in t.children:
+            if len(out) != l:
+                out.append(', ')
+                l=len(out)
+            _parse_tree(x, out)
+        out.append(')')
+    elif has_child(t, 'productof'):
+        out.append('product(')
+        l = len(out)
+        for x in t.children[1:]:
+            if len(out) != l:
+                out.append(', ')
+                l = len(out)
+            _parse_tree(x, out)
+        out.append(')')
+    else:
+        for x in t.children:
+            _parse_tree(x, out)
+
+
+expl_parser = Lark(grammar, start='expr')
+tree = expl_parser.parse(test3)
+print tree.pretty(indent_str='   ')
+
+print ''.join(parse_tree(tree))

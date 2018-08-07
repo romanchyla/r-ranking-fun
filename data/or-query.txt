@@ -1,0 +1,22 @@
+25.458822 = sum of:
+  25.458822 = sum of:
+    13.096327 = weight(title:bar in 1109) [SchemaSimilarity], result of:
+      13.096327 = score(doc=1109,freq=8.0 = termFreq=8.0
+), product of:
+        7.314764 = idf(docFreq=12040, docCount=18088648)
+        1.7903963 = tfNorm, computed from:
+          8.0 = termFreq=8.0
+          1.2 = parameter k1
+          0.75 = parameter b
+          16.729553 = avgFieldLength
+          28.444445 = fieldLength
+    12.362495 = weight(title:syn::bar in 1109) [SchemaSimilarity], result of:
+      12.362495 = score(doc=1109,freq=8.0 = termFreq=8.0
+), product of:
+        6.904893 = idf(docFreq=18140, docCount=18088648)
+        1.7903963 = tfNorm, computed from:
+          8.0 = termFreq=8.0
+          1.2 = parameter k1
+          0.75 = parameter b
+          16.729553 = avgFieldLength
+          28.444445 = fieldLength

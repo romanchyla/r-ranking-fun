@@ -5,15 +5,15 @@ from lark.indenter import Indenter
 grammar=r"""
 
     
-    expr: _NL* key sumof _NL
+    _expr: key sumof
     
         
-    sumof: ("sum of:" (key weight)+) -> sumof
-        | ("sum of:" (key sumof)+) -> sumgroup
-        | ("max of:" (key sumof)+) -> maxof
+    sumof: ("sum of:" "[" (key weight)+ "]") -> sumof
+        | ("sum of:" "[" (key sumof)+ "]") -> sumof
+        | ("max of:" "[" (key sumof)+ "]" ) -> maxof
         
     
-    key: FLOAT _EQUAL
+    key: FLOAT _EQUAL -> result
         
     weights: "sum of:" weight+
     weight: "weight" "(" wdescription ")" "[SchemaSimilarity]" _COMMA wscore
@@ -40,7 +40,7 @@ grammar=r"""
     
     boost: FLOAT _EQUAL "boost" 
     
-    idf: FLOAT _EQUAL (("idf" "(" _idfdata ")") | ("idf(), sum of:" idf+ ))
+    idf: FLOAT _EQUAL (("idf" "(" _idfdata ")") | ("idf(), sum of:" "[" idf+ "]" ))
         
     
     tfnorm: FLOAT _EQUAL "tfNorm" _COMMA woperation tffreq tfk1 tfb tfavgdl tfdl
@@ -71,13 +71,8 @@ grammar=r"""
     %import common.DIGIT
     %import common.WS
     
-    //%ignore WS
+    %ignore WS
     
-    %import common.WS_INLINE
-    %declare _INDENT _DEDENT
-    %ignore WS_INLINE
-    
-    _NL: /(\r?\n[\t ]*)+/
 """
 
 test1 = r"""
@@ -329,12 +324,58 @@ class TreeIndenter(Indenter):
 
 def cleanup(text):
     t = re.sub(r'\n\)', ")", text, flags=re.MULTILINE)
-    return t
+    
+    t2 = add_brackets(t)
+    return t2
+
+def add_brackets(t):
+    """Because blocks are indented by space only, the parser makes
+    mistakes in assigning children to proper parents. We add brackets
+    to demarkate every block.
+    """
+    
+    t = t.strip()
+    lines = t.splitlines()
+    i = 0
+    
+    while i < len(lines):
+        if lines[i].endswith('sum of:') or lines[i].endswith('max of:'):
+            _add_brackets(i, lines)
+        i += 1
+    return '\n'.join(lines)
+    
+def _add_brackets(i, lines):
+    assert i < len(lines)
+    
+    def count_indent(line):
+        j = 0
+        while j < len(line):
+            if line[j] != " ":
+                break
+            j += 1
+        return j
+    
+    # count number of spaces in the starting line
+    indent = count_indent(lines[i])
+    
+    
+    # now go through all bottom lines and consider all children
+    # (only those that have higher indent)
+    j = i
+    while j+1 < len(lines):
+        k = count_indent(lines[j+1])
+        if k > indent:
+            j+=1
+        else:
+            break
+    
+    # i points to the start of the block, j = end of block
+    lines[i] += '['
+    lines[j] += ']'
 
 
-
-expl_parser = Lark(grammar, start='expr', parser='lalr', postlex=TreeIndenter())
-tree = expl_parser.parse(cleanup(test3))
+expl_parser = Lark(grammar, start='_expr')
+tree = expl_parser.parse(cleanup(test2))
 print tree.pretty(indent_str='   ')
 
 print ''.join(parse_tree(tree))

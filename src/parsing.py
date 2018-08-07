@@ -1,11 +1,11 @@
 import re
-from lark import Lark, Tree
-from lark.indenter import Indenter
+from lark import Lark, Tree, Transformer, Visitor
+
 
 grammar=r"""
 
     
-    _expr: key sumof
+    start: key sumof
     
         
     sumof: ("sum of:" "[" (key weight)+ "]") -> sumof
@@ -314,13 +314,6 @@ def _parse_tree(t, out):
         for x in t.children:
             _parse_tree(x, out)
 
-class TreeIndenter(Indenter):
-    NL_type = '_NL'
-    OPEN_PAREN_types = []
-    CLOSE_PAREN_types = []
-    INDENT_type = '_INDENT'
-    DEDENT_type = '_DEDENT'
-    tab_len = 2
 
 def cleanup(text):
     t = re.sub(r'\n\)', ")", text, flags=re.MULTILINE)
@@ -374,8 +367,120 @@ def _add_brackets(i, lines):
     lines[j] += ']'
 
 
-expl_parser = Lark(grammar, start='_expr')
-tree = expl_parser.parse(cleanup(test2))
-print tree.pretty(indent_str='   ')
+expl_parser = Lark(grammar)
+tree = expl_parser.parse(cleanup(test3))
+print tree.pretty(indent_str=' ')
 
-print ''.join(parse_tree(tree))
+#print ''.join(parse_tree(tree))
+
+#from lark.tree import pydot__tree_to_png    # Just a neat utility function
+#pydot__tree_to_png(tree, "explanation_tree.png")
+
+class Simplifier(Transformer):
+    def __init__(self, *args, **kwargs):
+        self.stack = []
+        self.result = ''
+    def xstart(self, node):
+        print 'start'
+    def xsumof(self, children):
+        print 'sumof'
+
+class MyVisitor(Visitor):    
+    def idf(self, node):
+        node.formula = 'idf(%s, %s)' % (node.children[1].children[0].value, node.children[2].children[0].value)
+    def tfnorm(self, node):
+        node.formula = 'tf(%s, %s, %s, %s, %s)' % (
+            node.children[2].children[0].value, #tffreq
+            node.children[3].children[0].value, #k1
+            node.children[4].children[0].value, #b
+            node.children[5].children[0].value, #avgdl
+            node.children[6].children[0].value) #doclen
+        
+    def sumof(self, node):
+        out = []
+        for x in node.children:
+            if hasattr(x, 'formula'):
+                out.append(x.formula)
+        node.formula = 'sum(%s)' % ', '.join(out)
+    def maxof(self, node):
+        out = []
+        for x in node.children:
+            if hasattr(x, 'formula'):
+                out.append(x.formula)
+        node.formula = 'max(%s)' % ', '.join(out)
+    def weight(self, node):
+        idf = self._find(node, 'idf')
+        tf = self._find(node, 'tfnorm')
+        descr = self._find(node, 'wdescription')
+        node.formula = 'weight("%s", %s, %s)' % (descr.children[0].value, tf, idf)
+        
+    def _find(self, node, name):
+        queue = [node]
+        while len(queue):
+            x = queue.pop()
+            if isinstance(x, Tree):
+                if x.data == name:
+                    if hasattr(x, 'formula'):
+                        return x.formula
+                    else:
+                        return x
+                for c in x.children:
+                    queue.insert(0, c)
+    def start(self, node):
+        for x in node.children:
+            if hasattr(x, 'formula'):
+                self.formula = x.formula
+        self.result = node.children[0].children[0].value
+
+v = MyVisitor()
+v.visit(tree)
+
+print v.result, v.formula
+#formula = MyVisitor().visit(tree)
+
+
+exit(0)
+
+class MyTransformer(Transformer):
+    def __init__(self):
+        self.stack = []
+        self.weights = []
+        self.sumofs = []
+    
+    def maxof(self, nodes):
+        out = list(reversed(self.sumofs))
+        out += list(reversed(self.weights))
+        self.sumofs = []
+        self.weights = []
+        self.sumofs = ['max(%s)' % (', '.join(out))]
+        print 'maxof', self.sumofs
+        
+    def sumof(self, nodes):
+        out = []
+        while len(self.weights):
+            out.append(self.weights.pop(0))
+        self.sumofs.append('sum(%s)' % (', '.join(out)))
+        print 'sumof', self.sumofs
+        
+    def weight(self, nodes):
+        print 'weight'
+        idf = self.stack.pop(0)
+        tf = self.stack.pop(0)
+        self.weights.insert(0, 'weight("%s", %s, %s)' % (nodes[0].children[0].value, tf, idf))
+    
+    def idf(self, nodes):
+        print 'idf', self.stack
+        self.stack.insert(0, 'idf(%s, %s)' % (nodes[1].children[0].value, nodes[2].children[0].value))
+        return nodes
+    
+    def tfnorm(self, nodes):
+        print 'tfnorm'
+        self.stack.append('tf(%s, %s, %s, %s, %s)' % (
+            nodes[2].children[0].value, #tffreq
+            nodes[3].children[0].value, #k1
+            nodes[4].children[0].value, #b
+            nodes[5].children[0].value, #avgdl
+            nodes[6].children[0].value)) #doclen
+        return nodes
+
+new_tree = MyTransformer().transform(tree)

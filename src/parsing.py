@@ -4,13 +4,9 @@ from lark.indenter import Indenter
 
 grammar=r"""
 
-    //?start: _NL* expr
     
-    expr: key sumof
+    expr: _NL* key sumof _NL
     
-    pair: key value
-    
-    value: sumof
         
     sumof: ("sum of:" (key weight)+) -> sumof
         | ("sum of:" (key sumof)+) -> sumgroup
@@ -74,9 +70,14 @@ grammar=r"""
     %import common.FLOAT
     %import common.DIGIT
     %import common.WS
-    %ignore WS
     
+    //%ignore WS
     
+    %import common.WS_INLINE
+    %declare _INDENT _DEDENT
+    %ignore WS_INLINE
+    
+    _NL: /(\r?\n[\t ]*)+/
 """
 
 test1 = r"""
@@ -332,7 +333,7 @@ def cleanup(text):
 
 
 
-expl_parser = Lark(grammar, start='expr')
+expl_parser = Lark(grammar, start='expr', parser='lalr', postlex=TreeIndenter())
 tree = expl_parser.parse(cleanup(test3))
 print tree.pretty(indent_str='   ')
 

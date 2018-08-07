@@ -1,12 +1,29 @@
+import re
 from lark import Lark, Tree
+from lark.indenter import Indenter
 
 grammar=r"""
-    expr: (FLOAT _EQUAL operation expr*)
-        | qscore+
+
+    //?start: _NL* expr
     
-    qscore: FLOAT _EQUAL operation qweight+
+    expr: key sumof
     
-    qweight: FLOAT _EQUAL "weight" "(" wdescription ")" "[SchemaSimilarity]" _COMMA wscore -> weight
+    pair: key value
+    
+    value: sumof
+        
+    sumof: ("sum of:" (key weight)+) -> sumof
+        | ("sum of:" (key sumof)+) -> sumgroup
+        | ("max of:" (key sumof)+) -> maxof
+        
+    
+    key: FLOAT _EQUAL
+        
+    weights: "sum of:" weight+
+    weight: "weight" "(" wdescription ")" "[SchemaSimilarity]" _COMMA wscore
+    maxweight: "max of:" ((key weights)|weight)+
+    
+ 
     wdescription: DESCRIPTION+ -> wdescription
     wscore: woperation score
         
@@ -58,6 +75,8 @@ grammar=r"""
     %import common.DIGIT
     %import common.WS
     %ignore WS
+    
+    
 """
 
 test1 = r"""
@@ -299,9 +318,22 @@ def _parse_tree(t, out):
         for x in t.children:
             _parse_tree(x, out)
 
+class TreeIndenter(Indenter):
+    NL_type = '_NL'
+    OPEN_PAREN_types = []
+    CLOSE_PAREN_types = []
+    INDENT_type = '_INDENT'
+    DEDENT_type = '_DEDENT'
+    tab_len = 2
+
+def cleanup(text):
+    t = re.sub(r'\n\)', ")", text, flags=re.MULTILINE)
+    return t
+
+
 
 expl_parser = Lark(grammar, start='expr')
-tree = expl_parser.parse(test3)
+tree = expl_parser.parse(cleanup(test3))
 print tree.pretty(indent_str='   ')
 
 print ''.join(parse_tree(tree))

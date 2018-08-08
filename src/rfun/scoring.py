@@ -5,7 +5,7 @@ import math
 
 class ExplanationParser(object):
     def __init__(self):
-        self.parser = Lark(grammar)
+        self.parser = Lark(grammar, parser='lalr')
         
     def parse(self, input):
         """Receives explanation from one lucene document (as generated

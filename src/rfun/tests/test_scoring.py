@@ -2,8 +2,10 @@
 import unittest
 import timeit
 import sys
+import math
 
-from rfun.scoring import ExplanationParser, Scorer
+from rfun.scoring import ExplanationParser, LuceneBM25Scorer, IDFNormalizer,\
+    FlexibleScorer
 
 class Test(unittest.TestCase):
     
@@ -11,20 +13,37 @@ class Test(unittest.TestCase):
         p = ExplanationParser()
         score, formula = p.parse(test1)
         self.assertEquals(score, 19.06905)
-        self.assertEquals(formula, 'weight("title:foo", tf(1.0, 1.2, 0.75, 16.734879, 7.111111), idf(8, 18310579))')
+        self.assertEquals(formula, 'weight("title:foo in 270585", tf(1.0, 1.2, 0.75, 16.734879, 7.111111), idf(8, 18310579))')
+    
+    def test_output_params(self):
+        p = ExplanationParser(use_kwargs=True, flatten_tfidf=False)
+        _, formula = p.parse(test1)
+        self.assertEquals(formula, 'weight(term="title:foo in 270585", tf=tf(tfreq=1.0, k1=1.2, b=0.75, avgdoclen=16.734879, doclen=7.111111), idf=idf(docfreq=8, colfreq=18310579))')
+        
+        p = ExplanationParser(use_kwargs=True, flatten_tfidf=True)
+        _, formula = p.parse(test1)
+        self.assertEquals(formula, 'weight(term="title:foo in 270585", tfreq=1.0, k1=1.2, b=0.75, avgdoclen=16.734879, doclen=7.111111, docfreq=8, colfreq=18310579)')
+        
+        p = ExplanationParser(use_kwargs=False, flatten_tfidf=True)
+        _, formula = p.parse(test1)
+        self.assertEquals(formula, 'weight("title:foo in 270585", 1.0, 1.2, 0.75, 16.734879, 7.111111, 8, 18310579)')
+        
+        p = ExplanationParser(use_kwargs=None, flatten_tfidf=None) # default
+        _, formula = p.parse(test1)
+        self.assertEquals(formula, 'weight("title:foo in 270585", tf(1.0, 1.2, 0.75, 16.734879, 7.111111), idf(8, 18310579))')
         
     def test_simple(self):
         p = ExplanationParser()
         score, formula = p.parse(test2)
         self.assertEquals(score, 25.458822)
-        self.assertEquals(formula, 'sum(sum(weight("title:bar", tf(8.0, 1.2, 0.75, 16.729553, 28.444445), idf(12040, 18088648)), weight("title:syn::bar", tf(8.0, 1.2, 0.75, 16.729553, 28.444445), idf(18140, 18088648))))')
+        self.assertEquals(formula, 'sum(sum(weight("title:bar in 1109", tf(8.0, 1.2, 0.75, 16.729553, 28.444445), idf(12040, 18088648)), weight("title:syn::bar in 1109", tf(8.0, 1.2, 0.75, 16.729553, 28.444445), idf(18140, 18088648))))')
 
     def test_complex(self):
         self.maxDiff = None
         p = ExplanationParser()
         score, formula = p.parse(test3)
         self.assertEquals(score, 132.459)
-        self.assertEquals(formula, 'sum(sum(sum(weight("title:weak", tf(2.0, 1.2, 0.75, 16.773111, 10.24), idf(45639, 18284546)), weight("title:syn::weak", tf(2.0, 1.2, 0.75, 16.773111, 10.24), idf(76085, 18284546))), max(sum(weight("abstract:lensing", tf(5.0, 1.2, 0.75, 184.32286, 163.84), idf(27671, 12046232), 1.3), weight("abstract:syn::lens", tf(6.0, 1.2, 0.75, 184.32286, 163.84), idf(105585, 12046232), 1.3)), sum(weight("title:lensing", tf(2.0, 1.2, 0.75, 16.773111, 10.24), idf(11533, 18284546), 1.5), weight("title:syn::lens", tf(2.0, 1.2, 0.75, 16.773111, 10.24), idf(51108, 18284546), 1.5)))), sum(weight("title:", tf(4.0, 1.2, 0.75, 16.773111, 10.24), idfgroup(idf(45639, 18284546), idf(76085, 18284546), idf(11533, 18284546), idf(51108, 18284546))), weight("title:syn::weak", tf(2.0, 1.2, 0.75, 16.773111, 10.24), idf(4365, 18284546)), weight("title:syn::gravitational", tf(2.0, 1.2, 0.75, 16.773111, 10.24), idf(3800, 18284546)), weight("title:syn::weak", tf(2.0, 1.2, 0.75, 16.773111, 10.24), idf(3502, 18284546))))')
+        self.assertEquals(formula, 'sum(sum(sum(weight("title:weak in 51038", tf(2.0, 1.2, 0.75, 16.773111, 10.24), idf(45639, 18284546)), weight("title:syn::weak in 51038", tf(2.0, 1.2, 0.75, 16.773111, 10.24), idf(76085, 18284546))), max(sum(weight("abstract:lensing in 51038", tf(5.0, 1.2, 0.75, 184.32286, 163.84), idf(27671, 12046232), 1.3), weight("abstract:syn::lens in 51038", tf(6.0, 1.2, 0.75, 184.32286, 163.84), idf(105585, 12046232), 1.3)), sum(weight("title:lensing in 51038", tf(2.0, 1.2, 0.75, 16.773111, 10.24), idf(11533, 18284546), 1.5), weight("title:syn::lens in 51038", tf(2.0, 1.2, 0.75, 16.773111, 10.24), idf(51108, 18284546), 1.5)))), sum(weight("title: \\"(weak syn::weak) (lensing syn::lens)\\" in 51038", tf(4.0, 1.2, 0.75, 16.773111, 10.24), idfgroup(idf(45639, 18284546), idf(76085, 18284546), idf(11533, 18284546), idf(51108, 18284546))), weight("title:syn::weak lensing in 51038", tf(2.0, 1.2, 0.75, 16.773111, 10.24), idf(4365, 18284546)), weight("title:syn::gravitational microlensing in 51038", tf(2.0, 1.2, 0.75, 16.773111, 10.24), idf(3800, 18284546)), weight("title:syn::weak gravitational lensing in 51038", tf(2.0, 1.2, 0.75, 16.773111, 10.24), idf(3502, 18284546))))')
         
     def test_get_tree(self):
         self.maxDiff = None
@@ -33,10 +52,34 @@ class Test(unittest.TestCase):
         tree = tree.replace('\t', '    ')
         self.assertEquals(tree, test1_tree)
 
-    def test_scorer(self):
+    
+class TestScorers(unittest.TestCase):
+    
+    def test_lucene_scorer(self):
         for s,t in ((19.06905, test1), (25.458822, test2), (132.459, test3)):
-            scorer = Scorer(t)
-            self.assertAlmostEqual(s, scorer.run(), msg="Computed result %s differs too much from the one reported by Lucene (%s)" % (s, scorer.run()), delta=0.00005)
+            p = ExplanationParser()
+            _, formula = p.parse(t)
+            scorer = LuceneBM25Scorer()
+            self.assertAlmostEqual(s, scorer.run(formula), msg="Computed result %s differs too much from the one reported by Lucene (%s)" % (s, scorer.run(formula)), delta=0.00005)
+
+    def test_normalizer(self):
+        """The test is engineered in a way that 
+            IDF ~= 1.0
+            therefore normalization of the whole sum() is 2.0
+            which returns normalized IDF 1.0/2.0 = 0.5
+            tfreq is 1.0 and b=0
+            so the returned score is 0.5 per term
+            i.e. 1.0 total
+        """
+        s = IDFNormalizer(k1=1.0, b=0)
+        
+        docfreq = 1.0
+        colfreq = math.e * docfreq + 0.35914
+        formula = 'sum(sum(weight(term="title:bar in 1109", tfreq=1.0, k1=1.2, b=0.75, avgdoclen=16.729553, doclen=28.444445, docfreq={docfreq}, colfreq={colfreq}), weight(term="title:syn::bar in 1109", tfreq=1.0, k1=1.2, b=0.75, avgdoclen=16.729553, doclen=28.444445, docfreq={docfreq}, colfreq={colfreq})))'.format(colfreq=colfreq, docfreq=docfreq)
+        self.assertAlmostEqual(2.0, s.run(formula), delta=0.00005)
+        
+        scorer = FlexibleScorer(k1=1.0, b=0, idf_normalization=True)
+        self.assertAlmostEqual(1.0, scorer.run(formula))
 
 
 test1 = r"""
@@ -80,10 +123,10 @@ test1_tree=u"""start
      tfnorm
       1.3076288
       computedfrom
-      tffreq    1.0
+      tfreq    1.0
       tfk1    1.2
       tfb    0.75
-      tfavgdl    16.734879
+      tfavgdoclen    16.734879
       tfdl    7.111111
 """
 

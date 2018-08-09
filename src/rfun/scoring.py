@@ -4,8 +4,10 @@ from lark.tree import pydot__tree_to_png
 import math
 
 class ExplanationParser(object):
-    def __init__(self):
+    def __init__(self, flatten_tfidf=False, use_kwargs=False):
         self.parser = Lark(grammar, parser='lalr')
+        self.flatten_tfidf = flatten_tfidf
+        self.use_kwargs = use_kwargs
         
     def parse(self, input):
         """Receives explanation from one lucene document (as generated
@@ -18,7 +20,8 @@ class ExplanationParser(object):
         # however I am using this class only as a wrapper for useful
         # methods; maybe will change that later...
         tree = self._get_tree(input)
-        visitor = TreeVisitor() 
+        visitor = TreeVisitor(flatten_tfidf=self.flatten_tfidf,
+                              use_kwargs=self.use_kwargs) 
         visitor.visit(tree)
         return (float(visitor.score), visitor.formula)
     
@@ -124,11 +127,11 @@ grammar=r"""
     idf: FLOAT _EQUAL (("idf" "(" _idfdata ")") | ("idf(), sum of:" "[" idf+ "]" ))
         
     
-    tfnorm: FLOAT _EQUAL "tfNorm" _COMMA woperation tffreq tfk1 tfb tfavgdl tfdl
-    tffreq:  FLOAT _EQUAL (("termFreq"|"phraseFreq") _EQUAL _FLOAT)
+    tfnorm: FLOAT _EQUAL "tfNorm" _COMMA woperation tfreq tfk1 tfb tfavgdoclen tfdl
+    tfreq:  FLOAT _EQUAL (("termFreq"|"phraseFreq") _EQUAL _FLOAT)
     tfk1: FLOAT _EQUAL "parameter k1"
     tfb: FLOAT _EQUAL "parameter b"
-    tfavgdl: FLOAT _EQUAL "avgFieldLength"
+    tfavgdoclen: FLOAT _EQUAL "avgFieldLength"
     tfdl: FLOAT _EQUAL "fieldLength"
     
     _idfdata: docfreq _COMMA doccount
@@ -160,7 +163,11 @@ grammar=r"""
 
 
 class TreeVisitor(Visitor):
-    """Will extract algebraic expression from the parsed tree"""    
+    """Will extract algebraic expression from the parsed tree"""
+    def __init__(self, use_kwargs=False, flatten_tfidf=False):
+        self.use_kwargs = use_kwargs
+        self.flatten_tfidf = flatten_tfidf
+        
     def idf(self, node):
         # for phrases, idf for every token
         out = []
@@ -170,14 +177,30 @@ class TreeVisitor(Visitor):
         if len(out):
             node.formula = 'idfgroup(%s)' % (', '.join(out))
         else:
-            node.formula = 'idf(%s, %s)' % (node.children[1].children[0].value, node.children[2].children[0].value)
+            if self.use_kwargs and self.flatten_tfidf:
+                node.formula = 'docfreq=%s, colfreq=%s' % (node.children[1].children[0].value, node.children[2].children[0].value)
+            elif self.use_kwargs and not self.flatten_tfidf:
+                node.formula = 'idf(docfreq=%s, colfreq=%s)' % (node.children[1].children[0].value, node.children[2].children[0].value)
+            elif not self.use_kwargs and self.flatten_tfidf:
+                node.formula = '%s, %s' % (node.children[1].children[0].value, node.children[2].children[0].value)
+            else:
+                node.formula = 'idf(%s, %s)' % (node.children[1].children[0].value, node.children[2].children[0].value)
             
     def tfnorm(self, node):
-        node.formula = 'tf(%s, %s, %s, %s, %s)' % (
-            node.children[2].children[0].value, #tffreq
+        if self.use_kwargs and self.flatten_tfidf:
+            tmpl = 'tfreq=%s, k1=%s, b=%s, avgdoclen=%s, doclen=%s'
+        elif self.use_kwargs and not self.flatten_tfidf:
+            tmpl = 'tf(tfreq=%s, k1=%s, b=%s, avgdoclen=%s, doclen=%s)'
+        elif not self.use_kwargs and self.flatten_tfidf:
+            tmpl = '%s, %s, %s, %s, %s'
+        else:
+            tmpl = 'tf(%s, %s, %s, %s, %s)'
+            
+        node.formula = tmpl % (
+            node.children[2].children[0].value, #tfreq
             node.children[3].children[0].value, #k1
             node.children[4].children[0].value, #b
-            node.children[5].children[0].value, #avgdl
+            node.children[5].children[0].value, #avgdoclen
             node.children[6].children[0].value) #doclen
     
     def boost(self, node):
@@ -189,12 +212,20 @@ class TreeVisitor(Visitor):
             if hasattr(x, 'formula'):
                 out.append(x.formula)
         node.formula = 'sum(%s)' % ', '.join(out)
+        
     def maxof(self, node):
         out = []
         for x in node.children:
             if hasattr(x, 'formula'):
                 out.append(x.formula)
         node.formula = 'max(%s)' % ', '.join(out)
+        
+    def wdescription(self, node):
+        out = []
+        for x in node.children:
+            out.append(str(x).replace('"', '\\"'))
+        node.formula = (' '.join(out))
+        
     def weight(self, node):
         idf = self._find(node, 'idf')
         tf = self._find(node, 'tfnorm')
@@ -202,9 +233,21 @@ class TreeVisitor(Visitor):
         boost = self._find(node, 'boost')
         
         if boost:
-            node.formula = 'weight("%s", %s, %s, %s)' % (descr.children[0].value, tf, idf, boost)
+            if self.use_kwargs:
+                if self.flatten_tfidf:
+                    node.formula = 'weight(term="%s", %s, %s, boost=%s)' % (descr, tf, idf, boost)
+                else:
+                    node.formula = 'weight(term="%s", tf=%s, idf=%s, boost=%s)' % (descr, tf, idf, boost)
+            else:
+                node.formula = 'weight("%s", %s, %s, %s)' % (descr, tf, idf, boost)
         else:
-            node.formula = 'weight("%s", %s, %s)' % (descr.children[0].value, tf, idf)
+            if self.use_kwargs:
+                if self.flatten_tfidf:
+                    node.formula = 'weight(term="%s", %s, %s)' % (descr, tf, idf)
+                else:
+                    node.formula = 'weight(term="%s", tf=%s, idf=%s)' % (descr, tf, idf)
+            else:
+                node.formula = 'weight("%s", %s, %s)' % (descr, tf, idf)
         
     def _find(self, node, name):
         queue = [node]
@@ -226,16 +269,9 @@ class TreeVisitor(Visitor):
 
 
 
-class Scorer():
-    """Base class for scoring lucene documents"""
+class LuceneBM25Scorer(object):
+    """Should produce exactly the same results as Lucene"""
     
-    parser = ExplanationParser()
-    
-    def __init__(self, input):
-        score, formula = Scorer.parser.parse(input)
-        self.orig_score = score
-        self.formula = formula
-        
     def idfgroup(self, *args):
         return sum(args)
     
@@ -250,14 +286,17 @@ class Scorer():
     def max(self, *args):
         return max(args)
     
-    def tf(self, freq, k1, b, avgdoclen, doclen):
+    def tf(self, tfreq, k1, b, avgdoclen, doclen):
         L = doclen/avgdoclen
-        return ((k1+1)*freq)/(k1*(1.0-b+b*L)+freq)
+        return ((k1+1)*tfreq)/(k1*(1.0-b+b*L)+tfreq)
     
     def idf(self, docfreq, doccount):
         return math.log(1+(doccount-docfreq+0.5)/(docfreq + 0.5))
     
-    def run(self):
+    def run(self, formula):
+        return self._eval(formula)
+    
+    def _eval(self, formula):
         """Executes the calculation and returns the final score"""
         locals = {
             'sum': self.sum,
@@ -265,5 +304,142 @@ class Scorer():
             'weight': self.weight,
             'tf': self.tf,
             'idf': self.idf,
-            'idfgroup': self.idfgroup}
-        return eval(self.formula, None, locals)
+            'idfgroup': self.idfgroup
+            }
+        return eval(formula, None, locals)
+
+    
+
+class FlexibleScorer(LuceneBM25Scorer):
+    """With this class we can vary parameters that are used
+    for computation of the scores. The algebraic formulas
+    consumed by this scorer have to be generated with
+    flatten_tfidf=True; so they have to look like so:
+    
+    weight("title:foo", 1.0, 1.2, 0.75, 16.734879, 7.111111, 8, 18310579)
+        or 
+    weight(term="title:foo in 12019", tfreq=1.0, k1=1.2, b=0.75, avgdoclen=16.734879, doclen=7.111111, docfreq=8, colfreq=18310579)
+    """
+    
+    def __init__(self, k1=1.2, b=0.75, perfield_kb=None,
+                 idf_normalization=False, perfield_avgdoclen=None,
+                 perdoc_boost=None):
+        """
+        Parameters and how they affect score calculations:
+        
+            @param k1 : k1 to override defaults (used if perfield_kb[field] is not found)
+            @param b : to override b on BM25 computation (in the k1*(1-b+b*L))
+            @param perfield_kb: dict, contains k1 and b values specific to a field, 
+                example: {'title_k1': 1.2, 'body_b': 0.5}
+            @param idf_normalization: bool, whether to normalize IDF portion of the
+                formula before calculating the final score; see 
+                normalize_idf method for details. NOTE: normalizatin will double 
+                the time we spend in performing the calculations.
+            @param perfield_avgdoclen: dict, to override average doclen that is
+                used for computation in |doclen|/avgDocLen -- which is the L
+                factor of BM25 formula (a part of length normalization); you may 
+                want to use median instead of averages for example
+            @param perdoc_boost: dict, this is a boost applied to every weight
+                calucation (see description in the get_boost()) -- you may want to
+                pass any numerical (float) value in here; for example values from
+                inside 'classic_factor' field
+        
+        """
+        self.k1 = float(k1)
+        self.b = float(b)
+        self.perfield_kb = perfield_kb or {}
+        self.perfield_avgdoclen = perfield_avgdoclen or {}
+        self.perdoc_boost = perdoc_boost or {}
+        self.idf_normalization = bool(idf_normalization)
+        
+        for k,v in self.perdoc_boost.items():
+            if not isinstance(k, basestring) or not isinstance(v, float):
+                raise Exception('docboost keys (docids) must be strings and values must be floats')
+            
+        self.idf_normalization_factor = None
+        if idf_normalization:
+            # instantiate a new class (with exactly the same params as we have)
+            # it will be used to calculate the magniture of the weight factor
+            self.normalizer = IDFNormalizer(k1=self.k1, b=self.b, perfield_kb=self.perfield_kb,
+                 idf_normalization=True, perfield_avgdoclen=self.perfield_avgdoclen,
+                 perdoc_boost=self.perdoc_boost)
+
+    
+    def get_boost(self, field, docid, default_boost):
+        """Remember, the boost is for every weight object; if we were
+        to apply boost only to the final result (using classic_factor)
+        or some such thing, we'll have to modify lucene scoring/search
+        mechanism. But maybe the field boost is a close approximation;
+        in the end it is applied to every weight (well, maybe not the 
+        constant score)"""
+        
+        return self.perdoc_boost.get(docid, default_boost)
+        
+    def weight(self, term, tfreq, k1, b, avgdoclen, doclen, docfreq, colfreq, boost=None):
+        
+        # override k1/b factors specific to a field (or use defaults)
+        field = term.split(':')[0]
+        docid = term.split(' ')[-1]
+        
+        k1 = self.perfield_kb.get('%s_k1' % field, self.k1)
+        b = self.perfield_kb.get('%s_b' % field, self.b)
+        
+        # compute idf
+        idf = self.idf(docfreq, colfreq)
+        
+        # normalize the IDF (lucene can do this)
+        if self.idf_normalization:
+            idf = self.normalize_idf(idf, k1, b, avgdoclen, doclen)
+        
+        
+        # compute tf
+        avgdoclen = self.perfield_avgdoclen.get(field, avgdoclen)
+        tf = self.tf(tfreq, k1, b, avgdoclen, doclen)
+        
+        boost = self.get_boost(field, docid, boost)
+        
+        if boost:
+            return tf * idf * boost
+        else:
+            return tf * idf
+        
+    def normalize_idf(self, idf, k1, b, avgdoclen, doclen):
+        """Lucene does normalization for TF*IDF, it doesn't have
+        this functionality for BM25 Similarity classes; it does so by
+        summing all weights from the scorers; the weight in the lucene's world 
+        is IDF * norm which translates to: 
+            IDF * k1 * (1-b+b*L) 
+            where L is avgdoclen/docLen
+        """
+        
+        if self.idf_normalization_factor is not None:
+            return idf / self.idf_normalization_factor
+        else:
+            return idf
+        
+    def run(self, formula):
+        if self.idf_normalization:
+            self.idf_normalization_factor = self.normalizer.run(formula)
+        else:
+            self.idf_normalization_factor = None
+        
+        return self._eval(formula)
+        
+        
+class IDFNormalizer(FlexibleScorer):        
+    """Purpose of this class is to extract the weight magnitude
+    from the relevancy score; we do it by setting TF and boost
+    parts to 1.0"""
+    def __init__(self, *args, **kwargs):
+        kwargs['idf_normalization'] = False
+        FlexibleScorer.__init__(self, *args, **kwargs)
+        self.idf_normalization = True
+        
+    def tf(self, tfreq, k1, b, avgdoclen, doclen):
+        return 1.0
+    def get_boost(self, field, docid, default_boost):
+        return 1.0
+    def normalize_idf(self, idf, k1, b, avgdoclen, doclen):
+        return idf * k1 * (1.0-b+b*(avgdoclen/doclen))
+    def run(self, formula):
+        return self._eval(formula)

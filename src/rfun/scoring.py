@@ -171,20 +171,31 @@ class TreeVisitor(Visitor):
     def idf(self, node):
         # for phrases, idf for every token
         out = []
-        for x in node.children:
+        for x in node.children: # nested idf()
             if hasattr(x, 'formula'):
                 out.append(x.formula)
         if len(out):
-            node.formula = 'idfgroup(%s)' % (', '.join(out))
-        else:
-            if self.use_kwargs and self.flatten_tfidf:
-                node.formula = 'docfreq=%s, colfreq=%s' % (node.children[1].children[0].value, node.children[2].children[0].value)
-            elif self.use_kwargs and not self.flatten_tfidf:
-                node.formula = 'idf(docfreq=%s, colfreq=%s)' % (node.children[1].children[0].value, node.children[2].children[0].value)
-            elif not self.use_kwargs and self.flatten_tfidf:
-                node.formula = '%s, %s' % (node.children[1].children[0].value, node.children[2].children[0].value)
+            if self.use_kwargs:
+                if self.flatten_tfidf:
+                    node.formula = 'docfreq=None, colfreq=None, idfgroup=(dict(%s))' % ('), dict('.join(out))
+                else:
+                    node.formula = 'docfreq=None, colfreq=None, idfgroup=(%s)' % (', '.join(out))
             else:
-                node.formula = 'idf(%s, %s)' % (node.children[1].children[0].value, node.children[2].children[0].value)
+                if self.flatten_tfidf:
+                    node.formula = 'idfgroup=((%s))' % ('), ('.join(out))
+                else:
+                    node.formula = 'idfgroup(%s)' % (', '.join(out))
+        else:
+            if self.use_kwargs:
+                if self.flatten_tfidf:
+                    node.formula = 'docfreq=%s, colfreq=%s' % (node.children[1].children[0].value, node.children[2].children[0].value)
+                else:
+                    node.formula = 'idf(docfreq=%s, colfreq=%s)' % (node.children[1].children[0].value, node.children[2].children[0].value)
+            else: 
+                if self.flatten_tfidf:
+                    node.formula = '%s, %s' % (node.children[1].children[0].value, node.children[2].children[0].value)
+                else:
+                    node.formula = 'idf(%s, %s)' % (node.children[1].children[0].value, node.children[2].children[0].value)
             
     def tfnorm(self, node):
         if self.use_kwargs and self.flatten_tfidf:
@@ -290,8 +301,8 @@ class LuceneBM25Scorer(object):
         L = doclen/avgdoclen
         return ((k1+1)*tfreq)/(k1*(1.0-b+b*L)+tfreq)
     
-    def idf(self, docfreq, doccount):
-        return math.log(1+(doccount-docfreq+0.5)/(docfreq + 0.5))
+    def idf(self, docfreq, colfreq):
+        return math.log(1+(colfreq-docfreq+0.5)/(docfreq + 0.5))
     
     def run(self, formula):
         return self._eval(formula)
@@ -375,7 +386,8 @@ class FlexibleScorer(LuceneBM25Scorer):
         
         return self.perdoc_boost.get(docid, default_boost)
         
-    def weight(self, term, tfreq, k1, b, avgdoclen, doclen, docfreq, colfreq, boost=None):
+    def weight(self, term, tfreq, k1, b, avgdoclen, doclen, docfreq, colfreq, 
+               boost=None, idfgroup=None):
         
         # override k1/b factors specific to a field (or use defaults)
         field = term.split(':')[0]
@@ -385,7 +397,17 @@ class FlexibleScorer(LuceneBM25Scorer):
         b = self.perfield_kb.get('%s_b' % field, self.b)
         
         # compute idf
-        idf = self.idf(docfreq, colfreq)
+        if idfgroup:
+            idf = 0
+            for x in idfgroup:
+                if isinstance(x, dict):
+                    idf += self.idf(**x)
+                elif isinstance(x, float):
+                    idf += x
+                else:
+                    idf += self.idf(*x) 
+        else:
+            idf = self.idf(docfreq, colfreq)
         
         # normalize the IDF (lucene can do this)
         if self.idf_normalization:

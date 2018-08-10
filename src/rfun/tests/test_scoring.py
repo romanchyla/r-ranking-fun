@@ -55,12 +55,16 @@ class Test(unittest.TestCase):
     
 class TestScorers(unittest.TestCase):
     
-    def test_lucene_scorer(self):
+    def test_scorers(self):
         for s,t in ((19.06905, test1), (25.458822, test2), (132.459, test3)):
             p = ExplanationParser()
+            p2 = ExplanationParser(use_kwargs=True, flatten_tfidf=True)
             _, formula = p.parse(t)
+            _, formula2 = p2.parse(t)
             scorer = LuceneBM25Scorer()
+            fscorer = FlexibleScorer()
             self.assertAlmostEqual(s, scorer.run(formula), msg="Computed result %s differs too much from the one reported by Lucene (%s)" % (s, scorer.run(formula)), delta=0.00005)
+            self.assertAlmostEqual(s, fscorer.run(formula2), msg="Computed result %s differs too much from the one reported by Lucene (%s)" % (s, fscorer.run(formula2)), delta=0.00005)
 
     def test_normalizer(self):
         """The test is engineered in a way that 

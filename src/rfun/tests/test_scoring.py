@@ -84,8 +84,37 @@ class TestScorers(unittest.TestCase):
         
         scorer = FlexibleScorer(k1=1.0, b=0, idf_normalization=True)
         self.assertAlmostEqual(1.0, scorer.run(formula))
+        
+    
+    def test_flexible_scorer(self):
+        
+        formula = 'sum(sum(weight(term="title:bar in 1109", tfreq=8.0, k1=1.2, b=0.75, avgdoclen=16.729553, doclen=28.444445, docfreq=12040, colfreq=18088648), weight(term="title:syn::bar in 1109", tfreq=8.0, k1=1.2, b=0.75, avgdoclen=16.729553, doclen=28.444445, docfreq=18140, colfreq=18088648)))'
+        s = FlexibleScorer(k1=1.0, b=0.75)
+        self.assertAlmostEqual(23.88556, s.run(formula), delta=0.00005)
+
+        s = FlexibleScorer(k1=2.0, b=0)
+        self.assertAlmostEqual(34.127176, s.run(formula), delta=0.00005)
+        
+        s = FlexibleScorer(k1=2.0, b=0.5)
+        self.assertAlmostEqual(31.89380, s.run(formula), delta=0.00005)
+        
+        s = FlexibleScorer(k1=2.0, b=0.5, idf_normalization=True)
+        self.assertAlmostEqual(1.41229, s.run(formula), delta=0.00005)
+        
+        s = FlexibleScorer(k1=2.0, b=0.5, idf_normalization=False,
+                           perfield_kb={'title_k1': 1.0, 'title_b': 0.75})
+        self.assertAlmostEqual(23.88556, s.run(formula), delta=0.00005)
+        
+        s = FlexibleScorer(k1=2.0, b=0.5, idf_normalization=False,
+                           perfield_kb={'title_k1': 1.0, 'title_b': 0.75},
+                           perfield_avgdoclen={'title': 9})
+        self.assertAlmostEqual(21.42246, s.run(formula), delta=0.00005)
+        
+        s = FlexibleScorer(k1=1.0, b=0.75, perdoc_boost={'1109': 0.5})
+        self.assertAlmostEqual(23.88556/2, s.run(formula), delta=0.00005)
 
 
+        
 test1 = r"""
 19.06905 = weight(title:foo in 270585) [SchemaSimilarity], result of:
   19.06905 = score(doc=270585,freq=1.0 = termFreq=1.0

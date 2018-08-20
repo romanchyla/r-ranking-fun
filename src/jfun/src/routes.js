@@ -26,9 +26,9 @@ const routes = [
     component: ListOfArticles
     },
     {
-    path: 'selection',
+    path: '/experiment/selection',
     name: 'selection',
-    component: WelcomePage
+    component: ListOfArticles
     },
     {
     path: 'results',

@@ -4,8 +4,8 @@
         :items="getItems()"
         hide-actions
         class="elevation-1"
-        ref="articleTable"
-        item-key="hitid"
+        :ref="getRef()"
+        :item-key="getSortKey()"
         expand
       >
       <template slot="items" slot-scope="props">
@@ -39,8 +39,9 @@ import * as _ from 'lodash'
 export default {
   mounted () {
     /* eslint-disable no-new */
+    let t = this.getRef()
     new Sortable(
-      this.$refs.articleTable.$el.getElementsByTagName('tbody')[0],
+      this.$refs[t].$el.getElementsByTagName('tbody')[0],
       {
         draggable: '.sortableRow',
         handle: '.sortHandle',
@@ -50,15 +51,14 @@ export default {
     )},
 
   methods: {
+    getRef: function() {
+      return 'articleTable'
+    },
+    getSortKey: function() {
+      return 'hitid'
+    },
     getItems: function() {
-      let out = _.clone(this.items)
-      if (window.location.toString().indexOf('selection') > -1 ) {
-        _.remove(out, function(value, index, array) {
-          if (value.relevant < 0)
-            return true
-        })
-      }
-      return out;
+      return this.items;
     },
     dragStart ({item}) {
       const nextSib = item.nextSibling

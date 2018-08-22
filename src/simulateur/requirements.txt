@@ -1,0 +1,9 @@
+git+https://github.com/adsabs/ADSMicroserviceUtils.git@v1.0.6
+flask-headers==1.0
+flask-cors==1.9.0
+flask-RESTful==0.3.4
+Flask==0.11.1
+psycopg2==2.7.3.2
+requests>=2.7.0
+alembic==0.8.1
+flask-discoverer==0.0.2

@@ -1,6 +1,10 @@
 
 import simplejson
 import urllib
+import copy
+import json
+
+
 
 def req(url, **kwargs):
     kwargs['wt'] = 'json'
@@ -11,3 +15,8 @@ def req(url, **kwargs):
     rsp = simplejson.loads(page)
     conn.close()
     return rsp
+
+
+
+if __name__ == '__main__':
+    parse_solr_results(open('../../data/or-example.json').read())

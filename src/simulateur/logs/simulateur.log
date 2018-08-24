@@ -1,0 +1,6 @@
+2018-08-23T23:50:25.017Z 017 ERROR    [18590:MainThread:app.py:96] Failed parsing: 
+     1.0 = sum of:
+       1.0 = author:kurtz,*, product of:
+         1.0 = boost
+         1.0 = queryNorm
+     

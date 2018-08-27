@@ -7,7 +7,62 @@ from flask.json import jsonify
 
 bp = Blueprint('simulateur', __name__)
 
-@advertise(scopes=[], rate_limit = [100, 3600*24])
+
+@advertise(scopes=[], rate_limit = [5000, 3600*24])
+@bp.route('/experiment/<experimentid>', methods=['GET', 'POST'])
+def experiment(experimentid):
+    
+    if experimentid == '0': # create a new one
+        exp = current_app.save_experiment(None)
+    else:
+        exp = current_app.get_experiment(experimentid)
+        if exp is None:
+            return jsonify({'error': 'No experiment with such id: %s exists' % experimentid}), 404
+    
+    if request.method == 'GET':
+        return jsonify(exp), 200
+    else:
+        payload = get_payload(request)
+        
+        verb = payload.get('verb', 'none')
+        data = payload.get('data', [])
+        out = {}
+        
+        if verb == 'add-relevant':
+            k = set(data)
+            for r in k.difference(set(exp['relevant'])):
+                exp['relevant'].append(r)
+            out = current_app.save_experiment(exp['eid'], relevant=exp['relevant'])
+        elif verb == 'remove-relevant':
+            k = set(data)
+            for r in k.intersection(set(exp['relevant'])):
+                exp['relevant'].remove(r)
+            out = current_app.save_experiment(exp['eid'], relevant=exp['relevant'])
+        elif verb == 'replace-relevant':
+            exp['relevant'] = data
+            out = current_app.save_experiment(exp['eid'], relevant=exp['relevant'])
+        elif verb == 'save-experiment':
+            kwargs = {'experiment_params': _extract_experiment_params(data)}
+            if 'reporter' in data:
+                kwargs['reporter'] = data['reporter']
+            out = current_app.save_experiment(exp['eid'], **kwargs)
+        elif verb == 'update-experiment':
+            d = exp['experiment_params']
+            d.update(_extract_experiment_params(data))
+            kwargs = {}
+            kwargs['experiment_params'] = d
+            if 'reporter' in data:
+                kwargs['reporter'] = data['reporter']
+            out = current_app.save_experiment(exp['eid'], **kwargs)
+        else:
+            return jsonify({'error': 'unknown action: %s' % verb}), 404
+            
+        
+        return jsonify(out), 200
+            
+
+
+@advertise(scopes=[], rate_limit = [1000, 3600*24])
 @bp.route('/search/<experimentid>', methods=['GET'])
 def search(experimentid):
     args=dict(request.args)
@@ -53,5 +108,48 @@ def dashboard(start=0, rows=50):
     return jsonify({'header': header, 'results': out}), 200
     
     
+
+def get_payload(request):
+    headers = dict(request.headers)
+    if 'Content-Type' in headers \
+        and 'application/json' in headers['Content-Type'] \
+        and request.method in ('POST', 'PUT'):
+        payload = request.json
+    else:
+        payload = dict(request.args)
+        payload.update(dict(request.form))
     
+    return payload
+
+
+    
+def _extract_experiment_params(data):
+    out = {}
+    for x in ('kRange:floatrange', 'bRange:floatrange', 'docLenRange:floatrange', 
+              'fieldBoost:str', 'normalizeWeight:bool', 'qparams:dict'):
+        k,t = x.split(':')
+        if k in data:
+            if t == 'floatrange':
+                x = data[k]
+                out[k] = (float(x[0]), float(x[1]))
+            elif t == 'float':
+                out[k] = float(data[k])
+            elif t == 'bool':
+                x = str(data[k]).lower()
+                if x == 'true' or x == '1':
+                    out[k] = True
+                else:
+                    out[k] = False
+            elif t == 'str':
+                out[k] = str(data[k])
+            elif t == 'dict':
+                if not isinstance(data[k], dict):
+                    raise Exception('Incompatible type, expecting: %s, got: %s' % (t, data[k]))
+                out[k] = data[k]
+            else:
+                raise Exception('shouldnt happen, unknown type: %s' % t)
+    return out
+        
+        
+        
     

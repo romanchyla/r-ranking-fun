@@ -10,7 +10,7 @@ import json
 import copy
 from rfun.scoring import ExplanationParser
 from collections import OrderedDict
-from simulateur import models
+from simulateur.models import Experiment
 from adsmutils import get_date
 
 def create_app(**config):
@@ -29,7 +29,7 @@ class SimulateurADSFlask(ADSFlask):
     
     def __init__(self, *args, **kwargs):
         ADSFlask.__init__(self, *args, **kwargs)
-        self.parser = ExplanationParser()
+        self.parser = ExplanationParser(use_kwargs=True, flatten_tfidf=True)
     
     def search(self, **params):
         
@@ -98,21 +98,27 @@ class SimulateurADSFlask(ADSFlask):
                 raise e
         return j
     
-    
+    def get_experiment(self, experimentid):
+        with self.session_scope() as session:
+            m = session.query(Experiment).filter(Experiment.eid == int(experimentid)).first()
+            if not m:
+                return None
+            return m.toJSON()
     
     def save_experiment(self, experimentid,
                         reporter=None,
                         query_results=None, 
                         experiment_params=None,
-                        experiment_results=None):
+                        experiment_results=None,
+                        relevant=None):
         with self.session_scope() as session:
             if experimentid is None:
-                m = models.Experiment()
+                m = Experiment()
                 session.add(m)
             else:
-                m = session.query(models.Experiment).filter_by(eid=experimentid).first()
+                m = session.query(Experiment).filter_by(eid=experimentid).first()
                 if not m:
-                    m = models.Experiment()
+                    m = Experiment()
                     session.add(m)
             if reporter:
                 m.reporter = reporter
@@ -125,11 +131,28 @@ class SimulateurADSFlask(ADSFlask):
                 m.query_results = json.dumps(query_results)
             if experiment_results:
                 m.experiment_results = json.dumps(experiment_results)
+            if relevant:
+                m.relevant = json.dumps(relevant)
                 
             if session.dirty:
                 m.updated = get_date()
             session.commit()
             return m.toJSON()
+
+
+    def run_experiment(self, experimentid):
+        """Will execute the experiment."""
+        exp = self.get_experiment(experimentid)
+        if exp is None:
+            raise Exception('Experiment %s doesnt exist' % experimentid)
+        
+        # check we have all necessary data
+        assert len(exp['relevant']) > 0
+        assert len(exp['query_results']['response']['docs']) > 0
+        assert 'formula' in exp['query_results']['response']['docs'][0]
+        assert len(exp['experiment_params'].keys()) > 0
+        
+        
             
             
             

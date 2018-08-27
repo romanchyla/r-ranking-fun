@@ -38,7 +38,11 @@ class Experiment(Base):
     query_results = Column(Text)
     created = Column(UTCDateTime, default=get_date)
     updated = Column(UTCDateTime)
+    started = Column(UTCDateTime)
+    finished = Column(UTCDateTime)
     reporter = Column(String(1024))
+    relevant = Column(Text)
+    progress = Column(Integer)
     
     def toJSON(self):
         """Returns value formatted as python dict."""
@@ -49,5 +53,9 @@ class Experiment(Base):
             'experiment_params': json.loads(self.experiment_params or '{}'),
             'query_results': json.loads(self.query_results or '{}'),
             'created': self.created and get_date(self.created).isoformat() or None,
-            'updated': self.updated and get_date(self.updated).isoformat() or None
+            'updated': self.updated and get_date(self.updated).isoformat() or None,
+            'started': self.updated and get_date(self.started).isoformat() or None,
+            'finished': self.updated and get_date(self.finished).isoformat() or None,
+            'relevant': self.relevant and json.loads(self.relevant) or [],
+            'progress': self.progress
         }

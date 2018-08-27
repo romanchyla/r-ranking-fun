@@ -351,7 +351,7 @@ class FlexibleScorer(LuceneBM25Scorer):
                 factor of BM25 formula (a part of length normalization); you may 
                 want to use median instead of averages for example
             @param perdoc_boost: dict, this is a boost applied to every weight
-                calucation (see description in the get_boost()) -- you may want to
+                calculation (see description in the get_boost()) -- you may want to
                 pass any numerical (float) value in here; for example values from
                 inside 'classic_factor' field
         

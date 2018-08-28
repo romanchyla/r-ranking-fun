@@ -13,7 +13,7 @@
         <v-list-tile
           v-for="(item, i) in items"
           :key="i"
-          :to="item.path == '#' ? '' : item.path"
+          :to="item.path == '#' ? '' : item.path + ($route.params.id ? $route.params.id : '')"
         >
           <v-list-tile-action>
             <v-icon>{{ item.icon }}</v-icon>
@@ -71,10 +71,10 @@ export default {
         path: '/'
       },
         { title: 'Dashboard', icon: 'dashboard', path: '/dashboard' },
-        { title: 'Query ADS', icon: 'description', path: '/experiment/overview' },
-        { title: 'Returned Documents', icon: 'view_headline', path: '/experiment/articles' },
-        { title: 'Selected Relevant Papers', icon: 'assessment', path: '/experiment/selection' },
-        { title: 'Experiment Results', icon: 'build', path: '/experiment/results' },
+        { title: 'Query ADS', icon: 'description', path: '/experiment/overview/' },
+        { title: 'Returned Documents', icon: 'view_headline', path: '/experiment/articles/' },
+        { title: 'Selected Relevant Papers', icon: 'assessment', path: '/experiment/selection/' },
+        { title: 'Experiment Results', icon: 'build', path: '/experiment/results/' },
       ],
       miniVariant: false,
       right: true,

@@ -1,7 +1,11 @@
 <template>
-    <div>
-        Ehmmm, sorry, this page doesn't exit (even though you are looking at something)
-    </div>
+    <v-container fluid>
+        <div>
+            Please use dashboard as a starting point.
+
+            If you did, then this feature is probably not implemented yet.
+        </div>
+    </v-container>
 </template>
 
 <script>

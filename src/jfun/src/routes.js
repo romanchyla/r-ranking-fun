@@ -1,4 +1,3 @@
-import HelloWorld from './components/HelloWorld.vue'
 import WelcomePage from './components/WelcomePage.vue'
 import NotFound from './components/NotFound.vue'
 import Dashboard from './components/Dashboard.vue'
@@ -9,7 +8,7 @@ import ListOfSelectedArticles from './components/ListOfSelectedArticles'
 const routes = [
   {
     path: '/',
-    component: HelloWorld,
+    component: WelcomePage,
   },
   {
     path: '/dashboard',
@@ -17,22 +16,22 @@ const routes = [
   },
 
     {
-    path: '/experiment/overview',
+    path: '/experiment/overview/:id',
     name: 'overview',
     component: ExperimentOverview
     },
     {
-    path: '/experiment/articles',
+    path: '/experiment/articles/:id',
     name: 'articles',
     component: ListOfArticles
     },
     {
-    path: '/experiment/selection',
+    path: '/experiment/selection/:id',
     name: 'selection',
     component: ListOfSelectedArticles
     },
     {
-    path: 'results',
+    path: '/experiment/selection/:id',
     name: 'results',
     component: WelcomePage
     },

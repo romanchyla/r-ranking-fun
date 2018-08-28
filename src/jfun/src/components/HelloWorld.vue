@@ -10,15 +10,21 @@
       and try to find best set of parameters for the relevance score used by our search engine.</p>
 
     
-    <p>In order to run experiments, we'd like to ask you to do following:</p>
+    <p>In order to run experiments, we'd like to ask of you the following:</p>
 
-    <ol>
-      <li>make (arbitrary) query</li>
-      <li>review returned results and select papers that are most relevant <b>to you</b></li>
-      <li>(optionally) re-order the selected papers, to have the most relevant papers on top</li>
-    </ol>
+    <p>
+      <ol>
+        <li>make (arbitrary) new request</li>
+        <li>review returned results and select papers that are most relevant <b>to you</b></li>
+        <li>(optionally) re-order the selected papers, to have the most relevant papers on top</li>
+      </ol>
+    </p>
 
-    <p>You will be able to see the results in real time. As we gather more data, we'll be able to converge and update our search engine.</p>
+    <p>We will run our simulations and try to derive the best set of parameters that produce the best search results. It is no black
+      magic and we do not promise miracles, but as we gather more data, we'll be able to do more and more.</p>
+      
+    <p> Oh, btw - we'll use the 
+      derived parameters to reorder your existing search results - so you will be able to see them (almost real time).</p>
 
       </v-layout>
     </v-slide-y-transition>

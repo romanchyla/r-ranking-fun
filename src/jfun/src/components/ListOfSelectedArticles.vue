@@ -8,14 +8,12 @@ export default {
     extends: ListOfArticles,
     methods: {
         getRef: function() {
-            debugger
             return 'selectedArticles'
         },
         getSortKey: function() {
             return 'relevant'
         },
         getItems: function() {
-            debugger;
             let out = _.clone(this.items)
             
             _.remove(out, function(value, index, array) {

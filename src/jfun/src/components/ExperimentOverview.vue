@@ -233,20 +233,9 @@
 
 <script>
 export default {
-  data: () => ({
-    query: 'title:(foo bar)',
-    params: 'sort=score+desc&fl=classic_factor,title,bibcode',
-    normalizeWeight: true,
-    fieldBoost: ['classic_factor', 'cite_read_bost'],
-    kRange: [0.5, 1.5],
-    bRange: [0.75, 1.0],
-    docLenRange: [0, 50],
-    useK: true,
-    useB: true,
-    useBoost: true,
-    useNormalization: true,
-    useDocLen: false
-  }),
+  data: function() {
+      return this.$store.state.experiment.parameters
+  },
   methods: {
     closeDialog () {
       this.$parent.isActive = false;

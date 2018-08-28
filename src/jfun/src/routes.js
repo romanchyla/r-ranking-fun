@@ -11,7 +11,7 @@ const routes = [
     component: WelcomePage,
   },
   {
-    path: '/dashboard',
+    path: '/dashboard*',
     component: Dashboard,
   },
 

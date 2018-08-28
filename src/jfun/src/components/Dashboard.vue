@@ -46,26 +46,12 @@ export default {
           { text: 'Size', value: 'numused' },
           { text: 'Total Size', value: 'numfound' },
           { text: 'Relevant', value: 'numrelevant' }
-        ],
-        experiments: [
-          {
-            id: 0,
-            query: 'title:(foo bar)',
-            reporter: 'rchyla@cfa.harvard.edu',
-            numfound: 45000,
-            numused: 300,
-            numrelevant: 20,
-          },
-          {
-            id: 1,
-            query: 'title:(foo bar)',
-            reporter: 'rchyla@cfa.harvard.edu',
-            numfound: 45000,
-            numused: 300,
-            numrelevant: 20,
-          },
         ]
       }
+    },
+
+    computed: {
+      experiments: function() {return this.$store.state.experiments}
     },
 
     methods: {

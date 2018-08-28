@@ -111,44 +111,7 @@ export default {
         { text: 'Publication', value: 'publication', sortable: false },
         
       ],
-      items: [
-        {
-          hitid: 0,
-          relevant: 0,
-          bibcode: 'bibcode1',
-          title: 'Example title 0',
-          authors: 'John, D; Emil, E; Patrick, P',
-          publication: 'ApJ 2005, vol 1',
-          abstract: 'looooooooooooooooooooooong abstract...........'
-        },
-        {
-          hitid: 1,
-          relevant: -1,
-          bibcode: 'bibcode1',
-          title: 'Example title 1',
-          authors: 'John, D; Emil, E; Patrick, P',
-          publication: 'ApJ 2005, vol 1',
-          abstract: 'looooooooooooooooooooooong abstract...........'
-        },
-        {
-          hitid: 2,
-          relevant: -1,
-          bibcode: 'bibcode1',
-          title: 'Example title 2',
-          authors: 'John, D; Emil, E; Patrick, P',
-          publication: 'ApJ 2005, vol 1',
-          abstract: 'looooooooooooooooooooooong abstract...........'
-        },
-        {
-          hitid: 3,
-          relevant: -1,
-          bibcode: 'bibcode1',
-          title: 'Example title 3',
-          authors: 'John, D; Emil, E; Patrick, P',
-          publication: 'ApJ 2005, vol 1',
-          abstract: 'looooooooooooooooooooooong abstract...........'
-        },
-      ]
+      items: this.$store.state.experiment.papers
     }
   }
 }

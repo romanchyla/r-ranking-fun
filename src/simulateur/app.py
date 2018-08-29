@@ -58,7 +58,7 @@ class SimulateurADSFlask(ADSFlask):
         r = requests.get(url, params=params,
                      headers = {'Authorization': 'Bearer {0}'.format(self.config.get('API_TOKEN'))})
         r.raise_for_status()
-        print r.text
+        #print r.text
         return r.text
     
     

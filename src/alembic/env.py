@@ -47,7 +47,7 @@ def get_app_config(key):
     if opath not in sys.path:
         sys.path.insert(0, opath)
         
-    import app as application
+    import simulateur.app as application
     app = application.create_app()
     
     with app.app_context() as c:
@@ -63,7 +63,7 @@ def run_migrations_online():
     """
     cfg = config.get_section(config.config_ini_section)
     if 'use_flask_db_url' in cfg and cfg['use_flask_db_url'] == 'true':
-        cfg['sqlalchemy.url'] = get_app_config('SQLALCHEMY_URL')
+        cfg['sqlalchemy.url'] = get_app_config('SQLALCHEMY_DATABASE_URI')
     
     
     engine = engine_from_config(

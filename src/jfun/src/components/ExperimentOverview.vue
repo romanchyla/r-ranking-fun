@@ -2,7 +2,7 @@
   <v-card>
     
     <v-card-text>
-      <v-form v-model="valid" ref="form" lazy-validation>
+      <v-form ref="form" >
         <v-layout row wrap>
           <v-flex lg12 sm12>
             <v-text-field label="Reporter" name="reporter" v-model="reporter">
@@ -13,13 +13,13 @@
             </v-text-field>
           </v-flex>
           <v-flex lg12 sm12>
-            <v-text-field label="Additional Parameters (url format)" name="params" v-model="params" hint="All parameters must be properly URL encoded">
+            <v-text-field label="Additional Parameters (url format)" name="extra_params" v-model="extra_params" hint="All parameters must be properly URL encoded">
             </v-text-field>
           </v-flex>
           <v-flex lg12 sm12>
-            <v-text-field textarea clearable=true label="Description" hint="Please describe your intent while making the search, this helps us evaluate search results/selections">
+            <v-textarea outline label="Description" hint="Please describe your intent while making the search, this helps us evaluate search results/selections">
                 
-            </v-text-field>
+            </v-textarea>
           </v-flex>                              
           <v-spacer></v-spacer>
         </v-layout>
@@ -226,7 +226,7 @@
     </v-card-text>
     <v-card-actions class="pb-3">
       <v-spacer></v-spacer>
-      <v-btn color="primary">Save</v-btn>
+      <v-btn color="primary" v-on:click="onSave">Save</v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -239,6 +239,9 @@ export default {
   methods: {
     closeDialog () {
       this.$parent.isActive = false;
+    },
+    onSave: function() {
+        this.$store.dispatch("saveExperiment")
     }
   }
 };

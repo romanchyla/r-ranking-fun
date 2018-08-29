@@ -4,6 +4,7 @@ from simulateur.models import Experiment
 import json
 from adsmutils import get_date
 from flask.json import jsonify
+import urlparse
 
 bp = Blueprint('simulateur', __name__)
 
@@ -12,7 +13,7 @@ bp = Blueprint('simulateur', __name__)
 @bp.route('/experiment/<experimentid>', methods=['GET', 'POST'])
 def experiment(experimentid):
     
-    if experimentid == '0': # create a new one
+    if experimentid == '-1': # create a new one
         exp = current_app.save_experiment(None)
     else:
         exp = current_app.get_experiment(experimentid)
@@ -100,12 +101,21 @@ def dashboard(start=0, rows=50):
             .filter(Experiment.eid >= start).limit(rows).all():
             out.append({'query': ex.query, 'reporter': ex.reporter, 
                         'created': get_date(ex.created).isoformat(),
-                        'eid': ex.eid
+                        'eid': ex.eid, 'info': _get_exp_info(ex.toJSON())
                         })
         header['remaining'] = max(0, count - (start+rows))
         
         
     return jsonify({'header': header, 'results': out}), 200
+
+def _get_exp_info(exp):
+    num_found = num_used = num_golden = 0    
+    if exp['query_results']:
+        if 'response' in exp['query_results']:
+            num_found = exp['query_results']['response']['numFound']
+        num_used = len(exp['query_results']['response']['docs'])
+        num_golden = len(exp['relevant'])
+    return '%s/%s/%s' % (num_found, num_used, num_golden)
     
     
 
@@ -126,7 +136,7 @@ def get_payload(request):
 def _extract_experiment_params(data):
     out = {}
     for x in ('kRange:floatrange', 'bRange:floatrange', 'docLenRange:floatrange', 
-              'fieldBoost:str', 'normalizeWeight:bool', 'qparams:dict'):
+              'fieldBoost:str', 'normalizeWeight:bool', 'qparams:dict', 'extra_params:urlparams'):
         k,t = x.split(':')
         if k in data:
             if t == 'floatrange':
@@ -146,8 +156,16 @@ def _extract_experiment_params(data):
                 if not isinstance(data[k], dict):
                     raise Exception('Incompatible type, expecting: %s, got: %s' % (t, data[k]))
                 out[k] = data[k]
+            elif t == 'urlparams':
+                if isinstance(data[k], dict):
+                    out[k] = data[k]
+                else:
+                    out[k] = urlparse.parse_qs(data[k])
             else:
                 raise Exception('shouldnt happen, unknown type: %s' % t)
+    if 'query' in out:
+        out.setdefault('extra_params', {})
+        out['extra_params']['q'] = out['query']
     return out
         
         

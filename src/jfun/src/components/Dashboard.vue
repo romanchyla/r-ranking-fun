@@ -5,6 +5,7 @@
     :items="experiments"
     class="dashboard"
     v-model="selected"
+    item-key="eid"
   >
     <template slot="items" slot-scope="props">
       <td>
@@ -16,12 +17,11 @@
       </td>
       <td v-on:click="doClick('show', props.item)">{{ props.item.query }}</td>
       <td>{{ props.item.reporter }}</td>
-      <td>{{ props.item.numused }}</td>
-      <td>{{ props.item.numfound }}</td>
-      <td>{{ props.item.numrelevant }}</td>
+      <td title="numFound/numUsed/numGolden">{{ props.item.info }}</td>
     </template>
   </v-data-table>
     <div>
+      <v-btn color="green" v-on:click="doClick('create')">Create</v-btn>
       <v-btn color="info" v-on:click="doClick('show')">Show</v-btn>
       <v-btn color="warning" v-on:click="doClick('run')">(Re-)Run</v-btn>
       <v-btn color="success" v-on:click="doClick('copy')">Copy</v-btn>
@@ -43,9 +43,7 @@ export default {
             value: 'query'
           },
           { text: 'Reporter', value: 'reporter' },
-          { text: 'Size', value: 'numused' },
-          { text: 'Total Size', value: 'numfound' },
-          { text: 'Relevant', value: 'numrelevant' }
+          { text: 'Info', value: 'numused' }
         ]
       }
     },
@@ -54,19 +52,37 @@ export default {
       experiments: function() {return this.$store.state.experiments}
     },
 
+    mounted: function() {
+      this.$store.dispatch("refreshDashboard");
+    },
+
     methods: {
       doClick: function(action, item) {
+        
         if (action === 'show') {
-          if (!item) {
+          if (!item) { // selected papers, show the first one
             if (this.selected.length > 0) {
-              let item = this.selected[0];
-              this.$router.push({path: '/experiment/overview/' + item.id})
+              console.log(this.selected, this.$data.selected[0])
+              const item = this.selected[0]
+              debugger;
+              this.$store.dispatch('loadExperiment', {eid: item.eid}).then(() => {
+                this.$router.push({path: '/experiment/overview/' + item.eid})
+              })
             }
           }
           else {
-            this.$router.push({path: '/experiment/overview/' + item.id})
+            this.$store.dispatch('loadExperiment', {eid: item.eid}).then(() => {
+              this.$router.push({path: '/experiment/overview/' + item.eid})
+            })
+            
           }
           
+        }
+        else if (action === 'create') {
+          debugger;
+          this.$store.dispatch('createExperiment').then(() => {
+            this.$router.push({path: '/experiment/overview/' + this.$store.state.experiment.params.eid})
+          })
         }
       }
     }

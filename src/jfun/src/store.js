@@ -120,6 +120,10 @@ export default new Vuex.Store({
       else {
         state.papers = []
       }
+    },
+
+    updateRelevant(state, payload) {
+      state.relevant = payload.relevant
     }
   },
 
@@ -163,6 +167,22 @@ export default new Vuex.Store({
         });
       });
     },
+
+    updateRelevant(context, {docids}) {
+      debugger;
+      return new Promise((resolve) => {
+        
+        
+        const data = {
+          verb: 'replace-relevant',
+          data: docids
+        }
+        axios.post('/experiment/' + this.state.experiment.eid, data).then((response) => {
+          context.commit('updatePapers', response.data);
+          resolve();
+        });
+      });
+    }
   }
   
 })

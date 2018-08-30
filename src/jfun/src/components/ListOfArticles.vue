@@ -14,9 +14,12 @@
           <td class="px-1" style="width: 0.1%">
             <v-btn style="cursor: move" icon class="sortHandle"><v-icon>drag_handle</v-icon></v-btn>
           </td>
+          <td >{{ props.item.docid }}</td>
           <td >{{ props.item.score }}</td>
           <td><v-checkbox
-                :input-value="props.item.relevant > 0"
+                :input-value="props.item.relevant !== 0"
+                :value="props.item.docid"
+                v-model="relevant"
                 ></v-checkbox></td>
           <td >{{ props.item.title[0] }}</td>
           <td >{{ props.item.authors }}</td>
@@ -104,6 +107,7 @@ export default {
         {
           sortable: false
         },
+        { text: 'Docid', value: 'docid', sortable: false },
         { text: 'Lucene Score', value: 'score', sortable: false },
         {
           text: 'Relevant',
@@ -126,7 +130,14 @@ export default {
   computed: {
     
       items: function() {return this.$store.state.papers},
-      relevant: function() {debugger; return this.$store.state.relevant}
+      relevant: {
+        get: function() {return this.$store.state.relevant},
+        set: function(docids) {
+          debugger;
+          console.log(docids)
+          this.$store.dispatch('updateRelevant', {docids: docids})
+        }
+      }
   },
 }
 </script>

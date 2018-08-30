@@ -38,7 +38,7 @@ class TestCase(unittest.TestCase):
     def test_search(self):
         app = self.app
         with mock.patch.object(app, '_search', return_value='something') as _m:
-            r = app.search(q='foo', fl='whatever')
+            r = app.query(q='foo', fl='whatever')
             _m.assert_called_with(debugQuery='true', fl='whatever,bibcode,score,title', q='foo', rows=100, sort='score desc', wt='json')
 
 

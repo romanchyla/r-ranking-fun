@@ -9,6 +9,7 @@ import requests
 import json
 import copy
 from rfun.scoring import ExplanationParser
+from rfun.evaluation import MultiParameterEvaluator
 from collections import OrderedDict
 from simulateur.models import Experiment
 from adsmutils import get_date
@@ -31,7 +32,7 @@ class SimulateurADSFlask(ADSFlask):
         ADSFlask.__init__(self, *args, **kwargs)
         self.parser = ExplanationParser(use_kwargs=True, flatten_tfidf=True)
     
-    def search(self, **params):
+    def query(self, **params):
         
         assert 'q' in params
         if 'fl' in params and not isinstance(params['fl'], basestring):
@@ -50,10 +51,10 @@ class SimulateurADSFlask(ADSFlask):
             params['rows'] = self.config.get('MAX_ROWS', 100)
         if 'sort' not in params:
             params['sort'] = 'score desc'
-        return self._search(**params)
+        return self._query(**params)
         
     
-    def _search(self, **params):
+    def _query(self, **params):
         url = '%s/search/query' % self.config.get("API_ENDPOINT")
         r = requests.get(url, params=params,
                      headers = {'Authorization': 'Bearer {0}'.format(self.config.get('API_TOKEN'))})
@@ -158,6 +159,22 @@ class SimulateurADSFlask(ADSFlask):
         assert 'formula' in exp['query_results']['response']['docs'][0]
         assert len(exp['experiment_params'].keys()) > 0
         
+        gold_set = exp['relevant']
+        docs = exp['query_results']['response']['docs']
+        params = exp['experiment_params']
+        
+        se = MultiParameterEvaluator(
+            [25, 50, 100], # TODO: make ocnfigurable
+            docs, 
+            gold_set, 
+            params.get('kRange', [1.2, 1.2, 0]), 
+            params.get('bRange', [0.75, 0.75, 0]),
+            params.get('docLenRange', None), 
+            normalizeWeight='useNormalization' in params,
+            fieldBoost=params.get('fieldBoost', None))
+        
+        num_runs, score, params = list(se.run())[0]
+        return jsonify({numRuns: num_runs, score: score, params: params}), 200
         
             
             

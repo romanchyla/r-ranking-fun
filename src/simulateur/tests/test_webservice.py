@@ -55,11 +55,11 @@ class TestServices(TestCase):
         assert d['results'][-1]['eid'] == 99
         
     
-    def test_search(self):
+    def test_query(self):
         self.app.save_experiment(None)
         f = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../data/title:foo.json'))
         with mock.patch.object(self.app, '_search', return_value=open(f, 'r').read()) as _m:
-            r = self.client.get('/search/1', 
+            r = self.client.get('/query/1', 
                             query_string={'fl': 'title,abstract,foo', 'q': 'title:foo'},
                             content_type='application/json')
             assert 'formula' in r.data

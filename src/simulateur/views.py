@@ -74,8 +74,8 @@ def experiment(experimentid):
 
 
 @advertise(scopes=[], rate_limit = [1000, 3600*24])
-@bp.route('/search/<experimentid>', methods=['GET'])
-def search(experimentid):
+@bp.route('/query/<experimentid>', methods=['GET'])
+def query(experimentid):
     
     exp = current_app.get_experiment(experimentid)
     if exp is None:
@@ -90,6 +90,18 @@ def search(experimentid):
     current_app.save_experiment(experimentid, query_results=results)
     return jsonify(results), 200
     
+
+
+@advertise(scopes=[], rate_limit = [1000, 3600*24])
+@bp.route('/search/<experimentid>', methods=['GET'])
+def search(experimentid):
+    
+    exp = current_app.get_experiment(experimentid)
+    if exp is None:
+        raise Exception('No experiment with id: %s' % experimentid)
+    
+    out = current_app.search(exp)
+    return jsonify(out), 200
     
     
 @advertise(scopes=[], rate_limit = [100, 3600*24])

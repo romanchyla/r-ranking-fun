@@ -110,7 +110,9 @@ class SimulateurADSFlask(ADSFlask):
                         query_results=None, 
                         experiment_params=None,
                         experiment_results=None,
-                        relevant=None):
+                        relevant=None,
+                        query=None,
+                        description=None):
         with self.session_scope() as session:
             if experimentid is None:
                 m = Experiment()
@@ -120,6 +122,10 @@ class SimulateurADSFlask(ADSFlask):
                 if not m:
                     m = Experiment()
                     session.add(m)
+            if description:
+                m.description = description
+            if query:
+                m.query = query
             if reporter:
                 m.reporter = reporter
     

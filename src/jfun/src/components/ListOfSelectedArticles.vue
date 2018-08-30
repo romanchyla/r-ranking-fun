@@ -11,13 +11,13 @@ export default {
             return 'selectedArticles'
         },
         getSortKey: function() {
-            return 'relevant'
+            return 'docid'
         },
         getItems: function() {
             let out = _.clone(this.items)
             
             _.remove(out, function(value, index, array) {
-            if (value.relevant < 0)
+            if (value.relevant === 0)
                 return true
             })
             

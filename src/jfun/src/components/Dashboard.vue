@@ -8,6 +8,7 @@
     item-key="eid"
   >
     <template slot="items" slot-scope="props">
+      <td>{{ props.item.eid }}</td>
       <td>
         <v-checkbox
           v-model="props.selected"
@@ -35,6 +36,7 @@ export default {
       return {
         selected: [],
         headers: [
+          { text: 'ID', value: 'eid', 'sortable': true },
           { text: 'Selected', value: 'selected', 'sortable': false },
           {
             text: 'Query',
@@ -49,7 +51,7 @@ export default {
     },
 
     computed: {
-      experiments: function() {return this.$store.state.experiments}
+      experiments: function() {return this.$store.state.dashboard}
     },
 
     mounted: function() {
@@ -79,9 +81,8 @@ export default {
           
         }
         else if (action === 'create') {
-          debugger;
           this.$store.dispatch('createExperiment').then(() => {
-            this.$router.push({path: '/experiment/overview/' + this.$store.state.experiment.params.eid})
+            this.$router.push({path: '/experiment/overview/' + this.$store.state.experiment.eid})
           })
         }
       }

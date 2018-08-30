@@ -42,18 +42,23 @@ def experiment(experimentid):
         elif verb == 'replace-relevant':
             exp['relevant'] = data
             out = current_app.save_experiment(exp['eid'], relevant=exp['relevant'])
-        elif verb == 'save-experiment':
-            kwargs = {'experiment_params': _extract_experiment_params(data)}
-            if 'reporter' in data:
-                kwargs['reporter'] = data['reporter']
-            out = current_app.save_experiment(exp['eid'], **kwargs)
-        elif verb == 'update-experiment':
-            d = exp['experiment_params']
-            d.update(_extract_experiment_params(data))
-            kwargs = {}
-            kwargs['experiment_params'] = d
-            if 'reporter' in data:
-                kwargs['reporter'] = data['reporter']
+        elif verb == 'save-experiment' or verb == 'update-experiment':
+            kwargs = _extract_experiment_params(data)
+            if kwargs['query'] != exp['query'] or \
+                kwargs['experiment_params'].get('extra_params', {}) != exp['experiment_params'].get('extra_params', {}) or \
+                exp['query_results'] == {}:
+                
+                search_params = _extract_search_params(kwargs)
+                
+                try:
+                    # search api, get data
+                    results = current_app.enhance_solr_results(current_app.search(**search_params))
+                except Exception, e:
+                    current_app.logger.error(e)
+                    results = {}
+                
+                kwargs['results'] = results
+                
             out = current_app.save_experiment(exp['eid'], **kwargs)
         else:
             return jsonify({'error': 'unknown action: %s' % verb}), 404
@@ -66,10 +71,15 @@ def experiment(experimentid):
 @advertise(scopes=[], rate_limit = [1000, 3600*24])
 @bp.route('/search/<experimentid>', methods=['GET'])
 def search(experimentid):
-    args=dict(request.args)
+    
+    exp = current_app.get_experiment(experimentid)
+    if exp is None:
+        raise Exception('No experiment with id: %s' % experimentid)
+    
+    search_params = _extract_search_params(exp)
     
     # search api, get data
-    results = current_app.enhance_solr_results(current_app.search(**args))
+    results = current_app.enhance_solr_results(current_app.search(**search_params))
     
     # save results into the db
     current_app.save_experiment(experimentid, query_results=results)
@@ -132,11 +142,19 @@ def get_payload(request):
     return payload
 
 
+def _extract_search_params(data):
+    kwargs = {}
+    d = data.get('experiment_params', {})
+    kwargs = urlparse.parse_qs(d.get('extra_params', ''))
+    if 'q' in d:
+        kwargs['q'] = d['q']
+    return kwargs
     
 def _extract_experiment_params(data):
     out = {}
     for x in ('kRange:floatrange', 'bRange:floatrange', 'docLenRange:floatrange', 
-              'fieldBoost:str', 'normalizeWeight:bool', 'qparams:dict', 'extra_params:urlparams'):
+              'fieldBoost:str', 'normalizeWeight:bool', 'qparams:dict', 'extra_params:str',
+              'query:str', 'description:str'):
         k,t = x.split(':')
         if k in data:
             if t == 'floatrange':
@@ -154,7 +172,10 @@ def _extract_experiment_params(data):
                 out[k] = str(data[k])
             elif t == 'dict':
                 if not isinstance(data[k], dict):
-                    raise Exception('Incompatible type, expecting: %s, got: %s' % (t, data[k]))
+                    if not data[k]:
+                        out[k] = {}
+                    else:
+                        raise Exception('Incompatible type, expecting: %s, got: %s' % (t, data[k]))
                 out[k] = data[k]
             elif t == 'urlparams':
                 if isinstance(data[k], dict):
@@ -163,10 +184,18 @@ def _extract_experiment_params(data):
                     out[k] = urlparse.parse_qs(data[k])
             else:
                 raise Exception('shouldnt happen, unknown type: %s' % t)
-    if 'query' in out:
-        out.setdefault('extra_params', {})
-        out['extra_params']['q'] = out['query']
-    return out
+        
+    if 'query' in data:
+        out['q'] = data.get('query', '*:*')
+    
+    return {
+        'experiment_params': out,
+        'query': out['q'],
+        'reporter': data.get('reporter', ''),
+        'description': data.get('description', '')
+        }
+    
+    
         
         
         

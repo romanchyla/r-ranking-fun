@@ -2,30 +2,33 @@
     <v-data-table
         v-bind:headers="headers"
         :items="getItems()"
-        hide-actions
         class="elevation-1"
         :ref="getRef()"
-        :item-key="getSortKey()"
+        item-key="docid"
         expand
+        :rows-per-page-items="[25,50,{text:'all',value:-1}]"
+        v-model="relevant"
       >
       <template slot="items" slot-scope="props">
         <tr class="sortableRow" :key="itemKey(props.item)" @click="props.expanded = !props.expanded"> <!-- NOTE:  You'll need a unique ID, that is specific to the given item, for the key.   Not providing a unique key that's bound to the item object will break drag and drop sorting.  The itemKey method will return a uid for a given object using WeakMap.  You could just use a property in the object with a unique value, like "props.item.name" in this case, but often getting a unique value from the object's properties can be difficult, like when adding new rows, or when the unique field is open to editing, etc. -->
           <td class="px-1" style="width: 0.1%">
             <v-btn style="cursor: move" icon class="sortHandle"><v-icon>drag_handle</v-icon></v-btn>
           </td>
+          <td >{{ props.item.score }}</td>
           <td><v-checkbox
-                :input-value="props.item.relevant > -1"
+                :input-value="props.item.relevant > 0"
                 ></v-checkbox></td>
-          <td >{{ props.item.title }}</td>
+          <td >{{ props.item.title[0] }}</td>
           <td >{{ props.item.authors }}</td>
-          <td >{{ props.item.publication }}</td>
+          <td >{{ props.item.pub_raw }}</td>
 
         </tr>
       </template>
       
       <template slot="expand" slot-scope="props" >
         <v-card flat :key="itemKey(props.item) + '_expand'">
-         {{ props.item.abstract }}
+         <div class="abstract" v-if="props.item.abstract"><b>abstract</b>: {{ props.item.abstract }} </div>
+         <div v-if="props.item.formula"><b>formula</b>: {{ props.item.formula }} </div>
         </v-card>
       </template>
       
@@ -42,20 +45,21 @@ export default {
     let t = this.getRef()
     new Sortable(
       this.$refs[t].$el.getElementsByTagName('tbody')[0],
-      {
-        draggable: '.sortableRow',
-        handle: '.sortHandle',
-        onStart: this.dragStart,
-        onEnd: this.dragReorder
-      }
-    )},
+        {
+          draggable: '.sortableRow',
+          handle: '.sortHandle',
+          onStart: this.dragStart,
+          onEnd: this.dragReorder
+        }
+      )
+    },
 
   methods: {
     getRef: function() {
       return 'articleTable'
     },
     getSortKey: function() {
-      return 'hitid'
+      return 'docid'
     },
     getItems: function() {
       return this.items;
@@ -82,12 +86,17 @@ export default {
     itemKey (item) {
       if (!this.itemKeys.has(item)) this.itemKeys.set(item, ++this.currentItemKey)
       return this.itemKeys.get(item)
-    }
+    },
+
+    onClick: () => {
+      debugger
+      //this.$store.dispatch('updateRelevant', {selection: this.selection})
+    },
+    
   },
   
-  data () {
-    
-    return {
+  data: () => ({
+      selected: [],
       expandRow: null,
       itemKeys: new WeakMap(),
       currentItemKey: 0,
@@ -95,6 +104,7 @@ export default {
         {
           sortable: false
         },
+        { text: 'Lucene Score', value: 'score', sortable: false },
         {
           text: 'Relevant',
           align: 'left',
@@ -110,10 +120,14 @@ export default {
         { text: 'Authors', value: 'authors', sortable: false },
         { text: 'Publication', value: 'publication', sortable: false },
         
-      ],
-      items: this.$store.state.experiment.papers
-    }
-  }
+      ]
+    }),
+
+  computed: {
+    
+      items: function() {return this.$store.state.papers},
+      relevant: function() {debugger; return this.$store.state.relevant}
+  },
 }
 </script>
 

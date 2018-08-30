@@ -4,6 +4,7 @@
     <v-card-text>
       <v-form ref="form" >
         <v-layout row wrap>
+            Experiment ID: {{eid}}
           <v-flex lg12 sm12>
             <v-text-field label="Reporter" name="reporter" v-model="reporter">
             </v-text-field>
@@ -234,7 +235,7 @@
 <script>
 export default {
   data: function() {
-      return this.$store.state.experiment.parameters
+      return this.$store.state.experiment
   },
   methods: {
     closeDialog () {

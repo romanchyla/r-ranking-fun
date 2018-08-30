@@ -44,10 +44,14 @@ def experiment(experimentid):
             out = current_app.save_experiment(exp['eid'], relevant=exp['relevant'])
         elif verb == 'save-experiment' or verb == 'update-experiment':
             kwargs = _extract_experiment_params(data)
+            
+            
             if kwargs['query'] != exp['query'] or \
                 kwargs['experiment_params'].get('extra_params', {}) != exp['experiment_params'].get('extra_params', {}) or \
                 exp['query_results'] == {}:
                 
+                # update the search results (but first save the parameters)
+                out = current_app.save_experiment(exp['eid'], **kwargs)
                 search_params = _extract_search_params(kwargs)
                 
                 try:
@@ -55,11 +59,12 @@ def experiment(experimentid):
                     results = current_app.enhance_solr_results(current_app.search(**search_params))
                 except Exception, e:
                     current_app.logger.error(e)
-                    results = {}
+                    raise e
                 
-                kwargs['results'] = results
-                
-            out = current_app.save_experiment(exp['eid'], **kwargs)
+                kwargs['query_results'] = results
+                out = current_app.save_experiment(exp['eid'], **kwargs)
+            else:    
+                out = current_app.save_experiment(exp['eid'], **kwargs)
         else:
             return jsonify({'error': 'unknown action: %s' % verb}), 404
             

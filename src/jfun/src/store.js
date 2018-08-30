@@ -169,10 +169,7 @@ export default new Vuex.Store({
     },
 
     updateRelevant(context, {docids}) {
-      debugger;
-      return new Promise((resolve) => {
-        
-        
+      return new Promise((resolve) => {      
         const data = {
           verb: 'replace-relevant',
           data: docids

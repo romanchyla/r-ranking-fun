@@ -51,6 +51,11 @@ class Test(unittest.TestCase):
         tree = p.get_tree(test1)
         tree = tree.replace('\t', '    ')
         self.assertEquals(tree, test1_tree)
+        
+    def test_special1(self):
+        p = ExplanationParser(use_kwargs=None, flatten_tfidf=None) # default
+        _, formula = p.parse(test4)
+        print formula
 
     
 class TestScorers(unittest.TestCase):
@@ -308,7 +313,29 @@ test3= r"""
 """
 
 
-        
+test4 = """21.956947 = sum of:
+       19.956947 = max of:
+         19.956947 = weight(abstract:kurtz in 3338) [SchemaSimilarity], result of:
+           19.956947 = score(doc=3338,freq=2.0 = termFreq=2.0
+     ), product of:
+             1.3 = boost
+             9.452687 = idf(docFreq=882, docCount=11245132)
+             1.6240354 = tfNorm, computed from:
+               2.0 = termFreq=2.0
+               1.2 = parameter k1
+               0.75 = parameter b
+               183.8078 = avgFieldLength
+               83.591835 = fieldLength
+         2.0 = sum of:
+           2.0 = author:kurtz,*, product of:
+             2.0 = boost
+             1.0 = queryNorm
+       2.0 = max of:
+         2.0 = sum of:
+           2.0 = author:accomazzi,*, product of:
+             2.0 = boost
+             1.0 = queryNorm
+"""        
 
     
 

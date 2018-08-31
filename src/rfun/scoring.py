@@ -3,6 +3,82 @@ from lark import Lark, Tree, Transformer, Visitor
 from lark.tree import pydot__tree_to_png
 import math
 
+# #| ("sum of:" "[" (key weight)+ "]") -> sumof
+
+grammar=r"""
+
+    
+    start: (key sumof) | (key weight)
+    
+        
+    sumof: ( "sum of:" "[" (key (weight | sumof))+ "]" ) -> sumof
+        | ( "max of:" "[" (key (weight | sumof))+ "]" ) -> maxof
+        
+    
+    key: FLOAT _EQUAL -> result
+        
+    weights: "sum of:" weight+
+    weight: ("weight" "(" wdescription ")" "[SchemaSimilarity]" _COMMA wscore) -> weight
+        | ("const(" anyterm ")" _COMMA woperation boost querynorm) -> constant
+        
+    
+    maxweight: "max of:" ((key weights)|weight)+
+    
+ 
+    wdescription: DESCRIPTION+ -> wdescription
+    qterm: ("a".."z"|"A".."Z"|":"|FLOAT|DIGIT | ESCAPED_STRING|":"|","|"*"|"?")+
+    
+    wscore: woperation score
+        
+    woperation:"result of:" -> resultof
+              | "product of:" -> productof
+              | "computed from:" -> computedfrom
+
+    score: FLOAT _EQUAL scoredesc _COMMA scorecomp
+    scoredesc: "score" "(" (DESCRIPTION | _EQUAL | _COMMA)+ ")"
+    scorecomp:  woperation boost? idf tfnorm
+    
+    boost: FLOAT _EQUAL "boost"
+    querynorm: FLOAT _EQUAL "queryNorm"
+    
+    idf: FLOAT _EQUAL (("idf" "(" _idfdata ")") | ("idf(), sum of:" "[" idf+ "]" ))
+        
+    
+    tfnorm: FLOAT _EQUAL "tfNorm" _COMMA woperation tfreq tfk1 tfb tfavgdoclen tfdl
+    tfreq:  FLOAT _EQUAL (("termFreq"|"phraseFreq") _EQUAL _FLOAT)
+    tfk1: FLOAT _EQUAL "parameter k1"
+    tfb: FLOAT _EQUAL "parameter b" ("(" anyterm+ ")")?
+    tfavgdoclen: FLOAT _EQUAL "avgFieldLength"
+    tfdl: FLOAT _EQUAL "fieldLength"
+    
+    _idfdata: docfreq _COMMA doccount
+    
+    docfreq: "docFreq" _EQUAL _nums
+    
+    doccount: "docCount" _EQUAL _nums
+    
+    anyterm: /[^)^\]]+/
+    _nums: /\d+/
+    EQUAL: "="
+    _EQUAL: "="
+    _FLOAT: FLOAT
+    
+    _COMMA: ","
+    
+    DESCRIPTION: ("a".."z"|"A".."Z"|":"|FLOAT|DIGIT)+ | ESCAPED_STRING
+    
+
+    %import common.ESCAPED_STRING
+    %import common.STRING_INNER
+    %import common.FLOAT
+    %import common.DIGIT
+    %import common.WS
+    
+    %ignore WS
+    
+"""
+
+
 class ExplanationParser(object):
     def __init__(self, flatten_tfidf=False, use_kwargs=False):
         self.parser = Lark(grammar, parser='lalr')
@@ -42,8 +118,10 @@ class ExplanationParser(object):
 
         
     def _cleanup(self, text):
-        t = re.sub(r'\n\)', ")", text, flags=re.MULTILINE)
-        t2 = self._add_brackets(t)
+        t = re.sub(r'\n\s*\)', ")", text, flags=re.MULTILINE)
+        t2 = self._check_constant(self._add_brackets(t))
+        
+        print t2
         return t2
 
     def _add_brackets(self, t):
@@ -92,72 +170,30 @@ class ExplanationParser(object):
         lines[j] += ']'
 
  
-
-grammar=r"""
-
+    def _check_constant(self, text):
+        """Some query types are missing const(qterm) and have just "qterm, product of:"
+        """
+        lines = text.splitlines()
+        for i in range(len(lines)):
+            line = lines[i]
+            if line.endswith('product of:') or line.endswith('computed from:') or line.endswith('result of:'):
+                parts = line.split(' = ')
+                t = parts[1]
+                if t.startswith('weight') or t.startswith('score') or t.startswith('const'):
+                    continue
+                if i-1 > 0 and not lines[i-1].endswith('['):
+                    continue
+                lines[i] = self._add_constant(line)
+        return '\n'.join(lines)
     
-    start: key (sumof | weight)
-    
-        
-    sumof: ("sum of:" "[" (key weight)+ "]") -> sumof
-        | ("sum of:" "[" (key sumof)+ "]") -> sumof
-        | ("max of:" "[" (key sumof)+ "]" ) -> maxof
-        
-    
-    key: FLOAT _EQUAL -> result
-        
-    weights: "sum of:" weight+
-    weight: "weight" "(" wdescription ")" "[SchemaSimilarity]" _COMMA wscore
-    maxweight: "max of:" ((key weights)|weight)+
-    
- 
-    wdescription: DESCRIPTION+ -> wdescription
-    wscore: woperation score
-        
-    woperation:"result of:" -> resultof
-              | "product of:" -> productof
-              | "computed from:" -> computedfrom
-
-    score: FLOAT _EQUAL scoredesc _COMMA scorecomp
-    scoredesc: "score" "(" (DESCRIPTION | _EQUAL | _COMMA)+ ")"
-    scorecomp:  woperation boost? idf tfnorm
-    
-    boost: FLOAT _EQUAL "boost" 
-    
-    idf: FLOAT _EQUAL (("idf" "(" _idfdata ")") | ("idf(), sum of:" "[" idf+ "]" ))
-        
-    
-    tfnorm: FLOAT _EQUAL "tfNorm" _COMMA woperation tfreq tfk1 tfb tfavgdoclen tfdl
-    tfreq:  FLOAT _EQUAL (("termFreq"|"phraseFreq") _EQUAL _FLOAT)
-    tfk1: FLOAT _EQUAL "parameter k1"
-    tfb: FLOAT _EQUAL "parameter b"
-    tfavgdoclen: FLOAT _EQUAL "avgFieldLength"
-    tfdl: FLOAT _EQUAL "fieldLength"
-    
-    _idfdata: docfreq _COMMA doccount
-    
-    docfreq: "docFreq" _EQUAL _nums
-    
-    doccount: "docCount" _EQUAL _nums
-    
-    _nums: /\d+/
-    EQUAL: "="
-    _EQUAL: "="
-    _FLOAT: FLOAT
-    
-    _COMMA: ","
-    
-    DESCRIPTION: ("a".."z"|"A".."Z"|":"|FLOAT|DIGIT)+ | ESCAPED_STRING
-
-    %import common.ESCAPED_STRING
-    %import common.STRING_INNER
-    %import common.FLOAT
-    %import common.DIGIT
-    %import common.WS
-    
-    %ignore WS
-    
-"""
+    def _add_constant(self, line):
+        i = line.index(' = ') + 3
+        j = 0
+        for x in (', product of:', ', result of:', ', computed from:'):
+            if x in line:
+                j = line.index(x)
+                break
+        return line[0:i] + 'const(' + line[i:j] + ')' + line[j:]
 
 
 

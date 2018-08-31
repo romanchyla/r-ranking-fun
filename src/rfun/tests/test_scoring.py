@@ -337,8 +337,52 @@ test4 = """21.956947 = sum of:
              1.0 = queryNorm
 """        
 
-    
+test5 ="""29.833654 = max of:
+       23.447416 = weight(abstract:kurtz in 17454) [SchemaSimilarity], result of:
+         23.447416 = score(doc=17454,freq=4.0 = termFreq=4.0
+     ), product of:
+           1.3 = boost
+           9.451701 = idf(docFreq=915, docCount=11654131)
+           1.9082781 = tfNorm, computed from:
+             4.0 = termFreq=4.0
+             1.2 = parameter k1
+             0.75 = parameter b
+             184.91911 = avgFieldLength
+             64.0 = fieldLength
+       29.833654 = weight(title:kurtz in 17454) [SchemaSimilarity], result of:
+         29.833654 = score(doc=17454,freq=1.0 = termFreq=1.0
+     ), product of:
+           1.5 = boost
+           13.718743 = idf(docFreq=19, docCount=17701456)
+           1.4497758 = tfNorm, computed from:
+             1.0 = termFreq=1.0
+             1.2 = parameter k1
+             0.75 = parameter b
+             16.553545 = avgFieldLength
+             4.0 = fieldLength"""
 
+test6 = """9.4076 = sum of:[
+  5.0 = max of:[
+    2.0 = sum of:[
+      2.0 = const(author:kurtz,*), product of:
+        2.0 = boost
+        1.0 = queryNorm]
+    5.0 = sum of:[
+      5.0 = const(first_author:kurtz,*), product of:
+        5.0 = boost
+        1.0 = queryNorm]]
+  4.407601 = weight(year:1989 in 169291) [SchemaSimilarity], result of:
+    4.407601 = score(doc=169291,freq=1.0 = termFreq=1.0), product of:
+      4.407601 = idf(docFreq=212871, docCount=17470857)
+      1.0 = tfNorm, computed from:
+        1.0 = termFreq=1.0
+        1.2 = parameter k1
+        0.0 = parameter b (norms omitted for field)]"""
 
 if __name__ == "__main__":
-    unittest.main()
+    #unittest.main()
+    
+    p = ExplanationParser(use_kwargs=None, flatten_tfidf=None) # default
+    print p.get_tree(test6)
+    _, formula = p.parse(test6)
+    print formula

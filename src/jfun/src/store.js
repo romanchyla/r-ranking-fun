@@ -6,7 +6,10 @@ import * as _ from 'lodash'
 Vue.use(Vuex)
 
 
-//axios.defaults.baseURL = process.env.API_URL || 'http://localhost:4000/';
+// a kludge for development
+if (window && window.location.toString().indexOf(':8080') > -1)
+  axios.defaults.baseURL = 'http://localhost:4000/';
+
 axios.defaults.headers.common['Accept'] = 'application/json';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 

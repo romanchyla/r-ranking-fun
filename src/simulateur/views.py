@@ -56,7 +56,7 @@ def experiment(experimentid):
                 
                 try:
                     # search api, get data
-                    results = current_app.enhance_solr_results(current_app.search(**search_params))
+                    results = current_app.enhance_solr_results(current_app.query(**search_params))
                 except Exception, e:
                     current_app.logger.error(e)
                     raise e
@@ -100,7 +100,7 @@ def search(experimentid):
     if exp is None:
         raise Exception('No experiment with id: %s' % experimentid)
     
-    out = current_app.search(exp)
+    out = current_app.query(exp)
     return jsonify(out), 200
     
     

@@ -52,16 +52,13 @@ class Test(unittest.TestCase):
         tree = tree.replace('\t', '    ')
         self.assertEquals(tree, test1_tree)
         
-    def test_special1(self):
-        p = ExplanationParser(use_kwargs=None, flatten_tfidf=None) # default
-        _, formula = p.parse(test4)
-        print formula
 
     
 class TestScorers(unittest.TestCase):
     
     def test_scorers(self):
-        for s,t in ((19.06905, test1), (25.458822, test2), (132.459, test3)):
+        for s,t in ((19.06905, test1), (25.458822, test2), (132.459, test3), (21.956947, test4),
+                    (29.833654, test5), (9.4076, test6)):
             p = ExplanationParser()
             p2 = ExplanationParser(use_kwargs=True, flatten_tfidf=True)
             _, formula = p.parse(t)
@@ -361,28 +358,28 @@ test5 ="""29.833654 = max of:
              16.553545 = avgFieldLength
              4.0 = fieldLength"""
 
-test6 = """9.4076 = sum of:[
-  5.0 = max of:[
-    2.0 = sum of:[
+test6 = """9.4076 = sum of:
+  5.0 = max of:
+    2.0 = sum of:
       2.0 = const(author:kurtz,*), product of:
         2.0 = boost
-        1.0 = queryNorm]
-    5.0 = sum of:[
+        1.0 = queryNorm
+    5.0 = sum of:
       5.0 = const(first_author:kurtz,*), product of:
         5.0 = boost
-        1.0 = queryNorm]]
+        1.0 = queryNorm
   4.407601 = weight(year:1989 in 169291) [SchemaSimilarity], result of:
     4.407601 = score(doc=169291,freq=1.0 = termFreq=1.0), product of:
       4.407601 = idf(docFreq=212871, docCount=17470857)
       1.0 = tfNorm, computed from:
         1.0 = termFreq=1.0
         1.2 = parameter k1
-        0.0 = parameter b (norms omitted for field)]"""
+        0.0 = parameter b (parameter omitted from index)"""
 
 if __name__ == "__main__":
-    #unittest.main()
+    unittest.main()
     
     p = ExplanationParser(use_kwargs=None, flatten_tfidf=None) # default
-    print p.get_tree(test6)
-    _, formula = p.parse(test6)
-    print formula
+    #print p.get_tree(test6)
+    #_, formula = p.parse(test6)
+    #print formula

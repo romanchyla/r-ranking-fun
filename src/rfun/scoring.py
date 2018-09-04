@@ -39,12 +39,11 @@ grammar=r"""
     scorecomp:  woperation boost? idf tfnorm
     
     boost: FLOAT _EQUAL "boost"
-    querynorm: FLOAT _EQUAL "queryNorm"
     
     idf: FLOAT _EQUAL (("idf" "(" _idfdata ")") | ("idf(), sum of:" "[" idf+ "]" ))
+    tfnorm: FLOAT _EQUAL "tfNorm" _COMMA woperation tfreq tfk1 tfb tfavgdoclen? tfdl?
         
     
-    tfnorm: FLOAT _EQUAL "tfNorm" _COMMA woperation tfreq tfk1 tfb tfavgdoclen tfdl
     tfreq:  FLOAT _EQUAL (("termFreq"|"phraseFreq") _EQUAL _FLOAT)
     tfk1: FLOAT _EQUAL "parameter k1"
     tfb: FLOAT _EQUAL "parameter b" ("(" anyterm+ ")")?
@@ -52,10 +51,11 @@ grammar=r"""
     tfdl: FLOAT _EQUAL "fieldLength"
     
     _idfdata: docfreq _COMMA doccount
-    
     docfreq: "docFreq" _EQUAL _nums
     
+    
     doccount: "docCount" _EQUAL _nums
+    querynorm: FLOAT _EQUAL "queryNorm"
     
     anyterm: /[^)^\]]+/
     _nums: /\d+/
@@ -121,7 +121,7 @@ class ExplanationParser(object):
         t = re.sub(r'\n\s*\)', ")", text, flags=re.MULTILINE)
         t2 = self._check_constant(self._add_brackets(t))
         
-        print t2
+        #print t2
         return t2
 
     def _add_brackets(self, t):
@@ -204,13 +204,37 @@ class TreeVisitor(Visitor):
         self.use_kwargs = use_kwargs
         self.flatten_tfidf = flatten_tfidf
         
+        # default templates
+        tmpl = {}
+        tmpl['idf'] = 'idf(%s, %s)'
+        tmpl['idfgroup'] = 'idfgroup(%s)'
+        tmpl['tfnorm'] = 'tf(%s, %s, %s, %s, %s)'
+        tmpl['sumof'] = 'sum(%s)'
+        tmpl['maxof'] = 'max(%s)'
+        tmpl['weight'] = 'weight("%s", %s, %s)'
+        tmpl['const'] = 'const(%s, %s)'
+        
+        # over-rides
+        if self.use_kwargs and self.flatten_tfidf:
+            tmpl['idf'] = 'tfreq=%s, k1=%s, b=%s, avgdoclen=%s, doclen=%s'
+            tmpl['idfgroup'] = 'docfreq=None, colfreq=None, idfgroup=(dict(%s))'
+            
+        elif self.use_kwargs and not self.flatten_tfidf:
+            tmpl['idf'] = 'tf(tfreq=%s, k1=%s, b=%s, avgdoclen=%s, doclen=%s)'
+            tmpl['idfgroup'] = 'docfreq=None, colfreq=None, idfgroup=(%s)'
+            
+        elif not self.use_kwargs and self.flatten_tfidf:
+            tmpl['idf'] = '%s, %s, %s, %s, %s'
+            tmpl['idfgroup'] = 'idfgroup=((%s))'
+        
+        
     def idf(self, node):
         # for phrases, idf for every token
         out = []
         for x in node.children: # nested idf()
             if hasattr(x, 'formula'):
                 out.append(x.formula)
-        if len(out):
+        if len(out): 
             if self.use_kwargs:
                 if self.flatten_tfidf:
                     node.formula = 'docfreq=None, colfreq=None, idfgroup=(dict(%s))' % ('), dict('.join(out))
@@ -247,8 +271,8 @@ class TreeVisitor(Visitor):
             node.children[2].children[0].value, #tfreq
             node.children[3].children[0].value, #k1
             node.children[4].children[0].value, #b
-            node.children[5].children[0].value, #avgdoclen
-            node.children[6].children[0].value) #doclen
+            len(node.children) >= 6 and node.children[5].children[0].value or '0', #avgdoclen
+            len(node.children) >= 7 and node.children[6].children[0].value or '0') #doclen
     
     def boost(self, node):
         node.formula = node.children[0].value 
@@ -314,7 +338,15 @@ class TreeVisitor(Visitor):
                 self.formula = x.formula
         self.score = node.children[0].children[0].value
 
-
+    
+    def querynorm(self, node):
+        node.formula = node.children[0].value
+        
+    def constant(self, node):
+        b = self._find(node, 'boost')
+        qn = self._find(node, 'querynorm')
+        node.formula = 'const(%s, %s)' % (b, qn)
+            
 
 class LuceneBM25Scorer(object):
     """Should produce exactly the same results as Lucene"""
@@ -334,11 +366,16 @@ class LuceneBM25Scorer(object):
         return max(args)
     
     def tf(self, tfreq, k1, b, avgdoclen, doclen):
+        if avgdoclen == 0: # probably a constant score, just return freq
+            return tfreq
         L = doclen/avgdoclen
         return ((k1+1)*tfreq)/(k1*(1.0-b+b*L)+tfreq)
     
     def idf(self, docfreq, colfreq):
         return math.log(1+(colfreq-docfreq+0.5)/(docfreq + 0.5))
+    
+    def const(self, termfreq, boost):
+        return termfreq * boost
     
     def run(self, formula):
         return self._eval(formula)
@@ -351,7 +388,8 @@ class LuceneBM25Scorer(object):
             'weight': self.weight,
             'tf': self.tf,
             'idf': self.idf,
-            'idfgroup': self.idfgroup
+            'idfgroup': self.idfgroup,
+            'const': self.const,
             }
         return eval(formula, None, locals)
 

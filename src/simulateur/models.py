@@ -43,6 +43,7 @@ class Experiment(Base):
     reporter = Column(String(1024))
     relevant = Column(Text)
     progress = Column(Integer)
+    experiment_results = Column(Text)
     
     def toJSON(self):
         """Returns value formatted as python dict."""
@@ -57,5 +58,6 @@ class Experiment(Base):
             'started': self.updated and get_date(self.started).isoformat() or None,
             'finished': self.updated and get_date(self.finished).isoformat() or None,
             'relevant': self.relevant and json.loads(self.relevant) or [],
-            'progress': self.progress
+            'progress': self.progress,
+            'experiment_results': self.experiment_results and json.loads(self.experiment_results) or {}
         }

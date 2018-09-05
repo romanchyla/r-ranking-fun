@@ -110,10 +110,10 @@ class SimulateurADSFlask(ADSFlask):
                         reporter=None,
                         query_results=None, 
                         experiment_params=None,
-                        experiment_results=None,
                         relevant=None,
                         query=None,
-                        description=None):
+                        description=None,
+                        experiment_results=None):
         with self.session_scope() as session:
             if experimentid is None:
                 m = Experiment()
@@ -133,11 +133,14 @@ class SimulateurADSFlask(ADSFlask):
             if experiment_params:
                 m.experiment_params = json.dumps(experiment_params)
             
+                
             if query_results:
                 m.query = query_results['responseHeader']['params']['q']
                 m.query_results = json.dumps(query_results)
+            
             if experiment_results:
                 m.experiment_results = json.dumps(experiment_results)
+            
             if relevant:
                 m.relevant = json.dumps(relevant)
                 
@@ -147,7 +150,7 @@ class SimulateurADSFlask(ADSFlask):
             return m.toJSON()
 
 
-    def run_experiment(self, experimentid):
+    def run_experiment(self, experimentid, num_results=5):
         """Will execute the experiment."""
         exp = self.get_experiment(experimentid)
         if exp is None:
@@ -167,14 +170,35 @@ class SimulateurADSFlask(ADSFlask):
             [25, 50, 100], # TODO: make ocnfigurable
             docs, 
             gold_set, 
-            params.get('kRange', [1.2, 1.2, 0]), 
-            params.get('bRange', [0.75, 0.75, 0]),
+            params.get('kRange', [1.2, 1.2, 0.1]), 
+            params.get('bRange', [0.75, 0.75, 0.1]),
             params.get('docLenRange', None), 
             normalizeWeight='useNormalization' in params,
             fieldBoost=params.get('fieldBoost', None))
         
-        num_runs, score, params = list(se.run())[0]
-        return jsonify({numRuns: num_runs, score: score, params: params}), 200
+        size = se.get_size()
+        
+        with self.session_scope() as session:
+            
+            m = session.query(Experiment).filter(Experiment.eid == int(experimentid)).first()
+            m.progress = 0.0
+            m.started = get_date()
+            m.finished = None
+            session.commit()
+            
+            for tick, best_sofar in se.run():
+                m = session.query(Experiment).filter(Experiment.eid == int(experimentid)).first()
+                m.progress = size / tick
+                session.commit()
+        
+            m = session.query(Experiment).filter(Experiment.eid == int(experimentid)).first()
+            m.progress = 1.0
+            m.finished = get_date()
+            m.experiment_results = json.dumps({'runs': size, 'params': params, 'results': se.get_results(),
+                                               'elapsed': m.finished - m.started})
+            session.commit()
+                
+        return 
         
             
             

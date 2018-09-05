@@ -135,6 +135,25 @@ def dashboard(start=0, rows=50):
         
     return jsonify({'header': header, 'results': out}), 200
 
+
+
+@advertise(scopes=[], rate_limit = [100, 3600*24])
+@bp.route('/results/<experimentid>', methods=['POST'])
+def results(experimentid):
+    exp = current_app.get_experiment(experimentid)
+    if exp is None:
+        raise Exception('Good try')
+    
+    if exp['started'] and exp['finished'] is None:
+        return jsonify({'message': 'Simulateur is still thinking (for this experiment) and cannot be interrupted, progress at this point: %s' % exp['progress'],
+                        'progress': exp['progress'] }), 200 
+    
+    # TODO: make this asynchronous - use websockets
+    current_app.run_experiment(experimentid)        
+    
+    return jsonify(current_app.get_experiment(experimentid)), 200
+    
+
 def _get_exp_info(exp):
     num_found = num_used = num_golden = 0    
     if exp['query_results']:

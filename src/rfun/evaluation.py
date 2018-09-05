@@ -1,8 +1,10 @@
 from rfun.scoring import FlexibleScorer
 import decimal
+import heapq
 
 class MultiParameterEvaluator(object):
-    def __init__(self, pPoints, docs, goldSet, kRange, bRange, docLenRange, normalizeWeight,fieldBoost):
+    def __init__(self, pPoints, docs, goldSet, kRange, bRange, docLenRange, 
+                 normalizeWeight,fieldBoost, num_results=5):
         self.pPoints = pPoints
         self.docs = docs
         self.goldSet = goldSet
@@ -11,14 +13,14 @@ class MultiParameterEvaluator(object):
         self.docLenRange = docLenRange
         self.normalizeWeight = normalizeWeight
         self.fieldBoost = fieldBoost
-        self.bestSet = None
-        self.bestScore = 0.0
-    
-    def get_best(self):
-        return self.bestSet
+        
+        self.num_results = num_results
+        self.heap = []
+
     
     def run(self, yield_per=1000):
         i = 0
+        heap = self.heap
         
         for k in self._xrange(*self.kRange):
             for b in self._xrange(*self.bRange):
@@ -34,15 +36,40 @@ class MultiParameterEvaluator(object):
                                                     idf_normalization=normalize,
                                                     perfield_avgdoclen=dl)
                             score = self._score(scorer)
-                            if score > self.bestScore:
-                                self.bestScore = score
-                                self.bestSet = dict(k1=k, b=b, perdoc_boost=doc_boost, 
+                            item = (score, dict(k1=k, b=b, perdoc_boost=doc_boost, 
                                                     idf_normalization=normalize,
-                                                    perfield_avgdoclen=dl)
+                                                    perfield_avgdoclen=dl))
+                            if len(heap) < self.num_results:
+                                heapq.heappush(heap, item)
+                            else:
+                                heapq.heappushpop(heap, item)
+                            
                             if i % yield_per == 0:
-                                yield (i, self.bestScore, self.bestSet)
+                                yield (i, self.get_results(1))
+        # final notification
+        yield (i, self.get_results(1))
 
-        yield (i, self.bestScore, self.bestSet)
+    
+    def get_size(self):
+        """Returns the number of parameters that are going to be tested"""
+        k = (self.kRange[1] - self.kRange[0]) / self.kRange[2]
+        b = (self.bRange[1] - self.bRange[0]) / self.bRange[2]
+        dl = (self.docLenRange[1] - self.docLenRange[0]) / self.docLenRange[2]
+        r = k * b * dl
+        if self.normalizeWeight:
+            r *= 2
+        if self.fieldBoost:
+            r *= 2
+        return r
+    
+    def get_results(self, num=None):
+        if num:
+            num = min(len(self.heap), num)
+        else:
+            num = min(len(self.heap), self.num_results)
+            
+        return heapq.nlargest(num, self.heap)
+    
     
     def _xrange(self, x, y, step):
         while x < y:

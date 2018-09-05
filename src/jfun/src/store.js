@@ -32,9 +32,9 @@ export default new Vuex.Store({
         extra_params: 'sort=score+desc&fl=classic_factor,title,bibcode',
         normalizeWeight: true,
         fieldBoost: ['classic_factor', 'cite_read_bost'],
-        kRange: [0.5, 1.5],
-        bRange: [0.75, 1.0],
-        docLenRange: [0, 50],
+        kRange: [0.5, 1.5, 0.1],
+        bRange: [0.75, 1.0, 0.1],
+        docLenRange: [0, 50, 5],
         useK: true,
         useB: true,
         useBoost: true,
@@ -92,6 +92,7 @@ export default new Vuex.Store({
       console.log('updating experiment/papers store', parameters)
 
       this.commit('updatePapers', payload);      
+      this.commit('updateResults', payload);      
     },
 
     updatePapers(state, payload) {
@@ -127,6 +128,17 @@ export default new Vuex.Store({
 
     updateRelevant(state, payload) {
       state.relevant = payload.relevant
+    },
+
+    updateResults(state, payload) {
+      state.experiment_results = payload.experiment_results
+    },
+
+    updateProgress(state, payload) {
+      state.experiment_results = {
+        progress: payload.progress,
+        description: payload.message
+      }
     }
   },
 
@@ -182,7 +194,22 @@ export default new Vuex.Store({
           resolve();
         });
       });
-    }
+    },
+
+    getResults(context, {eid: eid}) {
+      return new Promise((resolve) => {
+        axios.post('/results/' + eid).then((response) => {
+          if (response.data.message) {
+            context.commmit('updateProgress', response.data)
+          }
+          else {
+            context.commit('updateExperiment', response.data);
+          }
+          resolve();
+        });
+      });
+    },
+
   }
   
 })

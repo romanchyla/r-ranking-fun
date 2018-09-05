@@ -4,6 +4,7 @@ import Dashboard from './components/Dashboard.vue'
 import ExperimentOverview from './components/ExperimentOverview.vue'
 import ListOfArticles from './components/ListOfArticles.vue'
 import ListOfSelectedArticles from './components/ListOfSelectedArticles'
+import ExperimentResults from './components/ExperimentResults'
 
 const routes = [
   {
@@ -31,9 +32,9 @@ const routes = [
     component: ListOfSelectedArticles
     },
     {
-    path: '/experiment/selection/:id',
+    path: '/experiment/results/:id',
     name: 'results',
-    component: WelcomePage
+    component: ExperimentResults
     },
     
   { path: '*', component: NotFound }

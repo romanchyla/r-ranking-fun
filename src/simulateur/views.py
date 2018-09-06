@@ -5,6 +5,7 @@ import json
 from adsmutils import get_date
 from flask.json import jsonify
 import urlparse
+from rfun.scoring import FlexibleScorer
 
 bp = Blueprint('simulateur', __name__)
 
@@ -144,14 +145,36 @@ def results(experimentid):
     if exp is None:
         raise Exception('Good try')
     
-    if exp['started'] and exp['finished'] is None:
+    if (exp['started'] and exp['finished'] is None):
         return jsonify({'message': 'Simulateur is still thinking (for this experiment) and cannot be interrupted, progress at this point: %s' % exp['progress'],
                         'progress': exp['progress'] }), 200 
+    
+    if exp['finished'] > exp['updated'] and exp['experiment_results'] and exp['experiment_results'] != {}:
+        return jsonify(current_app.get_experiment(experimentid)), 200
     
     # TODO: make this asynchronous - use websockets
     current_app.run_experiment(experimentid)        
     
     return jsonify(current_app.get_experiment(experimentid)), 200
+
+
+@advertise(scopes=[], rate_limit = [100, 3600*24])
+@bp.route('/reorder/<experimentid>/<setid>', methods=['GET'])
+def reorder(experimentid, setid):
+    exp = current_app.get_experiment(experimentid)
+    if exp is None:
+        raise Exception('Good try')
+    
+    #TODO: make idiot proof
+    params = exp['experiment_results']['results'][int(setid)][1]
+    scorer = FlexibleScorer(**params)
+    
+    docs = exp['query_results']['response']['docs']
+    for d in docs:
+        new_score = scorer.run(d['formula'])
+        d['new_score'] = new_score        
+    
+    return jsonify(exp), 200
     
 
 def _get_exp_info(exp):
@@ -195,7 +218,10 @@ def _extract_experiment_params(data):
         if k in data:
             if t == 'floatrange':
                 x = data[k]
-                out[k] = (float(x[0]), float(x[1]))
+                out[k] = [float(x[0]), float(x[1]), 0.1]
+                if len(x) > 2:
+                    out[k][2] = float(x[2])
+                
             elif t == 'float':
                 out[k] = float(data[k])
             elif t == 'bool':

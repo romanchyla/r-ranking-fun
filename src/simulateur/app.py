@@ -176,7 +176,7 @@ class SimulateurADSFlask(ADSFlask):
             normalizeWeight='useNormalization' in params,
             fieldBoost=params.get('fieldBoost', None))
         
-        size = se.get_size()
+        size = float(se.get_size())
         
         with self.session_scope() as session:
             
@@ -187,15 +187,17 @@ class SimulateurADSFlask(ADSFlask):
             session.commit()
             
             for tick, best_sofar in se.run():
+                self.logger.info('Expriment {} progress: {}/{}, best so far: {}', 
+                                 experimentid, tick, size, best_sofar)
                 m = session.query(Experiment).filter(Experiment.eid == int(experimentid)).first()
-                m.progress = size / tick
+                m.progress = tick / size
                 session.commit()
         
             m = session.query(Experiment).filter(Experiment.eid == int(experimentid)).first()
             m.progress = 1.0
             m.finished = get_date()
             m.experiment_results = json.dumps({'runs': size, 'params': params, 'results': se.get_results(),
-                                               'elapsed': m.finished - m.started})
+                                               'elapsed': (m.finished - m.started).total_seconds()})
             session.commit()
                 
         return 

@@ -55,7 +55,7 @@
                 v-model="kRange"
                 :max="10.0"
                 :min="0.0"
-                :step="0.1"
+                :step="kStepSize"
                 ></v-range-slider>
             </v-flex>
 
@@ -70,8 +70,16 @@
                 single-line
                 type="number"
                 ></v-text-field>
+
+                <v-select
+                    v-model="kStepSize"
+                    hint="Step size"
+                    :items="[0.01, 0.1, 1, 10, 100]"
+                    single-line
+                    class="mt-0"
+                    :readonly="false"
+                ></v-select>
             </v-flex>
-            
         </v-layout>
 
         </div>
@@ -102,7 +110,7 @@
                     v-model="bRange"
                     :max="1.0"
                     :min="0.0"
-                    :step="0.05"
+                    :step="bStepSize"
                     ></v-range-slider>
                 </v-flex>
 
@@ -110,14 +118,24 @@
                     shrink
                     style="width: 60px"
                 >
-                    <v-text-field
+                <v-text-field
                     v-model="bRange[1]"
                     class="mt-0"
                     hide-details
                     single-line
                     type="number"
                     ></v-text-field>
+
+                    <v-select
+                        v-model="bStepSize"
+                        hint="Step size"
+                        :items="[0.01, 0.1, 1, 10, 100]"
+                        single-line
+                        class="mt-0"
+                    ></v-select>
                 </v-flex>
+
+                
 
             </v-layout>
 
@@ -158,7 +176,7 @@
                     v-model="docLenRange"
                     :max="100"
                     :min="0"
-                    :step="1"
+                    :step="docStepSize"
                     ></v-range-slider>
                 </v-flex>
 
@@ -173,7 +191,17 @@
                     single-line
                     type="number"
                     ></v-text-field>
+
+                    <v-select
+                        v-model="docStepSize"
+                        hint="Step size"
+                        :items="[0.01, 0.1, 1, 10, 100]"
+                        single-line
+                        class="mt-0"
+                        :readonly="false"
+                    ></v-select>
                 </v-flex>
+
             </v-layout>
 
         </div>
@@ -242,7 +270,9 @@ export default {
       this.$parent.isActive = false;
     },
     onSave: function() {
-        this.$store.dispatch("saveExperiment")
+        this.$store.dispatch("saveExperiment").then(() => {
+            this.$router.push({path: '/experiment/articles/' + this.$store.state.experiment.eid})
+        })
     }
   }
 };

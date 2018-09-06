@@ -66,7 +66,6 @@ export default {
             if (this.selected.length > 0) {
               console.log(this.selected, this.$data.selected[0])
               const item = this.selected[0]
-              debugger;
               this.$store.dispatch('loadExperiment', {eid: item.eid}).then(() => {
                 this.$router.push({path: '/experiment/overview/' + item.eid})
               })
@@ -83,6 +82,12 @@ export default {
         else if (action === 'create') {
           this.$store.dispatch('createExperiment').then(() => {
             this.$router.push({path: '/experiment/overview/' + this.$store.state.experiment.eid})
+          })
+        }
+        else if (action == 'run') {
+          debugger;
+          this.$store.dispatch('getResults', {eid: this.selected[0].eid}).then(() => {
+            this.$router.push({path: '/experiment/results/' + this.$store.state.experiment.eid})
           })
         }
       }

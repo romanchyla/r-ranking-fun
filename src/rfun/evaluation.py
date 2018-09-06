@@ -39,10 +39,10 @@ class MultiParameterEvaluator(object):
                             item = (score, dict(k1=k, b=b, perdoc_boost=doc_boost, 
                                                     idf_normalization=normalize,
                                                     perfield_avgdoclen=dl))
-                            if len(heap) < self.num_results:
-                                heapq.heappush(heap, item)
-                            else:
+                            if len(heap) >= self.num_results:
                                 heapq.heappushpop(heap, item)
+                            else:
+                                heapq.heappush(heap, item)
                             
                             if i % yield_per == 0:
                                 yield (i, self.get_results(1))
@@ -52,9 +52,9 @@ class MultiParameterEvaluator(object):
     
     def get_size(self):
         """Returns the number of parameters that are going to be tested"""
-        k = (self.kRange[1] - self.kRange[0]) / self.kRange[2]
-        b = (self.bRange[1] - self.bRange[0]) / self.bRange[2]
-        dl = (self.docLenRange[1] - self.docLenRange[0]) / self.docLenRange[2]
+        k = int((self.kRange[1] - self.kRange[0]) / self.kRange[2])
+        b = int((self.bRange[1] - self.bRange[0]) / self.bRange[2])
+        dl = int((self.docLenRange[1] - self.docLenRange[0]) / self.docLenRange[2])
         r = k * b * dl
         if self.normalizeWeight:
             r *= 2

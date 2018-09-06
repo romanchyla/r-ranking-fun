@@ -13,6 +13,28 @@ if (window && window.location.toString().indexOf(':8080') > -1)
 axios.defaults.headers.common['Accept'] = 'application/json';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
+const massagePapers = function(payload) {
+  // map of all relevant docids (preserving order)
+  const m = {}
+  _.each(payload.relevant, function(element, index, list) {
+    m[element] = index+1
+  })
+
+  const docs = payload.query_results.response.docs
+  _.each(docs, function(element, index, list) {
+    element['hitid'] = index
+    if (m[element.docid]) {
+      element['relevant'] = m[element.docid]
+    }
+    else {
+      element['relevant'] = 0
+    }
+    if (element.author) {
+      element.authors = element.author.join('; ')
+    }
+  })
+  return docs;
+}
 
 export default new Vuex.Store({
   strict: false,
@@ -41,6 +63,9 @@ export default new Vuex.Store({
         useNormalization: true,
         useDocLen: false,
         reporter: '',
+        kStepSize: 0.01,
+        bStepSize: 0.01,
+        docStepSize: 1
     },
     papers:  [
             {
@@ -54,7 +79,12 @@ export default new Vuex.Store({
               abstract: 'looooooooooooooooooooooong abstract...........'
             },
           ],
-    relevant: []
+    relevant: [],
+    experiment_results: {
+      runs: 0,
+      params: {},
+      results: []
+    }
     
   },
 
@@ -78,7 +108,10 @@ export default new Vuex.Store({
         description: '',
         query: '',
         reporter: '',
-        eid: ''
+        eid: '',
+        kStepSize: 0.01,
+        bStepSize: 0.01,
+        docStepSize: 1
       }
       const picks = _.pick(payload.experiment_params,
         ['kRange', 'bRange', 'docLenRange', 'useK', 'useB', 
@@ -100,30 +133,15 @@ export default new Vuex.Store({
       state.relevant = payload.relevant
 
       if (payload.query_results && payload.query_results.response) {
-          // map of all relevant docids (preserving order)
-          const m = {}
-          _.each(payload.relevant, function(element, index, list) {
-            m[element] = index+1
-          })
-
-          const docs = payload.query_results.response.docs
-          _.each(docs, function(element, index, list) {
-            element['hitid'] = index
-            if (m[element.docid]) {
-              element['relevant'] = m[element.docid]
-            }
-            else {
-              element['relevant'] = 0
-            }
-            if (element.author) {
-              element.authors = element.author.join('; ')
-            }
-          })
-        state.papers = docs
+        state.papers = massagePapers(payload)
       }
       else {
         state.papers = []
       }
+    },
+
+    updateSimulatedPapers(state, payload) {
+      state.simulated_papers = massagePapers(payload);
     },
 
     updateRelevant(state, payload) {
@@ -203,12 +221,22 @@ export default new Vuex.Store({
             context.commmit('updateProgress', response.data)
           }
           else {
-            context.commit('updateExperiment', response.data);
+            context.commit('updateResults', response.data);
           }
           resolve();
         });
       });
     },
+
+    getSimulatedResults(context, {eid: eid, setid: setid}) {
+      return new Promise((resolve) => {
+        axios.get('/reorder/' + eid + '/' + setid).then((response) => {
+          debugger;
+          context.commit('updateSimulatedPapers', response.data);
+          resolve();
+        });
+      });
+    }
 
   }
   

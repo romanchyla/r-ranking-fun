@@ -5,7 +5,7 @@ flask-RESTful==0.3.4
 Flask==0.11.1
 psycopg2==2.7.3.2
 requests>=2.7.0
-alembic==0.8.1
+alembic==1.0.0
 flask-discoverer==0.0.2
 lark-parser
 pydot

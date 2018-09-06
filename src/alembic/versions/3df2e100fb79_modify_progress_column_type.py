@@ -19,9 +19,9 @@ import sqlalchemy as sa
 def upgrade():
     with op.batch_alter_table('experiments') as batch_op:
         batch_op.drop_column('progress')
-        batch_op.add_column(sa.Column('experiment_results', sa.FLOAT))
+        batch_op.add_column(sa.Column('progress', sa.FLOAT))
 
 def downgrade():
     with op.batch_alter_table('experiments') as batch_op:
         batch_op.drop_column('progress')
-        batch_op.add_column(sa.Column('experiment_results', sa.Integer))
+        batch_op.add_column(sa.Column('progress', sa.Integer))

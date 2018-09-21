@@ -7,28 +7,10 @@
 """
 from sqlalchemy import Column, Integer, String, Text, TIMESTAMP
 from sqlalchemy.ext.declarative import declarative_base
-from adsmutils import get_date
+from adsmutils import get_date, UTCDateTime
 import json
 
 Base = declarative_base()
-
-from sqlalchemy import types
-from dateutil.tz import tzutc
-from datetime import datetime
-
-class UTCDateTime(types.TypeDecorator):
-    impl = TIMESTAMP
-    def process_bind_param(self, value, engine):
-        if isinstance(value, basestring):
-            return get_date(value).astimezone(tzutc())
-        elif value is not None:
-            return value.astimezone(tzutc()) # will raise Error is not datetime
-
-    def process_result_value(self, value, engine):
-        if value is not None:
-            return datetime(value.year, value.month, value.day,
-                            value.hour, value.minute, value.second,
-                            value.microsecond, tzinfo=tzutc())
             
 class Experiment(Base):
     __tablename__ = 'experiments'

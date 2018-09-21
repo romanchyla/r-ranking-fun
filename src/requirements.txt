@@ -1,4 +1,4 @@
-git+https://github.com/adsabs/ADSMicroserviceUtils.git@v1.0.6
+git+https://github.com/adsabs/ADSMicroserviceUtils.git@v1.0.15
 flask-headers==1.0
 flask-cors==1.9.0
 flask-RESTful==0.3.4

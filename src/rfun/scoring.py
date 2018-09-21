@@ -345,7 +345,16 @@ class TreeVisitor(Visitor):
     def constant(self, node):
         b = self._find(node, 'boost')
         qn = self._find(node, 'querynorm')
-        node.formula = 'const(%s, %s)' % (b, qn)
+        anyterm = self._find(node, 'anyterm')
+        query = []
+        for child in anyterm.children:
+            query.append(child.value)
+        query = repr(' '.join(query))
+        
+        if self.use_kwargs:
+            node.formula = 'const(query=%s, boost=%s, querynorm=%s)' % (query, b, qn)
+        else:
+            node.formula = 'const(%s, %s, %s)' % (query, b, qn)
             
 
 class LuceneBM25Scorer(object):
@@ -374,8 +383,8 @@ class LuceneBM25Scorer(object):
     def idf(self, docfreq, colfreq):
         return math.log(1+(colfreq-docfreq+0.5)/(docfreq + 0.5))
     
-    def const(self, termfreq, boost):
-        return termfreq * boost
+    def const(self, query, boost, querynorm):
+        return querynorm * boost
     
     def run(self, formula):
         return self._eval(formula)
@@ -408,7 +417,7 @@ class FlexibleScorer(LuceneBM25Scorer):
     
     def __init__(self, k1=1.2, b=0.75, perfield_kb=None,
                  idf_normalization=False, perfield_avgdoclen=None,
-                 perdoc_boost=None):
+                 perdoc_boost=None, consts=None):
         """
         Parameters and how they affect score calculations:
         
@@ -428,6 +437,8 @@ class FlexibleScorer(LuceneBM25Scorer):
                 calculation (see description in the get_boost()) -- you may want to
                 pass any numerical (float) value in here; for example values from
                 inside 'classic_factor' field
+            @param consts: dict, a boost that should be applied (per field) during
+                const() evaluation
         
         """
         self.k1 = float(k1)
@@ -436,6 +447,7 @@ class FlexibleScorer(LuceneBM25Scorer):
         self.perfield_avgdoclen = perfield_avgdoclen or {}
         self.perdoc_boost = perdoc_boost or {}
         self.idf_normalization = bool(idf_normalization)
+        self.consts = consts or {}
         
         for k,v in self.perdoc_boost.items():
             if not isinstance(k, basestring) or not isinstance(v, float):
@@ -482,6 +494,7 @@ class FlexibleScorer(LuceneBM25Scorer):
                     idf += self.idf(*x) 
         else:
             idf = self.idf(docfreq, colfreq)
+            
         
         # normalize the IDF (lucene can do this)
         if self.idf_normalization:
@@ -520,6 +533,11 @@ class FlexibleScorer(LuceneBM25Scorer):
             self.idf_normalization_factor = None
         
         return self._eval(formula)
+    
+    def const(self, query, boost, querynorm):
+        field, rest = query.split(':', 1)
+        boost = self.consts.get(field, boost)
+        return querynorm * boost
         
         
 class IDFNormalizer(FlexibleScorer):        
@@ -536,6 +554,8 @@ class IDFNormalizer(FlexibleScorer):
     def get_boost(self, field, docid, default_boost):
         return 1.0
     def normalize_idf(self, idf, k1, b, avgdoclen, doclen):
+        if doclen == 0:
+            return idf
         return idf * k1 * (1.0-b+b*(avgdoclen/doclen))
     def run(self, formula):
         return self._eval(formula)

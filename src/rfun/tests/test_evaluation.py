@@ -61,11 +61,27 @@ class Test(unittest.TestCase):
                                      [20, 50, 10], 
                                      normalizeWeight=True,
                                      fieldBoost=None)
-        num_runs, score, params = list(se.run())[0]
+        num_runs, results = list(se.run())[0]
+        score, params = results[0][0], results[0][1]
         
         assert num_runs == 200
         assert score >= 0.0
         assert 'k1' in params
+        
+    def test_const_range(self):
+        gold_set = ['14062219', '14024620']
+        docs = enhanced['response']['docs']
+        docs[0]['formula'] = 'sum(max(sum(const(\'author:kurtz,*\', 2.0, 1.0)), sum(const(\'first_author:kurtz,*\', 5.0, 1.0))), weight("year:1989 in 169291", 1.0, 1.2, 0.0, 0, 0, 212871, 17470857))'
+        #docs[0]['formula'] = 'sum(max(sum(const(\'author:kurtz,*\', 2.0, 1.0)), sum(const(\'first_author:kurtz,*\', 5.0, 1.0))), weight("year:1989 in 169291", tf(1.0, 1.2, 0.0, 0, 0), idf(212871, 17470857)))'
+        se = MultiParameterEvaluator([2, 5, 100],
+                                    docs, 
+                                    gold_set,
+                                    constRanges={'fields': ['author', 'first_author', 'title', 'keyword'],
+                                                'range': (0, 10, 0.5)})
+        x = list(se._get_const_ranges())
+        assert len(x) == 190
+        assert x[0] == {'first_author': 0.0, 'author': 0.5}
+        assert x[-1] == {'first_author': 9.0, 'author': 9.5}
         
 
 

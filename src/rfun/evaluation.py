@@ -1,10 +1,21 @@
-from rfun.scoring import FlexibleScorer
+from rfun.scoring import FlexibleScorer, LuceneBM25Scorer
 import decimal
 import heapq
+import itertools
 
 class MultiParameterEvaluator(object):
-    def __init__(self, pPoints, docs, goldSet, kRange, bRange, docLenRange, 
-                 normalizeWeight,fieldBoost, num_results=5):
+    def __init__(self, 
+                 pPoints, 
+                 docs, 
+                 goldSet, 
+                 kRange=None, 
+                 bRange=None, 
+                 docLenRange=None, 
+                 normalizeWeight=None,
+                 fieldBoost=None, 
+                 constRanges=None,
+                 num_results=5):
+        
         self.pPoints = pPoints
         self.docs = docs
         self.goldSet = goldSet
@@ -13,6 +24,9 @@ class MultiParameterEvaluator(object):
         self.docLenRange = docLenRange
         self.normalizeWeight = normalizeWeight
         self.fieldBoost = fieldBoost
+        self.constRanges = constRanges
+        self._constRanges = None
+        self._optimize_constant_search_space()
         
         self.num_results = num_results
         self.heap = []
@@ -22,30 +36,34 @@ class MultiParameterEvaluator(object):
         i = 0
         heap = self.heap
         
+        # yes, crazy... ;-)
         for k in self._xrange(*self.kRange):
             for b in self._xrange(*self.bRange):
                 for dl in self._get_avg_doclen():
                     for normalize in self._get_normalize():
                         for doc_boost in self._get_doc_boost():
-                            i += 1
-                            
-                            #print dict(k1=k, b=b, perdoc_boost=doc_boost, 
-                            #                        idf_normalization=normalize,
-                            #                        perfield_avgdoclen=dl)
-                            scorer = FlexibleScorer(k1=k, b=b, perdoc_boost=doc_boost, 
-                                                    idf_normalization=normalize,
-                                                    perfield_avgdoclen=dl)
-                            score = self._score(scorer)
-                            item = (score, dict(k1=k, b=b, perdoc_boost=doc_boost, 
-                                                    idf_normalization=normalize,
-                                                    perfield_avgdoclen=dl))
-                            if len(heap) >= self.num_results:
-                                heapq.heappushpop(heap, item)
-                            else:
-                                heapq.heappush(heap, item)
-                            
-                            if i % yield_per == 0:
-                                yield (i, self.get_results(1))
+                            for const_factor in self._get_const_ranges():
+                                i += 1
+                                
+                                #print dict(k1=k, b=b, perdoc_boost=doc_boost, 
+                                #                        idf_normalization=normalize,
+                                #                        perfield_avgdoclen=dl)
+                                scorer = FlexibleScorer(k1=k, b=b, perdoc_boost=doc_boost, 
+                                                        idf_normalization=normalize,
+                                                        perfield_avgdoclen=dl,
+                                                        consts=const_factor)
+                                score = self._score(scorer)
+                                item = (score, dict(k1=k, b=b, perdoc_boost=doc_boost, 
+                                                        idf_normalization=normalize,
+                                                        perfield_avgdoclen=dl,
+                                                        consts=const_factor))
+                                if len(heap) >= self.num_results:
+                                    heapq.heappushpop(heap, item)
+                                else:
+                                    heapq.heappush(heap, item)
+                                
+                                if i % yield_per == 0:
+                                    yield (i, self.get_results(1))
         # final notification
         yield (i, self.get_results(1))
 
@@ -120,7 +138,52 @@ class MultiParameterEvaluator(object):
         else:
             yield False
         
+    def _get_const_ranges(self):
+        if not self.constRanges:
+            yield {}
+        else:
+            if self._constRanges:
+                fields = self._constRanges['fields']
+                range = self._constRanges['range']
+            else:
+                fields = self.constRanges['fields']
+                range = self.constRanges['range']
+            
+            range = list(self._xrange(*range))
+            for x in itertools.combinations(range, len(fields)):
+                yield dict(zip(fields, x))
 
+    def _optimize_constant_search_space(self):
+        """Find what fields, if any are used by the const()
+        in any of the docs and then use only those fields
+        for const() execution.
+        """
+        if not self.constRanges:
+            return
+        
+        range = self.constRanges['range']
+        fields = self._find_const_fields()
+        
+        if not fields:
+            self._constRanges = {'fields': [], 'range': range}
+        else:
+            self._constRanges = {'fields': fields, 'range': range}
+        
+    def _find_const_fields(self):
+        
+        class ConstCollector(FlexibleScorer):
+            def __init__(self, *args, **kwargs):
+                FlexibleScorer.__init__(self, *args, **kwargs)
+                self.const_fields = set()        
+            def const(self, query, boost, querynorm):
+                field, the_rest = query.split(':', 1)
+                self.const_fields.add(field)
+                return querynorm * boost
+        scorer = ConstCollector()
+        for d in self.docs:
+            scorer.run(d['formula'])
+        return list(scorer.const_fields)
+            
 class AtPrecisionEvaluator(object):
     
     def __init__(self, p_points, golden_set, test_set):

@@ -37,6 +37,8 @@ class Test(unittest.TestCase):
         score, formula = p.parse(test2)
         self.assertEquals(score, 25.458822)
         self.assertEquals(formula, 'sum(sum(weight("title:bar in 1109", tf(8.0, 1.2, 0.75, 16.729553, 28.444445), idf(12040, 18088648)), weight("title:syn::bar in 1109", tf(8.0, 1.2, 0.75, 16.729553, 28.444445), idf(18140, 18088648))))')
+        
+        
 
     def test_complex(self):
         self.maxDiff = None
@@ -44,6 +46,11 @@ class Test(unittest.TestCase):
         score, formula = p.parse(test3)
         self.assertEquals(score, 132.459)
         self.assertEquals(formula, 'sum(sum(sum(weight("title:weak in 51038", tf(2.0, 1.2, 0.75, 16.773111, 10.24), idf(45639, 18284546)), weight("title:syn::weak in 51038", tf(2.0, 1.2, 0.75, 16.773111, 10.24), idf(76085, 18284546))), max(sum(weight("abstract:lensing in 51038", tf(5.0, 1.2, 0.75, 184.32286, 163.84), idf(27671, 12046232), 1.3), weight("abstract:syn::lens in 51038", tf(6.0, 1.2, 0.75, 184.32286, 163.84), idf(105585, 12046232), 1.3)), sum(weight("title:lensing in 51038", tf(2.0, 1.2, 0.75, 16.773111, 10.24), idf(11533, 18284546), 1.5), weight("title:syn::lens in 51038", tf(2.0, 1.2, 0.75, 16.773111, 10.24), idf(51108, 18284546), 1.5)))), sum(weight("title: \\"(weak syn::weak) (lensing syn::lens)\\" in 51038", tf(4.0, 1.2, 0.75, 16.773111, 10.24), idfgroup(idf(45639, 18284546), idf(76085, 18284546), idf(11533, 18284546), idf(51108, 18284546))), weight("title:syn::weak lensing in 51038", tf(2.0, 1.2, 0.75, 16.773111, 10.24), idf(4365, 18284546)), weight("title:syn::gravitational microlensing in 51038", tf(2.0, 1.2, 0.75, 16.773111, 10.24), idf(3800, 18284546)), weight("title:syn::weak gravitational lensing in 51038", tf(2.0, 1.2, 0.75, 16.773111, 10.24), idf(3502, 18284546))))')
+        
+        score,formula = p.parse(test6)
+        self.assertEquals(score, 9.4076)
+        self.assertEquals(formula, 'sum(max(sum(const(\'author:kurtz,*\', 2.0, 1.0)), sum(const(\'first_author:kurtz,*\', 5.0, 1.0))), weight("year:1989 in 169291", tf(1.0, 1.2, 0.0, 0, 0), idf(212871, 17470857)))')
+        
         
     def test_get_tree(self):
         self.maxDiff = None
@@ -115,7 +122,12 @@ class TestScorers(unittest.TestCase):
         s = FlexibleScorer(k1=1.0, b=0.75, perdoc_boost={'1109': 0.5})
         self.assertAlmostEqual(23.88556/2, s.run(formula), delta=0.00005)
 
-
+        
+        formula = 'const(\'author:kurtz,*\', 2.0, 1.0)'
+        s = FlexibleScorer(consts={'author': 5.0})
+        self.assertAlmostEqual(5.0, s.run(formula), delta=0.00005)
+        s = FlexibleScorer(consts={'authorx': 5.0})
+        self.assertAlmostEqual(2.0, s.run(formula), delta=0.00005)
         
 test1 = r"""
 19.06905 = weight(title:foo in 270585) [SchemaSimilarity], result of:
@@ -379,7 +391,7 @@ test6 = """9.4076 = sum of:
 if __name__ == "__main__":
     unittest.main()
     
-    p = ExplanationParser(use_kwargs=None, flatten_tfidf=None) # default
+    #p = ExplanationParser(use_kwargs=False, flatten_tfidf=False)
     #print p.get_tree(test6)
     #_, formula = p.parse(test6)
     #print formula

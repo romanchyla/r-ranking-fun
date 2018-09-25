@@ -206,6 +206,7 @@
 
         </div>
 
+        <div>
         <v-layout row wrap>
             <v-flex lg12 sm12>
             <v-checkbox
@@ -238,17 +239,87 @@
                 ></v-checkbox>
             <v-select
             :items="fieldBoost"
+            v-model="boostSelection"
             label="Select field"
             solo
             ></v-select>
 
             This is how we can simulate document boost. You can select a field whose value will be added to the final score: TF*IDF*<b>boost</b>.
-          </v-flex>   
-        </v-layout>
+          </v-flex>
 
-        <p>
-            TODO: find a way to configure per field k/b/doclen
-        </p>
+          <v-flex lg12 sm12>
+            <v-checkbox
+                label="Simulate constant scores"
+                v-model="useConstant"
+                ></v-checkbox>
+            <v-select
+                :items="constFields"
+                v-model="constSelection"
+                label="Select"
+                multiple
+                chips
+                hint="What fields to consider"
+                persistent-hint
+                ></v-select>
+            </v-flex>
+
+            <v-layout row wrap
+                >
+                <v-flex
+                    shrink
+                    style="width: 60px"
+                >
+                    <v-text-field
+                    v-model="constRange[0]"
+                    class="mt-0"
+                    hide-details
+                    single-line
+                    type="number"
+                    ></v-text-field>
+                </v-flex>
+
+                <v-flex>
+                    <v-range-slider
+                    v-model="constRange"
+                    :max="100"
+                    :min="0"
+                    :step="constStepSize"
+                    ></v-range-slider>
+                </v-flex>
+
+                <v-flex
+                    shrink
+                    style="width: 60px"
+                >
+                    <v-text-field
+                    v-model="constRange[1]"
+                    class="mt-0"
+                    hide-details
+                    single-line
+                    type="number"
+                    ></v-text-field>
+
+                    <v-select
+                        v-model="constStepSize"
+                        hint="Step size"
+                        :items="[0.01, 0.1, 1, 10, 100]"
+                        single-line
+                        class="mt-0"
+                        :readonly="false"
+                    ></v-select>
+                </v-flex>
+
+            </v-layout>
+
+
+        </v-layout>
+        </div>
+
+        <div>
+            <p>
+                TODO: find a way to configure per field k/b/doclen
+            </p>
+        </div>
       </v-form>
 
 

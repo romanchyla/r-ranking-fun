@@ -85,7 +85,6 @@ export default {
           })
         }
         else if (action == 'run') {
-          debugger;
           this.$store.dispatch('getResults', {eid: this.selected[0].eid}).then(() => {
             this.$router.push({path: '/experiment/results/' + this.$store.state.experiment.eid})
           })

@@ -70,14 +70,18 @@ class MultiParameterEvaluator(object):
     
     def get_size(self):
         """Returns the number of parameters that are going to be tested"""
-        k = int((self.kRange[1] - self.kRange[0]) / self.kRange[2])
-        b = int((self.bRange[1] - self.bRange[0]) / self.bRange[2])
-        dl = int((self.docLenRange[1] - self.docLenRange[0]) / self.docLenRange[2])
+        k = self.kRange and int((self.kRange[1] - self.kRange[0]) / self.kRange[2]) or 1
+        b = self.bRange and int((self.bRange[1] - self.bRange[0]) / self.bRange[2]) or 1
+        dl = self.docLenRange and int((self.docLenRange[1] - self.docLenRange[0]) / self.docLenRange[2]) or 1
         r = k * b * dl
         if self.normalizeWeight:
             r *= 2
         if self.fieldBoost:
             r *= 2
+        if self._constRanges and len(self._constRanges['fields']):
+            x = self._constRanges['range']
+            r *= int((x[1] - x[0]) / x[2]) * len(self._constRanges['fields'])
+            
         return r
     
     def get_results(self, num=None):

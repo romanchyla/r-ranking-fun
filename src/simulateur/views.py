@@ -166,6 +166,10 @@ def reorder(experimentid, setid):
         raise Exception('Good try')
     
     #TODO: make idiot proof
+    if exp['finished'] is None or 'results' not in exp['experiment_results']:
+        current_app.logger.warn('Simulation was not yet run, starting it now')
+        current_app.run_experiment(experimentid)
+        
     params = exp['experiment_results']['results'][int(setid)][1]
     scorer = FlexibleScorer(**params)
     
@@ -210,42 +214,43 @@ def _extract_search_params(data):
     return kwargs
     
 def _extract_experiment_params(data):
-    out = {}
-    for x in ('kRange:floatrange', 'bRange:floatrange', 'docLenRange:floatrange', 
-              'fieldBoost:str', 'normalizeWeight:bool', 'qparams:dict', 'extra_params:str',
-              'query:str', 'description:str'):
-        k,t = x.split(':')
-        if k in data:
-            if t == 'floatrange':
-                x = data[k]
-                out[k] = [float(x[0]), float(x[1]), 0.1]
-                if len(x) > 2:
-                    out[k][2] = float(x[2])
-                
-            elif t == 'float':
-                out[k] = float(data[k])
-            elif t == 'bool':
-                x = str(data[k]).lower()
-                if x == 'true' or x == '1':
-                    out[k] = True
-                else:
-                    out[k] = False
-            elif t == 'str':
-                out[k] = str(data[k])
-            elif t == 'dict':
-                if not isinstance(data[k], dict):
-                    if not data[k]:
-                        out[k] = {}
+    out = data
+    if False:
+        for x in ('kRange:floatrange', 'bRange:floatrange', 'docLenRange:floatrange', 
+                  'fieldBoost:str', 'normalizeWeight:bool', 'qparams:dict', 'extra_params:str',
+                  'query:str', 'description:str'):
+            k,t = x.split(':')
+            if k in data:
+                if t == 'floatrange':
+                    x = data[k]
+                    out[k] = [float(x[0]), float(x[1]), 0.1]
+                    if len(x) > 2:
+                        out[k][2] = float(x[2])
+                    
+                elif t == 'float':
+                    out[k] = float(data[k])
+                elif t == 'bool':
+                    x = str(data[k]).lower()
+                    if x == 'true' or x == '1':
+                        out[k] = True
                     else:
-                        raise Exception('Incompatible type, expecting: %s, got: %s' % (t, data[k]))
-                out[k] = data[k]
-            elif t == 'urlparams':
-                if isinstance(data[k], dict):
+                        out[k] = False
+                elif t == 'str':
+                    out[k] = str(data[k])
+                elif t == 'dict':
+                    if not isinstance(data[k], dict):
+                        if not data[k]:
+                            out[k] = {}
+                        else:
+                            raise Exception('Incompatible type, expecting: %s, got: %s' % (t, data[k]))
                     out[k] = data[k]
+                elif t == 'urlparams':
+                    if isinstance(data[k], dict):
+                        out[k] = data[k]
+                    else:
+                        out[k] = urlparse.parse_qs(data[k])
                 else:
-                    out[k] = urlparse.parse_qs(data[k])
-            else:
-                raise Exception('shouldnt happen, unknown type: %s' % t)
+                    raise Exception('shouldnt happen, unknown type: %s' % t)
         
     if 'query' in data:
         out['q'] = data.get('query', '*:*')

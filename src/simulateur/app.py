@@ -165,16 +165,29 @@ class SimulateurADSFlask(ADSFlask):
         gold_set = exp['relevant']
         docs = exp['query_results']['response']['docs']
         params = exp['experiment_params']
+        doclen = boost = const = None
+        
+        if params.get('useBoost', False):
+            boost = params.get('boostSelection', None)
+            
+        if params.get('useDocLen', False):
+            doclen = params.get('docLenRange', None)
+            
+        if params.get('useConstant', False):
+            const = {'fields': params.get('constSelection', []),
+                     'range': params.get('constRange', [0, 0, 0])}
         
         se = MultiParameterEvaluator(
             [25, 50, 100], # TODO: make ocnfigurable
             docs, 
             gold_set, 
-            params.get('kRange', [1.2, 1.2, 0.1]), 
-            params.get('bRange', [0.75, 0.75, 0.1]),
-            params.get('docLenRange', None), 
-            normalizeWeight='useNormalization' in params,
-            fieldBoost=params.get('fieldBoost', None))
+            kRange = params.get('useK', False) and params.get('kRange', [0.01, 1.2, 0.1]) or None, 
+            bRange=params.get('useB', False) and params.get('bRange', [0.01, 1.2, 0.1]) or None,
+            docLenRange=doclen, 
+            normalizeWeight=params.get('useNormalization', False),
+            fieldBoost=boost,
+            constRanges=const
+            )
         
         size = float(se.get_size())
         
@@ -186,8 +199,8 @@ class SimulateurADSFlask(ADSFlask):
             m.finished = None
             session.commit()
             
-            for tick, best_sofar in se.run():
-                self.logger.info('Expriment {} progress: {}/{}, best so far: {}', 
+            for tick, best_sofar in se.run(yield_per=int(size/20)):
+                self.logger.info('Expriment %s progress: %s/%s, best so far: %s', 
                                  experimentid, tick, size, best_sofar)
                 m = session.query(Experiment).filter(Experiment.eid == int(experimentid)).first()
                 m.progress = tick / size

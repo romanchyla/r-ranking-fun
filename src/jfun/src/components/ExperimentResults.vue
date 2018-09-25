@@ -63,7 +63,10 @@ export default {
         { text: 'Document Length', value: 'docLen', sortable: false },
         { text: 'Normalize Weight', value: 'normalizeWeight', sortable: false },
         { text: 'Document Boost', value: 'fieldBoost', sortable: false },
-      ]
+      ],
+      simulatedPapers: function() {
+          return ListOfArticles
+      }
     }),
 
     mounted: function() {
@@ -96,9 +99,7 @@ export default {
           })
           return out
           },
-      simulatedPapers: function() {
-          return ListOfArticles
-      }
+      
   },
 }
 </script>

@@ -19,7 +19,7 @@ grammar=r"""
         
     weights: "sum of:" weight+
     weight: ("weight" "(" wdescription ")" "[SchemaSimilarity]" _COMMA wscore) -> weight
-        | ("const(" anyterm ")" _COMMA woperation boost querynorm) -> constant
+        | (const _COMMA woperation boost querynorm) -> constant
         
     
     maxweight: "max of:" ((key weights)|weight)+
@@ -56,6 +56,9 @@ grammar=r"""
     
     doccount: "docCount" _EQUAL _nums
     querynorm: FLOAT _EQUAL "queryNorm"
+    
+    const: ("const(ConstantScore(" anyterm "))") 
+        | ("const(" anyterm ")")
     
     anyterm: /[^)^\]]+/
     _nums: /\d+/

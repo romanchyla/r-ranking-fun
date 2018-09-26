@@ -65,7 +65,7 @@ class TestScorers(unittest.TestCase):
     
     def test_scorers(self):
         for s,t in ((19.06905, test1), (25.458822, test2), (132.459, test3), (21.956947, test4),
-                    (29.833654, test5), (9.4076, test6)):
+                    (29.833654, test5), (9.4076, test6), (26, test7)):
             p = ExplanationParser()
             p2 = ExplanationParser(use_kwargs=True, flatten_tfidf=True)
             _, formula = p.parse(t)
@@ -388,10 +388,16 @@ test6 = """9.4076 = sum of:
         1.2 = parameter k1
         0.0 = parameter b (parameter omitted from index)"""
 
+test7 = '''26.0 = max of:
+  26.0 = ConstantScore(abstract:accomazzi), product of:
+    26.0 = boost
+    1.0 = queryNorm'''
+         
 if __name__ == "__main__":
-    unittest.main()
-    
-    #p = ExplanationParser(use_kwargs=False, flatten_tfidf=False)
-    #print p.get_tree(test6)
-    #_, formula = p.parse(test6)
-    #print formula
+    if True:
+        unittest.main()
+    else:
+        p = ExplanationParser(use_kwargs=False, flatten_tfidf=False)
+        print p.get_tree(test7)
+        _, formula = p.parse(test7)
+        print formula

@@ -95,7 +95,7 @@ export default {
 
   computed: {
     
-      items: function() {return this.$store.state.simulated_papers},
+      items: function() {return this.$store.state.experiment_results.papers},
       relevant: {
         get: function() {return this.$store.state.relevant},
         set: function(docids) {

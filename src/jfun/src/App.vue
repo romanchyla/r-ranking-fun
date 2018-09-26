@@ -71,7 +71,7 @@ export default {
         path: '/'
       },
         { title: 'Dashboard', icon: 'dashboard', path: '/dashboard' },
-        { title: 'Query ADS', icon: 'description', path: '/experiment/overview/' },
+        { title: 'Experiment Setup', icon: 'description', path: '/experiment/overview/' },
         { title: 'Returned Documents', icon: 'view_headline', path: '/experiment/articles/' },
         { title: 'Selected Relevant Papers', icon: 'assessment', path: '/experiment/selection/' },
         { title: 'Experiment Results', icon: 'build', path: '/experiment/results/' },

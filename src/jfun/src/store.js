@@ -53,20 +53,20 @@ const dataDefaults = {
       reporter: '',
       
       useK: true,
-      kRange: [0.01, 12, 0.1],
-      kStepSize: 0.01,
+      kRange: [0.01, 1.8, 0.1],
+      kStepSize: 0.1,
       
       useB: true,
-      bRange: [0.001, 1.0, 0.05],
-      bStepSize: 0.01,
+      bRange: [0.01, 1.0, 0.05],
+      bStepSize: 0.1,
       
       useBoost: false,
       fieldBoost: ['classic_factor', 'cite_read_boost'],
       boostSelection: '',
       
       useDocLen: false,
-      docLenRange: [10, 50, 5],
-      docStepSize: 1,
+      docLenRange: [10, 50, 10],
+      docStepSize: 10,
       
       useNormalization: false,
       normalizeWeight: true,
@@ -74,7 +74,7 @@ const dataDefaults = {
       useConstant: true,
       constFields: ['first_author', 'author', 'title', 'abstract', 'keyword', 'identifier', 'bibstem', 'year'],
       constSelection: [],
-      constRange: [0, 100, 1],
+      constRange: [0, 10, 1],
       constStepSize: 1,
   },
   papers:  [
@@ -91,9 +91,11 @@ const dataDefaults = {
         ],
   relevant: [],
   experiment_results: {
+    progress: 0,
+    message: '',
     runs: 0,
-    params: {},
-    results: []
+    results: {},
+    papers: []
   }
 }
 
@@ -141,7 +143,10 @@ export default new Vuex.Store({
     },
 
     updateSimulatedPapers(state, payload) {
-      state.simulated_papers = massagePapers(payload);
+      
+      state.experiment_results.papers = massagePapers(payload);
+      state.experiment_results.progress = 1.0;
+      state.experiment_results.message = '';
     },
 
     updateRelevant(state, payload) {
@@ -149,14 +154,8 @@ export default new Vuex.Store({
     },
 
     updateResults(state, payload) {
-      state.experiment_results = payload.experiment_results
-    },
-
-    updateProgress(state, payload) {
-      state.experiment_results = {
-        progress: payload.progress,
-        description: payload.message
-      }
+      
+      state.experiment_results = _.defaults(payload.experiment_results, dataDefaults.experiment_results);
     }
   },
 
@@ -228,12 +227,7 @@ export default new Vuex.Store({
     getResults(context, {eid: eid}) {
       return new Promise((resolve) => {
         axios.post('/results/' + eid).then((response) => {
-          if (response.data.message) {
-            context.commmit('updateProgress', response.data)
-          }
-          else {
-            context.commit('updateResults', response.data);
-          }
+          context.commit('updateResults', response.data);
           resolve();
         });
       });
@@ -243,7 +237,7 @@ export default new Vuex.Store({
       return new Promise((resolve) => {
         axios.get('/reorder/' + eid + '/' + setid).then((response) => {
           context.commit('updateSimulatedPapers', response.data);
-          resolve();
+          resolve(response.data);
         });
       });
     }

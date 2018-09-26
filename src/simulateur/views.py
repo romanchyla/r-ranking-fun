@@ -139,7 +139,7 @@ def dashboard(start=0, rows=50):
 
 
 @advertise(scopes=[], rate_limit = [100, 3600*24])
-@bp.route('/results/<experimentid>', methods=['POST'])
+@bp.route('/results/<experimentid>', methods=['POST', 'GET'])
 def results(experimentid):
     exp = current_app.get_experiment(experimentid)
     if exp is None:
@@ -153,7 +153,8 @@ def results(experimentid):
         return jsonify(current_app.get_experiment(experimentid)), 200
     
     # TODO: make this asynchronous - use websockets
-    current_app.run_experiment(experimentid)        
+    if request.method == 'POST':
+        current_app.run_experiment(experimentid)        
     
     return jsonify(current_app.get_experiment(experimentid)), 200
 
@@ -166,10 +167,16 @@ def reorder(experimentid, setid):
         raise Exception('Good try')
     
     #TODO: make idiot proof
-    if exp['finished'] is None or 'results' not in exp['experiment_results']:
-        current_app.logger.warn('Simulation was not yet run, starting it now')
-        current_app.run_experiment(experimentid)
+    
+    if (exp['started'] and exp['finished'] is None):
+        return jsonify({'message': 'Simulateur is still thinking (for this experiment) and cannot be interrupted, progress at this point: %s, date=%s' % (exp['progress'], get_date()),
+                        'progress': exp['progress'] }), 200
         
+    if exp['finished'] is None or 'results' not in exp['experiment_results']:
+        current_app.logger.warn('Simulation was not yet run')
+        return jsonify({'message': 'Simulation needs re-start',
+                        'progress': exp['progress'] }), 200
+
     params = exp['experiment_results']['results'][int(setid)][1]
     scorer = FlexibleScorer(**params)
     

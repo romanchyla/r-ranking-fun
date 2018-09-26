@@ -23,7 +23,7 @@
                 @change="doClick"
                 ></v-checkbox>
             </td>
-            <td>{{ props.item.id }}</td>
+            <td>{{ props.item.score }}</td>
             <td >{{ props.item.k1 }}</td>
             <td >{{ props.item.b }}</td>
             <td >{{ props.item.perfield_avgdoclen }}</td>
@@ -34,7 +34,8 @@
         </v-data-table>
     </v-flex>
 </v-layout>
-    <p> Number of combinations explored: {{runs}}, Time elapsed: {{elapsed}} s., Progress: {{progress}} </p>
+    <p v-if="message"> {{message}} </p>
+    <p v-else>Number of combinations explored: {{runs}}, Time elapsed: {{elapsed}} s., Progress: {{progress}}</p>
     <v-layout row wrap>
     <v-flex>
         <component
@@ -114,6 +115,7 @@ export default {
     elapsed: function() {return this.$store.state.experiment_results.elapsed},
     runs: function() {return this.$store.state.experiment_results.runs},
     progress: function() {return this.$store.state.experiment_results.progress},
+    message: function() {return this.$store.state.experiment_results.message},
   }
 };
 </script>

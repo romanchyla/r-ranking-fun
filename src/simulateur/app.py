@@ -146,6 +146,9 @@ class SimulateurADSFlask(ADSFlask):
                 
             if session.dirty:
                 m.updated = get_date()
+                m.started = None
+                m.finished = None
+                m.progress = 0.0
             session.commit()
             return m.toJSON()
 
@@ -200,8 +203,8 @@ class SimulateurADSFlask(ADSFlask):
             session.commit()
             
             for tick, best_sofar in se.run(yield_per=int(size/20)):
-                self.logger.info('Expriment %s progress: %s/%s, best so far: %s', 
-                                 experimentid, tick, size, best_sofar)
+                self.logger.info('Expriment %s progress: %s/%s (%s), best so far: %s', 
+                                 experimentid, tick, size, tick/size, best_sofar)
                 m = session.query(Experiment).filter(Experiment.eid == int(experimentid)).first()
                 m.progress = tick / size
                 session.commit()

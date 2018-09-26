@@ -113,6 +113,13 @@ export default new Vuex.Store({
   },
 
   mutations: {
+    resetExperiment(state, payload) {
+      state.experiment = _.clone(dataDefaults.experiment),
+      state.papers = _.clone(dataDefaults.papers),
+      state.relevant = _.clone(dataDefaults.relevant),
+      state.experiment_results = _.clone(dataDefaults.experiment_results)
+    },
+
     updateDashboard(state, payload) {
       state.dashboard = payload.results
     },
@@ -143,10 +150,16 @@ export default new Vuex.Store({
     },
 
     updateSimulatedPapers(state, payload) {
+      if (payload.message) {
+        state.experiment_results.progress = payload.progress;
+        state.experiment_results.message = payload.message;
+      }
+      else {
+        state.experiment_results.papers = massagePapers(payload);
+        state.experiment_results.progress = 1.0;
+        state.experiment_results.message = '';
+      }
       
-      state.experiment_results.papers = massagePapers(payload);
-      state.experiment_results.progress = 1.0;
-      state.experiment_results.message = '';
     },
 
     updateRelevant(state, payload) {
@@ -179,6 +192,8 @@ export default new Vuex.Store({
     },
 
     loadExperiment(context, {eid}) {
+      // first reset all values
+      context.commit('resetExperiment');
       return new Promise((resolve) => {
         axios.get('/experiment/' + eid).then((response) => {
           context.commit('updateExperiment', response.data);

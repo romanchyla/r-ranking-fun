@@ -37,8 +37,8 @@ class Experiment(Base):
             'query_results': json.loads(self.query_results or '{}'),
             'created': self.created and get_date(self.created).isoformat() or None,
             'updated': self.updated and get_date(self.updated).isoformat() or None,
-            'started': self.updated and get_date(self.started).isoformat() or None,
-            'finished': self.updated and get_date(self.finished).isoformat() or None,
+            'started': self.started and get_date(self.started).isoformat() or None,
+            'finished': self.finished and get_date(self.finished).isoformat() or None,
             'relevant': self.relevant and json.loads(self.relevant) or [],
             'progress': self.progress,
             'experiment_results': self.experiment_results and json.loads(self.experiment_results) or {}

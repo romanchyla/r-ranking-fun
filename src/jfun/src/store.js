@@ -7,8 +7,11 @@ Vue.use(Vuex)
 
 
 // a kludge for development
-if (window && window.location.toString().indexOf(':8080') > -1)
+if (window && window.location.toString().indexOf(':8080') > -1) {
   axios.defaults.baseURL = 'http://localhost:4000/';
+} else if (window && window.location.toString().indexOf('adsabs.harvard.edu/scorer') > -1) {
+  axios.defaults.baseURL = 'http://adsabs.harvard.edu/scorer';
+}
 
 axios.defaults.headers.common['Accept'] = 'application/json';
 axios.defaults.headers.post['Content-Type'] = 'application/json';

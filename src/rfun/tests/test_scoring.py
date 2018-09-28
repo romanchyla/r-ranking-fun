@@ -128,6 +128,9 @@ class TestScorers(unittest.TestCase):
         self.assertAlmostEqual(5.0, s.run(formula), delta=0.00005)
         s = FlexibleScorer(consts={'authorx': 5.0})
         self.assertAlmostEqual(2.0, s.run(formula), delta=0.00005)
+        s = FlexibleScorer(consts={'authorx': 5.0}, perdoc_boost={'1': 5.0})
+        self.assertAlmostEqual(10.0, s.run(formula, docid='1'), delta=0.00005)
+        
         
 test1 = r"""
 19.06905 = weight(title:foo in 270585) [SchemaSimilarity], result of:

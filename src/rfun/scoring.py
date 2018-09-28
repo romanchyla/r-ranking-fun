@@ -362,7 +362,9 @@ class TreeVisitor(Visitor):
 
 class LuceneBM25Scorer(object):
     """Should produce exactly the same results as Lucene"""
-    
+    def __init__(self):
+        self.kwargs = {}
+        
     def idfgroup(self, *args):
         return sum(args)
     
@@ -389,10 +391,10 @@ class LuceneBM25Scorer(object):
     def const(self, query, boost, querynorm):
         return querynorm * boost
     
-    def run(self, formula):
-        return self._eval(formula)
+    def run(self, formula, **kwargs):
+        return self._eval(formula, **kwargs)
     
-    def _eval(self, formula):
+    def _eval(self, formula, **kwargs):
         """Executes the calculation and returns the final score"""
         locals = {
             'sum': self.sum,
@@ -401,10 +403,15 @@ class LuceneBM25Scorer(object):
             'tf': self.tf,
             'idf': self.idf,
             'idfgroup': self.idfgroup,
-            'const': self.const,
+            'const': self.const
             }
-        return eval(formula, None, locals)
-
+        
+        ikw = self.kwargs
+        try:
+            self.kwargs = kwargs
+            return eval(formula, None, locals)
+        finally:
+            self.kwargs = ikw
     
 
 class FlexibleScorer(LuceneBM25Scorer):
@@ -444,6 +451,7 @@ class FlexibleScorer(LuceneBM25Scorer):
                 const() evaluation
         
         """
+        LuceneBM25Scorer.__init__(self)
         self.k1 = float(k1)
         self.b = float(b)
         self.perfield_kb = perfield_kb or {}
@@ -529,18 +537,19 @@ class FlexibleScorer(LuceneBM25Scorer):
         else:
             return idf
         
-    def run(self, formula):
+    def run(self, formula, **kwargs):
         if self.idf_normalization:
             self.idf_normalization_factor = self.normalizer.run(formula)
         else:
             self.idf_normalization_factor = None
         
-        return self._eval(formula)
+        return self._eval(formula, **kwargs)
     
     def const(self, query, boost, querynorm):
         field, rest = query.split(':', 1)
         boost = self.consts.get(field, boost)
-        return querynorm * boost
+        docboost = self.get_boost(field, self.kwargs.get('docid', None), 1.0)
+        return querynorm * boost * docboost
         
         
 class IDFNormalizer(FlexibleScorer):        

@@ -102,7 +102,7 @@ class MultiParameterEvaluator(object):
         hits = [0.0] * len(self.docs)
         i= 0
         for d in self.docs:
-            hits[i] = (scorer.run(d['formula']), d['docid'])
+            hits[i] = (scorer.run(d['formula'], docid=d['docid']), d['docid'])
             i+= 1
         hits.sort(key=lambda x: x[0], reverse=True)
         results = map(lambda x: x[1], hits)

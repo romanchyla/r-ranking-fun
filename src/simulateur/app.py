@@ -13,6 +13,10 @@ from rfun.evaluation import MultiParameterEvaluator
 from collections import OrderedDict
 from simulateur.models import Experiment
 from adsmutils import get_date
+from werkzeug.exceptions import HTTPException, default_exceptions
+from flask import jsonify
+import traceback
+
 
 def create_app(**config):
     """
@@ -23,6 +27,19 @@ def create_app(**config):
     app = SimulateurADSFlask('simulateur', local_config=config)
     app.url_map.strict_slashes = False    
     app.register_blueprint(bp)
+    
+    # Register custom error handlers
+    if not app.config.get('DEBUG'):
+        def error_handler(error):
+            code = 500
+            if isinstance(error, HTTPException):
+                code = error.code
+            return jsonify(code=code, error=str(error), stacktrace=traceback.format_exc())
+        
+        for exc in default_exceptions:
+            app.register_error_handler(exc, error_handler)
+        app.register_error_handler(Exception, error_handler)
+        
     return app
 
 

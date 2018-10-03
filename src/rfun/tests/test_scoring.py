@@ -59,13 +59,23 @@ class Test(unittest.TestCase):
         tree = tree.replace('\t', '    ')
         self.assertEquals(tree, test1_tree)
         
+    def test_cases(self):
+        self.assert_formula(test8, '''sum(max(const('author:accomazzi, author:accomazzi,*', 6.0, 1.0)), max(const('author:kurtz, author:kurtz,*', 6.0, 1.0)))''')
+        self.assert_formula(test9, '''sum(max(const('author:accomazzi, author:accomazzi,*', 6.0, 1.0)), max(const('author:kurtz, author:kurtz,*', 6.0, 1.0), sum(const('first_author:kurtz,*', 5.0, 1.0))))''')
+    
+        
+    def assert_formula(self, input, expected):
+        p = ExplanationParser(use_kwargs=False, flatten_tfidf=False)
+        _, formula = p.parse(input)
+        self.assertEqual(formula, expected)
+
 
     
 class TestScorers(unittest.TestCase):
     
     def test_scorers(self):
         for s,t in ((19.06905, test1), (25.458822, test2), (132.459, test3), (21.956947, test4),
-                    (29.833654, test5), (9.4076, test6), (26, test7)):
+                    (29.833654, test5), (9.4076, test6), (26, test7), (12.0, test8)):
             p = ExplanationParser()
             p2 = ExplanationParser(use_kwargs=True, flatten_tfidf=True)
             _, formula = p.parse(t)
@@ -131,6 +141,9 @@ class TestScorers(unittest.TestCase):
         s = FlexibleScorer(consts={'authorx': 5.0}, perdoc_boost={'1': 5.0})
         self.assertAlmostEqual(10.0, s.run(formula, docid='1'), delta=0.00005)
         
+        
+
+    
         
 test1 = r"""
 19.06905 = weight(title:foo in 270585) [SchemaSimilarity], result of:
@@ -395,12 +408,38 @@ test7 = '''26.0 = max of:
   26.0 = ConstantScore(abstract:accomazzi), product of:
     26.0 = boost
     1.0 = queryNorm'''
-         
+
+test8 = '''12.0 = sum of:
+  6.0 = max of:
+    6.0 = ConstantScore(author:accomazzi, author:accomazzi,*), product of:
+      6.0 = boost
+      1.0 = queryNorm
+  6.0 = max of:
+    6.0 = ConstantScore(author:kurtz, author:kurtz,*), product of:
+      6.0 = boost
+      1.0 = queryNorm'''
+      
+test9 = '''12.0 = sum of:
+  6.0 = max of:
+    6.0 = ConstantScore(author:accomazzi, author:accomazzi,*), product of:
+      6.0 = boost
+      1.0 = queryNorm
+  6.0 = max of:
+    6.0 = ConstantScore(author:kurtz, author:kurtz,*), product of:
+      6.0 = boost
+      1.0 = queryNorm
+    5.0 = sum of:
+      5.0 = first_author:kurtz,*, product of:
+        5.0 = boost
+        1.0 = queryNorm
+'''
+               
 if __name__ == "__main__":
-    if True:
+    if False:
         unittest.main()
     else:
+        test_input = test9
         p = ExplanationParser(use_kwargs=False, flatten_tfidf=False)
-        print p.get_tree(test7)
-        _, formula = p.parse(test7)
+        print p.get_tree(test_input)
+        _, formula = p.parse(test_input)
         print formula

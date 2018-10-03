@@ -85,7 +85,7 @@ def query(experimentid):
     search_params = _extract_search_params(exp)
     
     # search api, get data
-    results = current_app.enhance_solr_results(current_app.search(**search_params))
+    results = current_app.enhance_solr_results(current_app.query(**search_params))
     
     # save results into the db
     current_app.save_experiment(experimentid, query_results=results)

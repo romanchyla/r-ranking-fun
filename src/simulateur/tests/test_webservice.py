@@ -56,12 +56,12 @@ class TestServices(TestCase):
         
     
     def test_query(self):
-        self.app.save_experiment(None)
         f = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../data/title:foo.json'))
-        with mock.patch.object(self.app, '_search', return_value=open(f, 'r').read()) as _m:
-            r = self.client.get('/query/1', 
-                            query_string={'fl': 'title,abstract,foo', 'q': 'title:foo'},
-                            content_type='application/json')
+        r = open(f, 'r').read()
+        
+        self.app.save_experiment(1, query='title:foo', query_results=json.loads(r), experiment_params={'q': 'title:foo'})
+        with mock.patch.object(self.app, '_query', return_value=r) as _m:
+            r = self.client.get('/query/1')
             assert 'formula' in r.data
             with self.app.session_scope() as session:
                 m = session.query(Experiment).filter_by(eid=1).first()
@@ -71,60 +71,56 @@ class TestServices(TestCase):
                 assert j['created'] != j['updated']
                 assert len(j['query_results']['response']['docs']) > 0
                 assert len(filter(lambda x: 'formula' in x, j['query_results']['response']['docs'])) > 0
-    
+
+
     def test_experiment(self):
-        r = self.client.get('/experiment/0')
+        r = self.client.get('/experiment/-1')
         assert r.json['eid'] == 1
         
-        r = self.client.post(url_for('simulateur.experiment', experimentid='0'),
+        r = self.client.post(url_for('simulateur.experiment', experimentid='1'),
                 data=json.dumps({'verb': 'save-experiment',
                                  'data': {
+                                     'q': 'foo',
                                      'kRange': [0.5, 0.9],
                                      'bRange': [0.0, 1.0],
-                                     'qparams': {'q': 'title:foo',
-                                                 'foo': 'bar'},
                                      'fieldBoost': 'classic-factor',
                                      'normalizeWeight': True
                                     }}),
                 content_type='application/json')
-        assert r.json['eid'] == 2
-        assert r.json['experiment_params'] == {u'qparams': {u'q': u'title:foo', u'foo': u'bar'}, u'normalizeWeight': True, u'fieldBoost': u'classic-factor', u'kRange': [0.5, 0.9], u'bRange': [0.0, 1.0]}
+        assert r.json['eid'] == 1
+        assert r.json['experiment_params'] == {u'q': u'foo', u'normalizeWeight': True, u'bRange': [0.0, 1.0], u'kRange': [0.5, 0.9], u'fieldBoost': u'classic-factor'}
         
         
-        r = self.client.post(url_for('simulateur.experiment', experimentid='2'),
-                data=json.dumps({'verb': 'update-experiment',
-                                 'data': {
-                                     'fieldBoost': 'none',
-                                     'reporter': 'rchyla@cfa'
-                                    }}),
-                content_type='application/json')
-        assert r.json['eid'] == 2
-        assert r.json['experiment_params'] == {u'qparams': {u'q': u'title:foo', u'foo': u'bar'}, u'normalizeWeight': True, u'fieldBoost': u'none', u'kRange': [0.5, 0.9], u'bRange': [0.0, 1.0]}
-        assert r.json['reporter'] == 'rchyla@cfa'
         
-        
-        r = self.client.post(url_for('simulateur.experiment', experimentid='2'),
+        r = self.client.post(url_for('simulateur.experiment', experimentid='1'),
                 data=json.dumps({'verb': 'add-relevant',
                                  'data': [123, 6789]}),
                 content_type='application/json')
-        assert r.json['eid'] == 2
+        assert r.json['eid'] == 1
         assert r.json['relevant'] == [123, 6789]
         
         
-        r = self.client.post(url_for('simulateur.experiment', experimentid='2'),
+        r = self.client.post(url_for('simulateur.experiment', experimentid='1'),
                 data=json.dumps({'verb': 'remove-relevant',
                                  'data': [123, 000]}),
                 content_type='application/json')
-        assert r.json['eid'] == 2
+        assert r.json['eid'] == 1
         assert r.json['relevant'] == [6789]
         
-        r = self.client.post(url_for('simulateur.experiment', experimentid='2'),
+        r = self.client.post(url_for('simulateur.experiment', experimentid='1'),
                 data=json.dumps({'verb': 'replace-relevant',
                                  'data': [334, 000]}),
                 content_type='application/json')
-        assert r.json['eid'] == 2
+        assert r.json['eid'] == 1
         assert r.json['relevant'] == [334, 000]
-        
+
+
+    def test_error(self):
+        r = self.client.get('/query/1', 
+                            query_string={'fl': 'title,abstract,foo', 'q': 'title:foo'},
+                            content_type='application/json')
+        assert r.json['stacktrace']
+        assert r.json['code'] == 500
         
 if __name__ == '__main__':
   unittest.main()

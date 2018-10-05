@@ -62,7 +62,7 @@ class Test(unittest.TestCase):
     def test_cases(self):
         self.assert_formula(test8, '''sum(max(const('author:accomazzi, author:accomazzi,*', 6.0, 1.0)), max(const('author:kurtz, author:kurtz,*', 6.0, 1.0)))''')
         self.assert_formula(test9, '''sum(max(const('author:accomazzi, author:accomazzi,*', 6.0, 1.0)), max(const('author:kurtz, author:kurtz,*', 6.0, 1.0), sum(const('first_author:kurtz,*', 5.0, 1.0))))''')
-    
+        self.assert_formula(test10, '''sum(max(const('author:accomazzi, author:accomazzi,*', 6.0, 1.0)), max(const('abstract:kurtz', 1.3, 1.0), const('author:kurtz, author:kurtz,*', 6.0, 1.0)))''')
         
     def assert_formula(self, input, expected):
         p = ExplanationParser(use_kwargs=False, flatten_tfidf=False)
@@ -433,12 +433,25 @@ test9 = '''12.0 = sum of:
         5.0 = boost
         1.0 = queryNorm
 '''
-               
+          
+test10 =  '''12.0 = sum of:
+       6.0 = max of:
+         6.0 = ConstantScore(author:accomazzi, author:accomazzi,*), product of:
+           6.0 = boost
+           1.0 = queryNorm
+       6.0 = max of:
+         1.3 = ConstantScore(abstract:kurtz), product of:
+           1.3 = boost
+           1.0 = queryNorm
+         6.0 = ConstantScore(author:kurtz, author:kurtz,*), product of:
+           6.0 = boost
+           1.0 = queryNorm'''
+           
 if __name__ == "__main__":
-    if False:
+    if True:
         unittest.main()
     else:
-        test_input = test9
+        test_input = test10
         p = ExplanationParser(use_kwargs=False, flatten_tfidf=False)
         print p.get_tree(test_input)
         _, formula = p.parse(test_input)

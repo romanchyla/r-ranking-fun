@@ -59,6 +59,7 @@ grammar=r"""
     
     const: ("const(ConstantScore(" anyterm "))") 
         | ("const(" anyterm ")")
+        | "ConstantScore(" anyterm ")"
     
     anyterm: /[^)^\]]+/
     _nums: /\d+/

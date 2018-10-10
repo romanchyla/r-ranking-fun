@@ -14,7 +14,8 @@ class MultiParameterEvaluator(object):
                  normalizeWeight=None,
                  fieldBoost=None, 
                  constRanges=None,
-                 num_results=5):
+                 num_results=5,
+                 scorer_impl=FlexibleScorer):
         
         self.pPoints = pPoints
         self.docs = docs
@@ -30,6 +31,7 @@ class MultiParameterEvaluator(object):
         
         self.num_results = num_results
         self.heap = []
+        self.scorer_impl=scorer_impl
 
     
     def run(self, yield_per=1000):
@@ -48,7 +50,7 @@ class MultiParameterEvaluator(object):
                                 #print dict(k1=k, b=b, perdoc_boost=doc_boost, 
                                 #                        idf_normalization=normalize,
                                 #                        perfield_avgdoclen=dl)
-                                scorer = FlexibleScorer(k1=k, b=b, perdoc_boost=doc_boost, 
+                                scorer = self.scorer_impl(k1=k, b=b, perdoc_boost=doc_boost, 
                                                         idf_normalization=normalize,
                                                         perfield_avgdoclen=dl,
                                                         consts=const_factor)

@@ -16,6 +16,7 @@ from adsmutils import get_date
 from werkzeug.exceptions import HTTPException, default_exceptions
 from flask import jsonify
 import traceback
+from rfun.scoring import FlexibleScorer
 
 
 def create_app(**config):
@@ -48,6 +49,14 @@ class SimulateurADSFlask(ADSFlask):
     def __init__(self, *args, **kwargs):
         ADSFlask.__init__(self, *args, **kwargs)
         self.parser = ExplanationParser(use_kwargs=True, flatten_tfidf=True)
+        self.scorers = {
+            'standard': {'name': 'standard',
+                         'impl': FlexibleScorer,
+                         'descr': 'Standard scorer executing grid search over all parameters'},
+            'boost': {'name': 'standard search + boost',
+                      'impl': FlexibleScorerWithBoost,
+                      'descr': 'Grid search with additional boosting of the final score using <score> * (1 + <boost_factor)'}
+        }
     
     def query(self, **params):
         
@@ -196,6 +205,14 @@ class SimulateurADSFlask(ADSFlask):
         if params.get('useConstant', False):
             const = {'fields': params.get('constSelection', []),
                      'range': params.get('constRange', [0, 0, 0])}
+            
+        if params.get('scorerSelection', None):
+            sname = self._get_scorer(params.get('scorerSelection'))
+            if name not in self.scorers:
+                raise Exception('Unkwnown scorer %s', sname)
+            scorer_impl = self.scorers[sname]
+        else:
+            scorer_impl = FlexibleScorer
         
         se = MultiParameterEvaluator(
             [25, 50, 100], # TODO: make ocnfigurable
@@ -206,7 +223,8 @@ class SimulateurADSFlask(ADSFlask):
             docLenRange=doclen, 
             normalizeWeight=params.get('useNormalization', False),
             fieldBoost=boost,
-            constRanges=const
+            constRanges=const,
+            scorer_impl=scorer_impl
             )
         
         size = float(se.get_size())
@@ -236,6 +254,22 @@ class SimulateurADSFlask(ADSFlask):
         return 
         
             
-            
-            
+class FlexibleScorerWithBoost(FlexibleScorer):
+    """Instead of boosting every query clause,
+    the boost is only applied at the end.
+    """
+    
+    def run(self, formula, **kwargs):
+        if self.idf_normalization:
+            self.idf_normalization_factor = self.normalizer.run(formula)
+        else:
+            self.idf_normalization_factor = None
+        
+        docboost = self.get_boost(None, self.kwargs.get('docid', None), 1.0)
+        score = self._eval(formula, **kwargs)
+        albertos_constant = self.kwargs.get('albertos_constant', 0.0)
+        return score * (albertos_constant + docboost)
+    
+    def const(self, query, boost, querynorm):
+        return querynorm * boost
             

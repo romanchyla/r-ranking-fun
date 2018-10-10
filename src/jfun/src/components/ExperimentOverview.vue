@@ -261,7 +261,11 @@
                 hint="What fields to consider"
                 persistent-hint
                 ></v-select>
+
             </v-flex>
+
+            
+            
 
             <v-layout row wrap
                 >
@@ -311,8 +315,22 @@
 
             </v-layout>
 
+            
+
 
         </v-layout>
+
+        <v-layout>
+                <v-flex>
+                <v-select
+                    :items="scorers"
+                    v-model="scorerSelection"
+                    label="Select Scorer"
+                    hint="How to evaluate scores"
+                    persistent-hint
+                    ></v-select>
+                </v-flex>
+            </v-layout>
         </div>
 
         <div>

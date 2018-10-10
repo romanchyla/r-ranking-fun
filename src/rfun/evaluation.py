@@ -17,6 +17,11 @@ class MultiParameterEvaluator(object):
                  num_results=5,
                  scorer_impl=FlexibleScorer):
         
+        if not kRange:
+            kRange = [1.2, 1.3, 10]
+        if not bRange:
+            bRange = [0.75, 0.76, 1]
+            
         self.pPoints = pPoints
         self.docs = docs
         self.goldSet = goldSet
@@ -32,6 +37,8 @@ class MultiParameterEvaluator(object):
         self.num_results = num_results
         self.heap = []
         self.scorer_impl=scorer_impl
+        
+        
 
     
     def run(self, yield_per=1000):
@@ -54,17 +61,19 @@ class MultiParameterEvaluator(object):
                                                         idf_normalization=normalize,
                                                         perfield_avgdoclen=dl,
                                                         consts=const_factor)
-                                score = self._score(scorer)
+                                extrags = {}
+                                score = self.score(scorer, extrags)
                                 item = (score, dict(k1=k, b=b, perdoc_boost=doc_boost, 
                                                         idf_normalization=normalize,
                                                         perfield_avgdoclen=dl,
-                                                        consts=const_factor))
+                                                        consts=const_factor,
+                                                        extra=extrags))
                                 if len(heap) >= self.num_results:
                                     heapq.heappushpop(heap, item)
                                 else:
                                     heapq.heappush(heap, item)
                                 
-                                if i % yield_per == 0:
+                                if yield_per and i % yield_per == 0:
                                     yield (i, self.get_results(1))
         # final notification
         yield (i, self.get_results(1))
@@ -99,12 +108,15 @@ class MultiParameterEvaluator(object):
         while x < y:
             yield float(x)
             x += step
-            
-    def _score(self, scorer):
+    
+    def score(self, scorer, kwargs):
+        return self._score(scorer, **kwargs)
+    
+    def _score(self, scorer, **kwargs):
         hits = [0.0] * len(self.docs)
         i= 0
         for d in self.docs:
-            hits[i] = (scorer.run(d['formula'], docid=d['docid']), d['docid'])
+            hits[i] = (scorer.run(d['formula'], docid=d['docid'], **kwargs), d['docid'])
             i+= 1
         hits.sort(key=lambda x: x[0], reverse=True)
         results = map(lambda x: x[1], hits)

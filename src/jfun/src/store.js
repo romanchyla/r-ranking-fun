@@ -79,6 +79,9 @@ const dataDefaults = {
       constSelection: [],
       constRange: [0, 10, 1],
       constStepSize: 1,
+
+      scorers: ['standard', 'boost'],
+      scorerSelection: 'standard'
   },
   papers:  [
           {

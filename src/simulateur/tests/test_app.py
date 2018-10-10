@@ -57,7 +57,19 @@ class TestCase(unittest.TestCase):
         assert r['query'] == 'baz'
         assert r['updated']
 
-
+    
+    def test_runexperiment(self):
+        app = self.app
+        rv = {
+            'relevant': range(10),
+            'query_results' :{'responseHeader': {'params': {'q': 'baz'}}, 'foo': 'bar',
+                              'response': {'docs': [{'docid': 1, 'formula': 'sum(1, 1)'}]}},
+            'experiment_params': {'scorerSelection': 'boost'}
+            
+        }
+        app.save_experiment(None)
+        with mock.patch.object(app, 'get_experiment', return_value=rv):
+            app.run_experiment('1')
 
 if __name__ == '__main__':
     unittest.main()

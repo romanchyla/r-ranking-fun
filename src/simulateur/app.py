@@ -55,7 +55,8 @@ class SimulateurADSFlask(ADSFlask):
                          'descr': 'Standard scorer executing grid search over all parameters'},
             'boost': {'name': 'standard search + boost',
                       'impl': FlexibleScorerWithBoost,
-                      'descr': 'Grid search with additional boosting of the final score using <score> * (1 + <boost_factor)'}
+                      'descr': 'Grid search with additional boosting of the final score using <score> * (1 + <boost_factor)',
+                      'evaluator': FunnyMultiParameterEvaluator}
         }
     
     def query(self, **params):
@@ -206,15 +207,9 @@ class SimulateurADSFlask(ADSFlask):
             const = {'fields': params.get('constSelection', []),
                      'range': params.get('constRange', [0, 0, 0])}
             
-        if params.get('scorerSelection', None):
-            sname = self._get_scorer(params.get('scorerSelection'))
-            if name not in self.scorers:
-                raise Exception('Unkwnown scorer %s', sname)
-            scorer_impl = self.scorers[sname]
-        else:
-            scorer_impl = FlexibleScorer
+        evaluator_impl, scorer_impl = self.get_runners(params)
         
-        se = MultiParameterEvaluator(
+        se = evaluator_impl(
             [25, 50, 100], # TODO: make ocnfigurable
             docs, 
             gold_set, 
@@ -251,12 +246,39 @@ class SimulateurADSFlask(ADSFlask):
                                                'elapsed': (m.finished - m.started).total_seconds()})
             session.commit()
                 
-        return 
-        
-            
+        return
+
+
+    def get_runners(self, params):
+        evaluator_impl = MultiParameterEvaluator
+        if params.get('scorerSelection', None):
+            sname = params.get('scorerSelection')
+            if sname not in self.scorers:
+                raise Exception('Unkwnown scorer %s', sname)
+            scorer_impl = self.scorers[sname]['impl']
+            evaluator_impl = self.scorers[sname].get('evaluator', MultiParameterEvaluator)
+        else:
+            scorer_impl = FlexibleScorer
+        return evaluator_impl, scorer_impl
+
+
+class FunnyMultiParameterEvaluator(MultiParameterEvaluator):
+    def score(self, scorer, kwargs):
+        max_score = 0.0
+        for ac in self._xrange(0.0, 2.0, 0.25):
+            score = self._score(scorer, ac=ac)
+            if score > max_score:
+                max_score = score
+                kwargs['ac'] = ac
+        return score
+
 class FlexibleScorerWithBoost(FlexibleScorer):
     """Instead of boosting every query clause,
     the boost is only applied at the end.
+    
+    Additionally, we also simulate something i
+    am calling alberto_constant
+    
     """
     
     def run(self, formula, **kwargs):
@@ -265,11 +287,12 @@ class FlexibleScorerWithBoost(FlexibleScorer):
         else:
             self.idf_normalization_factor = None
         
-        docboost = self.get_boost(None, self.kwargs.get('docid', None), 1.0)
+        docboost = self.get_boost(None, kwargs.get('docid', None), 1.0)
         score = self._eval(formula, **kwargs)
-        albertos_constant = self.kwargs.get('albertos_constant', 0.0)
+        albertos_constant = kwargs.get('ac', 0.0)
         return score * (albertos_constant + docboost)
-    
+
+
     def const(self, query, boost, querynorm):
         return querynorm * boost
             

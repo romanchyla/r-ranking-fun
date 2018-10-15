@@ -178,7 +178,11 @@ def reorder(experimentid, setid):
                         'progress': exp['progress'] }), 200
 
     params = exp['experiment_results']['results'][int(setid)][1]
-    scorer = FlexibleScorer(**params)
+    
+    exams = exp['experiment_params']
+    evaluator_impl, scorer_impl = current_app.get_runners(exams)
+    
+    scorer = scorer_impl(**params)
     
     docs = exp['query_results']['response']['docs']
     for d in docs:

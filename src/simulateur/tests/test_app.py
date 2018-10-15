@@ -4,6 +4,7 @@ from simulateur.app import SimulateurADSFlask
 import os, json
 from mock import mock
 from simulateur.models import Base
+import simulateur
 
 class TestCase(unittest.TestCase):
 
@@ -70,6 +71,18 @@ class TestCase(unittest.TestCase):
         app.save_experiment(None)
         with mock.patch.object(app, 'get_experiment', return_value=rv):
             app.run_experiment('1')
+            
+        exp = self.app.get_experiment('1')
+        r = exp['experiment_results']['results']
+        assert len(r) > 0
+        e,s = app.get_runners(rv['experiment_params'])
+        scorer = s(**r[0][1])
+        assert isinstance(scorer, simulateur.app.FlexibleScorerWithBoost)
+        assert 'ac' in scorer.extra
+        
+        assert scorer.run('sum(1, 1)') == 2
+        scorer.extra['ac'] = 5.0
+        assert scorer.run('sum(1, 1)') == 12
 
 if __name__ == '__main__':
     unittest.main()

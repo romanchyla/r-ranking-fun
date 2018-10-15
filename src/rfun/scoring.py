@@ -428,7 +428,7 @@ class FlexibleScorer(LuceneBM25Scorer):
     
     def __init__(self, k1=1.2, b=0.75, perfield_kb=None,
                  idf_normalization=False, perfield_avgdoclen=None,
-                 perdoc_boost=None, consts=None):
+                 perdoc_boost=None, consts=None, extra=None, **kwargs):
         """
         Parameters and how they affect score calculations:
         
@@ -472,7 +472,12 @@ class FlexibleScorer(LuceneBM25Scorer):
             self.normalizer = IDFNormalizer(k1=self.k1, b=self.b, perfield_kb=self.perfield_kb,
                  idf_normalization=True, perfield_avgdoclen=self.perfield_avgdoclen,
                  perdoc_boost=self.perdoc_boost)
-
+        
+        self.extra = {}
+        if extra:
+            self.extra.update(extra)
+        if kwargs:
+            self.extra.update(kwargs)
     
     def get_boost(self, field, docid, default_boost):
         """Remember, the boost is for every weight object; if we were

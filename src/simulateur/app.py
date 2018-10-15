@@ -289,7 +289,7 @@ class FlexibleScorerWithBoost(FlexibleScorer):
         
         docboost = self.get_boost(None, kwargs.get('docid', None), 1.0)
         score = self._eval(formula, **kwargs)
-        albertos_constant = kwargs.get('ac', 0.0)
+        albertos_constant = kwargs.get('ac', self.extra.get('ac', 0.0))
         return score * (albertos_constant + docboost)
 
 

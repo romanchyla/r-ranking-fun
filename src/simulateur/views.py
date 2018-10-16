@@ -186,7 +186,7 @@ def reorder(experimentid, setid):
     
     docs = exp['query_results']['response']['docs']
     for d in docs:
-        new_score = scorer.run(d['formula'])
+        new_score = scorer.run(d['formula'], docid=d['docid'])
         d['new_score'] = new_score        
     
     return jsonify(exp), 200

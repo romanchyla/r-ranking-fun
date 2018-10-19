@@ -31,8 +31,11 @@
       
       <template slot="expand" slot-scope="props" >
         <v-card flat :key="itemKey(props.item) + '_expand'">
-         
-         <div v-if="props.item.formula"><b>formula</b>: {{ props.item.formula }} </div>
+         <ul>
+          <li v-for="(value, key) in props.item">
+            <b>{{ key }}</b>: {{ value }}
+          </li>
+        </ul>
         </v-card>
       </template>
       

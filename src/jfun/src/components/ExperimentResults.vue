@@ -30,6 +30,7 @@
             <td >{{ props.item.idf_normalization }}</td>
             <td >{{ props.item.use_fieldboost }}</td>
             <td >{{ props.item.consts }}</td>
+            <td >{{ props.item.extra }}</td>
             </template>
         </v-data-table>
     </v-flex>
@@ -65,7 +66,8 @@ export default {
       { text: "Document Length", value: "docLen", sortable: false },
       { text: "Normalize Weight", value: "normalizeWeight", sortable: false },
       { text: "Document Boost", value: "fieldBoost", sortable: false },
-      { text: "Constants", value: "consts", sortable: false }
+      { text: "Constants", value: "consts", sortable: false },
+      { text: "Extra", value: "extra", sortable: false },
     ]
   }),
 
